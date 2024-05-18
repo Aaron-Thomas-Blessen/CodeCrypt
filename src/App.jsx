@@ -4,7 +4,7 @@ import Home from "./pages/Home";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Study from "./pages/Study";
-import Encryption from "./pages/Encryption";
+import Encrypt from "./pages/Encrypt";
 
 const App = () => {
 
@@ -16,7 +16,7 @@ const App = () => {
           <Route path="/signup" element={<SignUp />}></Route>
           <Route path="/signin" element={<SignIn />}></Route>
           <Route path="/study" element={<Study />}></Route>
-          <Route path="/encryption" element={<Encryption />}></Route>
+          <Route path="/encrypt" element={<Encrypt />}></Route>
         </Routes>
     </BrowserRouter>
   );
