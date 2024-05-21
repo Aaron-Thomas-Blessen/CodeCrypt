@@ -1,10 +1,21 @@
+import React from 'react';
+
+
 const Navbar = () => {
-    return (
-      <div>
-        <p>Navbar</p>
+  return (
+    <nav className="navbar">
+      <div className="navbar-logo">
+        <img src="logo.png" alt="Logo" />
       </div>
-    );
-  };
-  
-  export default Navbar;
-  
+      <ul className="nav-options">
+        <li><a href="/">Home</a></li>
+        <li><a href="/about">About</a></li>
+      </ul>
+      <div className="signup-button">
+        <button>Sign In</button>
+      </div>
+    </nav>
+  );
+};
+
+export default Navbar;
