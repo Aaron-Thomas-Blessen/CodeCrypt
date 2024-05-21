@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './SignIn.css'; // Make sure to replace with the actual path to your CSS file
+// import './SignIn.css'; // Make sure to replace with the actual path to your CSS file
 import { auth, db } from '../Firebase/Firebase'; // Adjust the import according to your Firebase configuration
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
