@@ -229,6 +229,18 @@ const Home = () => {
             src={crypto2}
           />
         </div>
+        <hr className="border-t-2 border-gray-300 my-2" />
+
+        <div className="footer flex ml-2 mr-2 flex-wrap justify-between items-center mb-2">
+          <div className="w-full lg:w-auto">
+            <h6>© 2024 CodeCrypt All rights reserved.</h6>
+          </div>
+          <div className="flex flex-wrap">
+            <h6 className="mr-4">Privacy Policy</h6>
+            <h6 className="mr-4">Terms of Service</h6>
+            <h6>Cookies Settings</h6>
+          </div>
+        </div>
       </div>
     );
   };
