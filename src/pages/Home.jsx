@@ -1,11 +1,11 @@
 import Navbar from "../components/nav";
 import crypto from "../images/cryptography.png";
 import rsa from "../images/rsa-icon.png";
-import aes from "../images/rsa-icon.png";
-import sha from "../images/rsa-icon.png";
-import des from "../images/rsa-icon.png";
-import crypto1 from "../images/rsa-icon.png";
-import crypto2 from "../images/rsa-icon.png";
+import aes from "../images/aes-icon.png";
+import sha from "../images/sha-icon.png";
+import des from "../images/des-icon.png";
+import crypto1 from "../images/cryptography1.png";
+import crypto2 from "../images/cryptography2.png";
 
 
 const Home = () => {
@@ -144,7 +144,7 @@ const Home = () => {
                 <div className="text-center mt-8">
                   <img
                     className="mx-auto mb-2 w-8 h-auto"
-                    src={"../images/aes-icon.png"}
+                    src={aes}
                     alt="AES Icon"
                   />
                   <h4 className="text-lg font-semibold mb-2">AES Encryption</h4>
@@ -159,7 +159,7 @@ const Home = () => {
                 <div className="text-center">
                   <img
                     className="mx-auto mb-4"
-                    src={"../images/cryptography.jpg"}
+                    src={crypto1}
                     alt="Cryptography"
                   />
                 </div>
@@ -169,7 +169,7 @@ const Home = () => {
                 <div className="text-center">
                   <img
                     className="mx-auto mb-2 w-8 h-auto"
-                    src={"../images/sha-icon.png"}
+                    src={sha}
                     alt="SHA Icon"
                   />
                   <h4 className="text-lg font-semibold mb-2">SHA Hashing</h4>
@@ -181,7 +181,7 @@ const Home = () => {
                 <div className="text-center mt-8">
                   <img
                     className="mx-auto mb-2 w-8 h-auto"
-                    src={"../images/des-icon.png"}
+                    src={des}
                     alt="DES Icon"
                   />
                   <h4 className="text-lg font-semibold mb-2">DES Algorithm</h4>
@@ -226,7 +226,7 @@ const Home = () => {
           <img
             className="cryptography-img mb-4 lg:mb-0"
             alt="Cryptography Learning"
-            src={"../images/cryptography2.jpg"}
+            src={crypto2}
           />
         </div>
       </div>
