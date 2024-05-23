@@ -5,6 +5,7 @@ import Study from "./pages/Study";
 import Encrypt from "./pages/Encrypt";
 import NavBar from "./components/nav";
 import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
 
 
 const App = () => {
@@ -16,6 +17,7 @@ const App = () => {
         <Route path="/encrypt" element={<Encrypt />}></Route>
         <Route path="/Nav" element={<NavBar />}></Route>
         <Route path="/signin" element={<SignIn />}></Route>
+        <Route path="/signup" element={<SignUp />}></Route>
       </Routes>
     </BrowserRouter>
   );
