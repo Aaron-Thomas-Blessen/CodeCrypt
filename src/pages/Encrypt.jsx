@@ -6,6 +6,22 @@ import sharedClasses from '../styles/sharedClasses'; // Importing the shared cla
 
 const Encrypt = () => {
   const [inputType, setInputType] = useState('text');
+  const [inputText, setInputText] = useState('');
+  const [outputText, setOutputText] = useState('');
+
+  const handleEncryptDecrypt = () => {
+    if (inputType === 'text') {
+      // Placeholder for encryption logic
+      setOutputText(btoa(inputText)); // Using base64 encoding as a placeholder for encryption
+    } else {
+      // Placeholder for decryption logic
+      try {
+        setOutputText(atob(inputText)); // Using base64 decoding as a placeholder for decryption
+      } catch (error) {
+        setOutputText('Invalid input for decryption');
+      }
+    }
+  };
 
   return (
     <div className={sharedClasses.container}>
@@ -23,14 +39,31 @@ const Encrypt = () => {
       <div className="space-y-4">
         <div>
           <label htmlFor="inputText" className={sharedClasses.label}>Input Text</label>
-          <textarea id="inputText" rows="4" className={sharedClasses.textarea} type={inputType}></textarea>
+          <textarea
+            id="inputText"
+            rows="4"
+            className={sharedClasses.textarea}
+            value={inputText}
+            onChange={(e) => setInputText(e.target.value)}
+          ></textarea>
+            <div className="flex justify-center space-x-4 mb-2 mt-1">
+              <button onClick={handleEncryptDecrypt} className={`${sharedClasses.button} mt-2`}>
+                {inputType === 'text' ? 'Encrypt' : 'Decrypt'}
+              </button>
+            </div>
         </div>
         <div>
           <label htmlFor="outputText" className={sharedClasses.label}>Output Text</label>
-          <textarea id="outputText" rows="4" className={sharedClasses.textarea} readOnly></textarea>
+          <CopyableInput
+            id="outputText"
+            rows="4"
+            className={sharedClasses.textarea}
+            readOnly
+            value={outputText}
+          />
         </div>
       </div>
-      <div className="mt-8 space-y-4">
+      <div className="mt-8 space-y-2">
         <CopyableInput id="smallOutput1" label="Public Key" />
         <CopyableInput id="smallOutput2" label="Private Key" />
       </div>
