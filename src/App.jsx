@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Study from "./pages/Study";
 import Encrypt from "./pages/Encrypt";
-import NavBar from "./components/nav";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 
@@ -15,7 +14,6 @@ const App = () => {
         <Route path="/" element={<Home />}></Route>
         <Route path="/study" element={<Study />}></Route>
         <Route path="/encrypt" element={<Encrypt />}></Route>
-        <Route path="/Nav" element={<NavBar />}></Route>
         <Route path="/signin" element={<SignIn />}></Route>
         <Route path="/signup" element={<SignUp />}></Route>
       </Routes>
