@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Study from "./pages/Study";
 import Encrypt from "./pages/Encrypt";
-import NavBar from "./components/nav";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 

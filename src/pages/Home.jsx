@@ -21,7 +21,7 @@ const Home = () => {
           </h1>
           <div className="btn flex">
             <button className="px-8 py-4 bg-black text-white rounded-lg mr-4">
-              <a href="/signup">Study</a>
+              <a href="/study">Study</a>
             </button>
             <button className="px-8 py-4 bg-white border-2 border-blue-gray-700 text-black rounded-lg hover:bg-gray-200 ml-4">
               <a href="/encrypt">Encrypt</a>
