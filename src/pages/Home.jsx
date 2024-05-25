@@ -24,7 +24,7 @@ const Home = () => {
               <a href="/signup">Study</a>
             </button>
             <button className="px-8 py-4 bg-white border-2 border-blue-gray-700 text-black rounded-lg hover:bg-gray-200 ml-4">
-              Encrypt
+              <a href="/encrypt">Encrypt</a>
             </button>
           </div>
         </div>
