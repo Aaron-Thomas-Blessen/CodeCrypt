@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-function RSASteps() {
-  // Your RSA algorithm steps here
-  return (
-    <div>
-      <h2>RSA Algorithm Steps</h2>
-      {/* Display the steps */}
-    </div>
-  );
+class DESSteps extends Component {
+  // Your AES algorithm steps here
+
+  render() {
+    return (
+      <div>
+        <h2>DES Algorithm Steps</h2>
+        {/* Display the steps */}
+      </div>
+    );
+  }
 }
 
-export default RSASteps;
+export default DESSteps;
