@@ -65,7 +65,7 @@ const Study = () => {
   };
 
   return (
-    <div>
+    <div className="bg-black min-h-screen text-white">
       <Navbar />
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {Object.keys(algorithmDescriptions).map((algorithm) => (
@@ -92,12 +92,14 @@ const Study = () => {
         <div className="text-center mt-8">
           <h2 className="text-2xl font-semibold">{selectedAlgorithm} Algorithm Details</h2>
           <p className="text-lg mt-4">{algorithmDetails[selectedAlgorithm].description}</p>
-          <h3 className="text-xl font-semibold mt-6">Steps to Achieve</h3>
-          <ul className="list-disc list-inside mt-4">
-            {algorithmDetails[selectedAlgorithm].steps.map((step, index) => (
-              <li key={index} className="mt-2">{step}</li>
-            ))}
-          </ul>
+          <div className="mt-6">
+            <h3 className="text-xl font-semibold">Steps to Achieve</h3>
+            <ul className="list-disc list-inside mt-2 text-center">
+              {algorithmDetails[selectedAlgorithm].steps.map((step, index) => (
+                <li key={index} className="mt-2">{step}</li>
+              ))}
+            </ul>
+          </div>
           <h3 className="text-xl font-semibold mt-6">Example</h3>
           <p className="text-lg mt-4 whitespace-pre-wrap">{algorithmDetails[selectedAlgorithm].example}</p>
           <button
