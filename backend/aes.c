@@ -1,146 +1,154 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <openssl/conf.h>
 #include <openssl/evp.h>
+#include <openssl/rand.h>
 #include <openssl/err.h>
-#include <openssl/aes.h>
-#include <openssl/rand.h> // Include this header for RAND_bytes
 
-// Error handling function
-void handleErrors(void) {
+#define AES_256_KEY_SIZE 32
+#define AES_BLOCK_SIZE 16
+
+void handleErrors() {
     ERR_print_errors_fp(stderr);
     abort();
 }
 
-// Function to print array in hexadecimal format
-void printHex(const char *title, const unsigned char *s, int len) {
-    printf("%s: ", title);
-    for (int i = 0; i < len; i++) {
-        printf("%02x", s[i]);
+void generate_aes_key(unsigned char *key) {
+    if (!RAND_bytes(key, AES_256_KEY_SIZE)) {
+        handleErrors();
     }
-    printf("\n");
 }
 
-// Function to encrypt data
-int encrypt(unsigned char *plaintext, int plaintext_len, unsigned char *key,
-            unsigned char *iv, unsigned char *ciphertext) {
-    EVP_CIPHER_CTX *ctx;
+void generate_iv(unsigned char *iv) {
+    if (!RAND_bytes(iv, AES_BLOCK_SIZE)) {
+        handleErrors();
+    }
+}
+
+int aes_encrypt(unsigned char *plaintext, int plaintext_len, unsigned char *key, unsigned char *iv, unsigned char *ciphertext) {
+    EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
+    if (!ctx) {
+        handleErrors();
+    }
+
+    if (1 != EVP_EncryptInit_ex(ctx, EVP_aes_256_cbc(), NULL, key, iv)) {
+        handleErrors();
+    }
+
     int len;
     int ciphertext_len;
 
-    // Create and initialize the context
-    if (!(ctx = EVP_CIPHER_CTX_new())) handleErrors();
-
-    // Initialize the encryption operation.
-    if (1 != EVP_EncryptInit_ex(ctx, EVP_aes_256_cbc(), NULL, key, iv))
+    if (1 != EVP_EncryptUpdate(ctx, ciphertext, &len, plaintext, plaintext_len)) {
         handleErrors();
-
-    // Provide the message to be encrypted, and obtain the encrypted output.
-    if (1 != EVP_EncryptUpdate(ctx, ciphertext, &len, plaintext, plaintext_len))
-        handleErrors();
+    }
     ciphertext_len = len;
 
-    // Finalize the encryption.
-    if (1 != EVP_EncryptFinal_ex(ctx, ciphertext + len, &len)) handleErrors();
+    if (1 != EVP_EncryptFinal_ex(ctx, ciphertext + len, &len)) {
+        handleErrors();
+    }
     ciphertext_len += len;
 
-    // Clean up
     EVP_CIPHER_CTX_free(ctx);
 
     return ciphertext_len;
 }
 
-// Function to decrypt data
-int decrypt(unsigned char *ciphertext, int ciphertext_len, unsigned char *key,
-            unsigned char *iv, unsigned char *plaintext) {
-    EVP_CIPHER_CTX *ctx;
+int aes_decrypt(unsigned char *ciphertext, int ciphertext_len, unsigned char *key, unsigned char *iv, unsigned char *plaintext) {
+    EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
+    if (!ctx) {
+        handleErrors();
+    }
+
+    if (1 != EVP_DecryptInit_ex(ctx, EVP_aes_256_cbc(), NULL, key, iv)) {
+        handleErrors();
+    }
+
     int len;
     int plaintext_len;
 
-    // Create and initialize the context
-    if (!(ctx = EVP_CIPHER_CTX_new())) handleErrors();
-
-    // Initialize the decryption operation.
-    if (1 != EVP_DecryptInit_ex(ctx, EVP_aes_256_cbc(), NULL, key, iv))
+    if (1 != EVP_DecryptUpdate(ctx, plaintext, &len, ciphertext, ciphertext_len)) {
         handleErrors();
-
-    // Provide the message to be decrypted, and obtain the plaintext output.
-    if (1 != EVP_DecryptUpdate(ctx, plaintext, &len, ciphertext, ciphertext_len))
-        handleErrors();
+    }
     plaintext_len = len;
 
-    // Finalize the decryption.
-    if (1 != EVP_DecryptFinal_ex(ctx, plaintext + len, &len)) handleErrors();
+    if (1 != EVP_DecryptFinal_ex(ctx, plaintext + len, &len)) {
+        handleErrors();
+    }
     plaintext_len += len;
 
-    // Clean up
     EVP_CIPHER_CTX_free(ctx);
 
     return plaintext_len;
 }
 
-int main(void) {
-    // Hardcoded key and IV (in a real application, use a secure key exchange)
-    unsigned char key[32];
-    unsigned char iv[16];
-
-    // Generate random key and IV
-    if (!RAND_bytes(key, sizeof(key)) || !RAND_bytes(iv, sizeof(iv))) {
-        fprintf(stderr, "Error generating random key or IV\n");
-        return 1;
+int main(int argc, char *argv[]) {
+    if (argc < 3) {
+        fprintf(stderr, "Usage: %s <encrypt|decrypt> <message|ciphertext> [key] [iv]\n", argv[0]);
+        exit(EXIT_FAILURE);
     }
 
-    // Buffer for plaintext input
-    char plaintext[128];
-    
-    // Prompt the user for input
-    printf("Enter text to encrypt: ");
-    if (fgets(plaintext, sizeof(plaintext), stdin) == NULL) {
-        fprintf(stderr, "Error reading input\n");
-        return 1;
+    const char *mode = argv[1];
+    const char *message = argv[2];
+
+    OpenSSL_add_all_algorithms();
+    ERR_load_crypto_strings();
+
+    if (strcmp(mode, "encrypt") == 0) {
+        unsigned char key[AES_256_KEY_SIZE];
+        unsigned char iv[AES_BLOCK_SIZE];
+        generate_aes_key(key);
+        generate_iv(iv);
+
+        unsigned char ciphertext[1024];
+        int ciphertext_len = aes_encrypt((unsigned char*)message, strlen(message), key, iv, ciphertext);
+
+        for (int i = 0; i < ciphertext_len; i++) {
+            printf("%02x", ciphertext[i]);
+        }
+        printf("\n");
+        for (int i = 0; i < AES_256_KEY_SIZE; i++) {
+            printf("%02x", key[i]);
+        }
+        printf("\n");
+        for (int i = 0; i < AES_BLOCK_SIZE; i++) {
+            printf("%02x", iv[i]);
+        }
+        printf("\n");
+
+    } else if (strcmp(mode, "decrypt") == 0) {
+        if (argc != 5) {
+            fprintf(stderr, "Usage: %s decrypt <ciphertext> <key> <iv>\n", argv[0]);
+            exit(EXIT_FAILURE);
+        }
+        const char *key_hex = argv[3];
+        const char *iv_hex = argv[4];
+
+        unsigned char key[AES_256_KEY_SIZE];
+        unsigned char iv[AES_BLOCK_SIZE];
+        unsigned char ciphertext[strlen(message) / 2];
+        unsigned char decryptedtext[1024];
+
+        for (int i = 0; i < AES_256_KEY_SIZE; i++) {
+            sscanf(&key_hex[i * 2], "%2hhx", &key[i]);
+        }
+
+        for (int i = 0; i < AES_BLOCK_SIZE; i++) {
+            sscanf(&iv_hex[i * 2], "%2hhx", &iv[i]);
+        }
+
+        for (int i = 0; i < strlen(message) / 2; i++) {
+            sscanf(&message[i * 2], "%2hhx", &ciphertext[i]);
+        }
+
+        int decrypted_len = aes_decrypt(ciphertext, strlen(message) / 2, key, iv, decryptedtext);
+        decryptedtext[decrypted_len] = '\0';
+
+        printf("%s\n", decryptedtext);
+
+    } else {
+        fprintf(stderr, "Invalid mode: %s. Use 'encrypt' or 'decrypt'.\n", mode);
+        exit(EXIT_FAILURE);
     }
-    
-    // Remove newline character if present
-    size_t len = strlen(plaintext);
-    if (plaintext[len - 1] == '\n') {
-        plaintext[len - 1] = '\0';
-    }
-
-    // Buffer for ciphertext. Ensure the buffer is long enough for the ciphertext
-    unsigned char ciphertext[128];
-
-    // Buffer for the decrypted text
-    unsigned char decryptedtext[128];
-
-    int decryptedtext_len, ciphertext_len;
-
-    // Print input array (plaintext)
-    printHex("Input array (plaintext)", (unsigned char *)plaintext, strlen((char *)plaintext));
-    
-    // Print key array
-    printHex("Key array", key, sizeof(key));
-
-    // Encrypt the plaintext
-    ciphertext_len = encrypt((unsigned char *)plaintext, strlen((char *)plaintext), key, iv, ciphertext);
-
-    // Print state array after encryption (ciphertext)
-    printHex("State array (ciphertext)", ciphertext, ciphertext_len);
-
-    // Add a NULL terminator to the ciphertext for display purposes
-    ciphertext[ciphertext_len] = '\0';
-
-    printf("Ciphertext (hex format):\n");
-    BIO_dump_fp(stdout, (const char *)ciphertext, ciphertext_len);
-
-    // Decrypt the ciphertext
-    decryptedtext_len = decrypt(ciphertext, ciphertext_len, key, iv, decryptedtext);
-
-    // Add a NULL terminator to the decrypted text for display purposes
-    decryptedtext[decryptedtext_len] = '\0';
-
-    printf("Decrypted text is:\n");
-    printf("%s\n", decryptedtext);
 
     return 0;
 }
