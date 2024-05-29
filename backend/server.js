@@ -22,16 +22,22 @@ app.post('/encrypt', (req, res) => {
 
     const output = stdout.trim().split('\n');
     const encryptedText = output[0];
-
-    const publicKeyStart = output.indexOf('-----BEGIN PUBLIC KEY-----');
-    const publicKeyEnd = output.indexOf('-----END PUBLIC KEY-----');
-    const publicKey = output.slice(publicKeyStart, publicKeyEnd + 1).join('\n');
-
-    const privateKeyStart = output.indexOf('-----BEGIN RSA PRIVATE KEY-----');
-    const privateKeyEnd = output.indexOf('-----END RSA PRIVATE KEY-----');
-    const privateKey = output.slice(privateKeyStart, privateKeyEnd + 1).join('\n');
+    const publicKey = output.slice(1, output.indexOf('-----END PUBLIC KEY-----') + 1).join('\n');
+    const privateKey = output.slice(output.indexOf('-----BEGIN RSA PRIVATE KEY-----')).join('\n');
 
     res.json({ encryptedText, publicKey, privateKey });
+  });
+});
+
+app.post('/decrypt', (req, res) => {
+  const { encryptedText, privateKey } = req.body;
+  exec(`./rsa decrypt "${encryptedText}" "${privateKey}"`, (error, stdout, stderr) => {
+    if (error) {
+      return res.status(500).json({ error: stderr });
+    }
+
+    const decryptedText = stdout.trim();
+    res.json({ decryptedText });
   });
 });
 

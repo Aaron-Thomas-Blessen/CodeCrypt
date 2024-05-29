@@ -62,19 +62,19 @@ char* save_private_key(RSA *rsa) {
     return key;
 }
 
-RSA* load_private_key() {
-    FILE *private_key_file = fopen("private_key.pem", "rb");
-    if (!private_key_file) {
+RSA* load_private_key(const char *key) {
+    BIO *bio = BIO_new_mem_buf((void*)key, -1);
+    if (!bio) {
         handleErrors();
     }
-    RSA *rsa = PEM_read_RSAPrivateKey(private_key_file, NULL, NULL, NULL);
-    fclose(private_key_file);
+    RSA *rsa = PEM_read_bio_RSAPrivateKey(bio, NULL, NULL, NULL);
+    BIO_free(bio);
     return rsa;
 }
 
 int main(int argc, char *argv[]) {
-    if (argc != 3) {
-        fprintf(stderr, "Usage: %s <encrypt|decrypt> <message>\n", argv[0]);
+    if (argc < 3) {
+        fprintf(stderr, "Usage: %s <encrypt|decrypt> <message> [private_key]\n", argv[0]);
         exit(EXIT_FAILURE);
     }
 
@@ -87,6 +87,7 @@ int main(int argc, char *argv[]) {
 
     if (strcmp(mode, "encrypt") == 0) {
         RSA *rsa = generate_keypair();
+
         char *public_key = save_public_key(rsa);
         char *private_key = save_private_key(rsa);
 
@@ -105,7 +106,13 @@ int main(int argc, char *argv[]) {
         free(private_key);
         RSA_free(rsa);
     } else if (strcmp(mode, "decrypt") == 0) {
-        RSA *private_key = load_private_key();
+        if (argc != 4) {
+            fprintf(stderr, "Usage: %s decrypt <ciphertext> <private_key>\n", argv[0]);
+            exit(EXIT_FAILURE);
+        }
+        const char *private_key_str = argv[3];
+        RSA *private_key = load_private_key(private_key_str);
+
         int message_length = strlen(message) / 2;
         unsigned char encrypted[message_length];
         for (int i = 0; i < message_length; i++) {

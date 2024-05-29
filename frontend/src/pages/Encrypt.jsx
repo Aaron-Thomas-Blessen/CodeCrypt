@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function CopyableTextInput() {
+function EncryptComponent() {
   const [inputText, setInputText] = useState('');
   const [encryptedText, setEncryptedText] = useState('');
   const [publicKey, setPublicKey] = useState('');
@@ -37,30 +37,33 @@ function CopyableTextInput() {
       <button onClick={handleEncryptButtonClick}>Encrypt Text</button>
       <br />
       <textarea
+        type="text"
         value={encryptedText}
         readOnly
         rows={4}
-        style={{ marginTop: '10px', width: '100%' }}
+        style={{ marginTop: '10px' , width: '100%' }}
       />
       <button onClick={() => navigator.clipboard.writeText(encryptedText)}>Copy Encrypted Text</button>
       <br />
       <textarea
+        type="text"
         value={publicKey}
         readOnly
         rows={10}
-        style={{ marginTop: '10px', width: '100%' }}
+        style={{ marginTop: '10px' , width: '100%' }}
       />
       <button onClick={() => navigator.clipboard.writeText(publicKey)}>Copy Public Key</button>
       <br />
       <textarea
+        type="text"
         value={privateKey}
         readOnly
         rows={10}
-        style={{ marginTop: '10px', width: '100%' }}
+        style={{ marginTop: '10px', width: '100%'  }}
       />
       <button onClick={() => navigator.clipboard.writeText(privateKey)}>Copy Private Key</button>
     </div>
   );
 }
 
-export default CopyableTextInput;
+export default EncryptComponent;
