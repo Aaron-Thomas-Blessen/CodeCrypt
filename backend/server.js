@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const { exec } = require('child_process');
+const fs = require('fs');
 
 const app = express();
 const port = 5000;
@@ -66,6 +67,49 @@ app.post('/decrypt/rsa', (req, res) => {
 
     const decryptedText = stdout.trim();
     res.json({ decryptedText });
+  });
+});
+
+// DSA endpoints
+app.post('/encrypt/dsa', (req, res) => {
+  const { text } = req.body;
+  exec(`./dsa generate`, (genError, genStdout, genStderr) => {
+    if (genError) {
+      return res.status(500).json({ error: genStderr });
+    }
+
+    exec(`./dsa sign "${text}"`, (error, stdout, stderr) => {
+      if (error) {
+        return res.status(500).json({ error: stderr });
+      }
+
+      const signature = stdout.trim();
+      fs.readFile('public_key.pem', 'utf8', (err, publicKey) => {
+        if (err) {
+          return res.status(500).json({ error: err });
+        }
+
+        res.json({ signature, publicKey });
+      });
+    });
+  });
+});
+
+app.post('/decrypt/dsa', (req, res) => {
+  const { text, signature, publicKey } = req.body;
+  fs.writeFile('public_key.pem', publicKey, 'utf8', (err) => {
+    if (err) {
+      return res.status(500).json({ error: err });
+    }
+
+    exec(`./dsa verify "${text}" "${signature}"`, (error, stdout, stderr) => {
+      if (error) {
+        return res.status(500).json({ error: stderr });
+      }
+
+      const verified = stdout.trim();
+      res.json({ verified });
+    });
   });
 });
 
