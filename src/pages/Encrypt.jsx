@@ -26,7 +26,7 @@ const Encrypt = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-black">
       <Navbar />
       <div className={`${sharedClasses.container} flex-grow pt-0`}>
         <div className="container mx-auto px-4 py-2 mt-0">
