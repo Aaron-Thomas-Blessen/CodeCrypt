@@ -18,10 +18,26 @@ const Navbar = () => {
         </li>
         <li>
           <a
-            href="/about"
+            href="/encrypt"
             className="text-white font-semibold hover:text-orange-500"
           >
-            About
+            Encrypt
+          </a>
+        </li>
+        <li>
+          <a
+            href="/decrypt"
+            className="text-white font-semibold hover:text-orange-500"
+          >
+            Decrypt
+          </a>
+        </li>
+        <li>
+          <a
+            href="/study"
+            className="text-white font-semibold hover:text-orange-500"
+          >
+            Study
           </a>
         </li>
       </ul>
