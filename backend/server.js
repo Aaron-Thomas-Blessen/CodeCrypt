@@ -113,6 +113,30 @@ app.post('/verify', (req, res) => {
   res.json({ isValid });
 });
 
+// Endpoint to hash a message using SHA
+app.post('/hash', (req, res) => {
+  const { message } = req.body;
+
+  const hash = crypto.createHash('sha256');
+  hash.update(message);
+  const hashDigest = hash.digest('hex');
+
+  res.json({ hash: hashDigest });
+});
+
+// Endpoint to verify a SHA hash
+app.post('/verify-hash', (req, res) => {
+  const { message, hash } = req.body;
+
+  const newHash = crypto.createHash('sha256');
+  newHash.update(message);
+  const newHashDigest = newHash.digest('hex');
+
+  const isValid = newHashDigest === hash;
+
+  res.json({ isValid });
+});
+
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
 });
