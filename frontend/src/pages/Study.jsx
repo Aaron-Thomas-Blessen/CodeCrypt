@@ -168,9 +168,6 @@ const Study = () => {
               </ul>
               <CopyableInput value={`import sympy\n\ndef generate_rsa_keys(p, q):\n    n = p * q\n    phi = (p - 1) * (q - 1)\n    e = sympy.randprime(1, phi)\n    d = pow(e, -1, phi)\n    return (e, n), (d, n)\n\np = 61\nq = 53\npublic_key, private_key = generate_rsa_keys(p, q)\nprint("Public Key:", public_key)\nprint("Private Key:", private_key)\n\ndef rsa_encrypt(plaintext, public_key):\n    e, n = public_key\n    plaintext_int = [ord(char) for char in plaintext]\n    ciphertext = [pow(m, e, n) for m in plaintext_int]\n    return ciphertext\n\ndef rsa_decrypt(ciphertext, private_key):\n    d, n = private_key\n    decrypted_int = [pow(c, d, n) for c in ciphertext]\n    decrypted_text = ''.join([chr(m) for m in decrypted_int])\n    return decrypted_text\n\npublic_key = (17, 3233)\nprivate_key = (2753, 3233)\nplaintext = "HI"\nciphertext = rsa_encrypt(plaintext, public_key)\nprint("Ciphertext:", ciphertext)\ndecrypted_text = rsa_decrypt(ciphertext, private_key)\nprint("Decrypted Text:", decrypted_text)`} />
               </div>
-
-              </>
-              )}
               <div className="bg-gray-700 p-6 mt-8 rounded-md">
               <div className="mt-2">
                 <h2 className="text-2xl font-bold mb-4">Related YouTube Videos</h2>
@@ -219,6 +216,10 @@ const Study = () => {
               </div>  
               </div>
               </div>
+
+              </>
+              )}
+             
 
               <button
                 onClick={() => handleCompletion(selectedAlgorithm)}
