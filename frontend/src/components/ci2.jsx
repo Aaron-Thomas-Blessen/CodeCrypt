@@ -1,11 +1,25 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 
 const CopyableInput = ({ value }) => {
   const textAreaRef = useRef(null);
+  const [buttonText, setButtonText] = useState('Copy');
+  const [buttonColor, setButtonColor] = useState('bg-blue-500');
+  const [buttonHoverColor, setButtonHoverColor] = useState('hover:bg-blue-700');
 
   const handleCopy = () => {
     navigator.clipboard.writeText(value);
-    alert('Code copied to clipboard');
+    setButtonText('Copied');
+    setButtonColor('bg-green-500');
+    setButtonHoverColor('hover:bg-green-700');
+
+    setTimeout(() => {
+      alert('Code copied to clipboard');
+      setTimeout(() => {
+        setButtonText('Copy');
+        setButtonColor('bg-blue-500');
+        setButtonHoverColor('hover:bg-blue-700');
+      }, 3000);
+    }, 0);
   };
 
   useEffect(() => {
@@ -26,9 +40,9 @@ const CopyableInput = ({ value }) => {
       />
       <button
         onClick={handleCopy}
-        className="absolute top-0 right-0 mt-2 mr-2 px-2 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-700"
+        className={`absolute top-0 right-0 mt-2 mr-2 px-2 py-1 text-white rounded-md ${buttonColor} ${buttonHoverColor}`}
       >
-        Copy
+        {buttonText}
       </button>
     </div>
   );

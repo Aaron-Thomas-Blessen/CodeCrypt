@@ -15,6 +15,10 @@ const Study = () => {
     SHA: 'Click to view SHA details and steps.',
   };
 
+  const handleCardClick = (title) => {
+      console.log(`${title} card clicked`);
+    };
+
   const algorithmDetails = {
     RSA: {},
     AES: {},
