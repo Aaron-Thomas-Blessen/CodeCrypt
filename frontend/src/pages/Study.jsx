@@ -15,10 +15,6 @@ const Study = () => {
     SHA: 'Click to view SHA details and steps.',
   };
 
-  const handleCardClick = (title) => {
-      console.log(`${title} card clicked`);
-    };
-
   const algorithmDetails = {
     RSA: {},
     AES: {},
@@ -39,8 +35,8 @@ const Study = () => {
   return (
     <div className="flex flex-col min-h-screen bg-black text-white">
       <Navbar />
-      <div className={`${sharedClasses.container} flex-grow pt-0`}>
-        <div className="container mx-auto px-4 py-2 mt-0">
+      <div className={`${sharedClasses.container} flex-grow pt-0 `}>
+        <div className="container mx-auto px-1 py-2 mt-0">
           <h1 className="text-3xl font-bold text-center dark:text-zinc-100">Cryptographic Algorithms</h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
             {Object.keys(algorithmDescriptions).map((algorithm) => (
@@ -63,13 +59,14 @@ const Study = () => {
           </p>
         </div>
           )}
+
           {selectedAlgorithm && (
             <div className="bg-gray-800 p-6 mt-8 rounded-md">
               <h2 className="text-4xl font-bold mb-4">{selectedAlgorithm}</h2>
               {selectedAlgorithm === 'RSA' && (
               <>
                 <h1 className="text-3xl font-bold mb-2">Introduction and Key Generation</h1>
-                <div className="bg-gray-700 p-6 mt-8 rounded-md">
+                <div className="bg-green-800 p-6 mt-4 rounded-md">
                 <h1 className="text-xl font-bold mb-2">Introduction</h1>
                 <p><strong>RSA (Rivest–Shamir–Adleman)</strong> is an asymmetric cryptographic algorithm used for secure data transmission. It uses a pair of keys: a public key for encryption and a private key for decryption.</p>
                 <h2 className="text-l font-bold mt-2">Historical Context</h2>
@@ -89,7 +86,7 @@ const Study = () => {
                     </ul>
                 </ul>
                 </div>
-                <div className="bg-gray-700 p-6 mt-8 rounded-md">
+                <div className="bg-green-800 p-6 mt-4 rounded-md">
                 <h1 className="text-xl font-bold mt-2 mb-2">Key Generation Steps</h1>
                 <ol className="list-decimal pl-5">
                     <li><strong>Select two large prime numbers 𝑝 and 𝑞.</strong></li>
@@ -127,7 +124,7 @@ const Study = () => {
                     <CopyableInput value={`import sympy\n\ndef generate_rsa_keys(p, q):\n    n = p * q\n    phi = (p - 1) * (q - 1)\n    e = sympy.randprime(1, phi)\n    d = pow(e, -1, phi)\n    return (e, n), (d, n)\n\np = 61\nq = 53\npublic_key, private_key = generate_rsa_keys(p, q)\nprint("Public Key:", public_key)\nprint("Private Key:", private_key)`} />
               </div>
               <h1 className="text-3xl font-bold mb-2 mt-2">Encryption and Decryption</h1>
-              <div className="bg-gray-700 p-6 mt-8 rounded-md">
+              <div className="bg-green-800 p-6 mt-4 rounded-md">
               <h1 className="text-xl font-bold mb-2">Encryption Process</h1>
               <ol className="list-decimal pl-5">
               <li><strong>Convert plaintext message to an integer 0≤m‹n.</strong></li> 
@@ -147,7 +144,7 @@ const Study = () => {
               </ul>
               </ol>
               </div> 
-              <div className="bg-gray-700 p-6 mt-8 rounded-md">
+              <div className="bg-green-800 p-6 mt-4 rounded-md">
               <h1 className="text-2xl font-bold mb-2">Example</h1> 
               <ul className="list-disc pl-5">
                     <li>Plaintext: "HI" (convert to numeric: 72)</li>
@@ -172,9 +169,9 @@ const Study = () => {
               </ul>
               <CopyableInput value={`def rsa_encrypt(plaintext, public_key):\n    e, n = public_key\n    plaintext_int = [ord(char) for char in plaintext]\n    ciphertext = [pow(m, e, n) for m in plaintext_int]\n    return ciphertext\n\ndef rsa_decrypt(ciphertext, private_key):\n    d, n = private_key\n    decrypted_int = [pow(c, d, n) for c in ciphertext]\n    decrypted_text = ''.join([chr(m) for m in decrypted_int])\n    return decrypted_text\n\npublic_key = (17, 3233)\nprivate_key = (2753, 3233)\nplaintext = "HI"\nciphertext = rsa_encrypt(plaintext, public_key)\nprint("Ciphertext:", ciphertext)\ndecrypted_text = rsa_decrypt(ciphertext, private_key)\nprint("Decrypted Text:", decrypted_text)`} />
               </div>
-              <div className="bg-gray-700 p-6 mt-8 rounded-md">
+              <h2 className="text-3xl font-bold mb-2 mt-2">Related YouTube Videos</h2>
+              <div className="bg-green-800 p-6 mt-4 rounded-md">
               <div className="mt-2">
-                <h2 className="text-2xl font-bold mb-4">Related YouTube Videos</h2>
                 <div className="flex justify-center">
                 <div className="grid grid-cols-3 gap-4">
                 <a
@@ -220,15 +217,13 @@ const Study = () => {
               </div>  
               </div>
               </div>
-
               </>
               )}
-
               
               {selectedAlgorithm === 'AES' && (
               <>
                 <h1 className="text-3xl font-bold mb-2">Introduction and Key Expansion</h1>
-                <div className="bg-gray-700 p-6 mt-8 rounded-md">
+                <div className="bg-green-800 p-6 mt-4 rounded-md">
                 <h1 className="text-xl font-bold mb-2">Introduction</h1>
                 <p><strong>AES (Advanced Encryption Standard)</strong> is a symmetric encryption algorithm used globally to secure data.</p>
                 <h2 className="text-l font-bold mt-2">Historical Context</h2>
@@ -242,7 +237,7 @@ const Study = () => {
                     <li>Key sizes: 128, 192, or 256 bits.</li>   
                 </ul>
                 </div>
-                <div className="bg-gray-700 p-6 mt-8 rounded-md">
+                <div className="bg-green-800 p-6 mt-4 rounded-md">
                 <h1 className="text-xl font-bold mt-2 mb-2">Key Expansion</h1>
                 <ul className="list-disc pl-5">
                     <li><strong>Key Schedule</strong></li>
@@ -272,7 +267,7 @@ const Study = () => {
                     <CopyableInput value={`from Crypto.Cipher import AES\nimport binascii\n\ndef expand_key_128bit(key):\n    key_bytes = binascii.unhexlify(key)\n    cipher = AES.new(key_bytes, AES.MODE_ECB)\n    expanded_key = cipher.expand_key(key_bytes)\n    return binascii.hexlify(expanded_key)\n\nkey = "2b7e151628aed2a6abf7158809cf4f3c"\nexpanded_key = expand_key_128bit(key)\nprint("Expanded Key:", expanded_key)`} />
                 </div>  
               <h1 className="text-3xl font-bold mb-2 mt-2">Encryption and Decryption</h1>
-              <div className="bg-gray-700 p-6 mt-8 rounded-md">
+              <div className="bg-green-800 p-6 mt-4 rounded-md">
               <h1 className="text-xl font-bold mb-2">Encryption Process</h1>
               <ol className="list-decimal pl-5">
               <li><strong>Divide plaintext into 128-bit blocks.</strong></li>
@@ -297,7 +292,7 @@ const Study = () => {
               </ul>
               </ol>
               </div> 
-              <div className="bg-gray-700 p-6 mt-8 rounded-md">
+              <div className="bg-green-800 p-6 mt-4 rounded-md">
               <h1 className="text-2xl font-bold mb-2">Example</h1> 
               <ul className="list-disc pl-5">
                     <li>Key: `2b7e151628aed2a6abf7158809cf4f3c` (128-bit)</li>
@@ -319,9 +314,9 @@ const Study = () => {
               </ul>
               <CopyableInput value={`from Crypto.Cipher import AES\n\ndef aes_encrypt(plaintext, key):\n    cipher = AES.new(binascii.unhexlify(key), AES.MODE_ECB)\n    ciphertext = cipher.encrypt(binascii.unhexlify(plaintext))\n    return binascii.hexlify(ciphertext)\n\ndef aes_decrypt(ciphertext, key):\n    cipher = AES.new(binascii.unhexlify(key), AES.MODE_ECB)\n    decrypted_text = cipher.decrypt(binascii.unhexlify(ciphertext))\n    return binascii.hexlify(decrypted_text)\n\nkey = "2b7e151628aed2a6abf7158809cf4f3c"\nplaintext = "3243f6a8885a308d313198a2e0370734"\nciphertext = aes_encrypt(plaintext, key)\nprint("Ciphertext:", ciphertext)\ndecrypted_text = aes_decrypt(ciphertext, key)\nprint("Decrypted Text:", decrypted_text)`} />
               </div>
-              <div className="bg-gray-700 p-6 mt-8 rounded-md">
+              <h2 className="text-3xl font-bold mb-2 mt-2">Related YouTube Videos</h2>
+              <div className="bg-green-800 p-6 mt-4 rounded-md">
               <div className="mt-2">
-                <h2 className="text-2xl font-bold mb-4">Related YouTube Videos</h2>
                 <div className="flex justify-center">
                 <div className="grid grid-cols-3 gap-4">
                 <a
@@ -367,14 +362,13 @@ const Study = () => {
               </div>  
               </div>
               </div>
-
               </>
               )}
 
               {selectedAlgorithm === 'DES' && (
               <>
                 <h1 className="text-3xl font-bold mb-2">Introduction and Key Generation</h1>
-                <div className="bg-gray-700 p-6 mt-8 rounded-md">
+                <div className="bg-green-800 p-6 mt-4 rounded-md">
                 <h1 className="text-xl font-bold mb-2">Introduction</h1>
                 <p><strong>DES (Data Encryption Standard)</strong> is a symmetric-key algorithm for the encryption of electronic data.</p>
                 <h2 className="text-l font-bold mt-2">Historical Context</h2>
@@ -387,7 +381,7 @@ const Study = () => {
                     <li>56-bit key (input as 64 bits with parity bits).</li>
                 </ul>
                 </div>
-                <div className="bg-gray-700 p-6 mt-8 rounded-md">
+                <div className="bg-green-800 p-6 mt-4 rounded-md">
                 <h1 className="text-xl font-bold mt-2 mb-2">Key Generation Steps</h1>
                 <ol className="list-decimal pl-5">
                     <li><strong>Input 64-bit key (56 bits + 8 parity bits).</strong></li>
@@ -406,7 +400,7 @@ const Study = () => {
                     <CopyableInput value={`from Crypto.Cipher import DES\n\ndef generate_des_subkeys(key):\n    des = DES.new(binascii.unhexlify(key), DES.MODE_ECB)\n    subkeys = des.key_schedule()\n    return [binascii.hexlify(k) for k in subkeys]\n\nkey = "133457799BBCDFF1"\nsubkeys = generate_des_subkeys(key)\nprint("Subkeys:", subkeys)`} />
                 </div>  
               <h1 className="text-3xl font-bold mb-2 mt-2">Encryption and Decryption</h1>
-              <div className="bg-gray-700 p-6 mt-8 rounded-md">
+              <div className="bg-green-800 p-6 mt-4 rounded-md">
               <h1 className="text-xl font-bold mb-2">Encryption Process</h1>
               <ol className="list-decimal pl-5">
               <li><strong>Divide plaintext into 64-bit blocks.</strong></li>
@@ -424,7 +418,7 @@ const Study = () => {
               <li><strong>Final Permutation (FP).</strong></li>   
               </ol>
               </div> 
-              <div className="bg-gray-700 p-6 mt-8 rounded-md">
+              <div className="bg-green-800 p-6 mt-4 rounded-md">
               <h1 className="text-2xl font-bold mb-2">Example</h1> 
               <ul className="list-disc pl-5">
                     <li>Key: `133457799BBCDFF1`</li>
@@ -446,9 +440,9 @@ const Study = () => {
               </ul>
               <CopyableInput value={`def des_encrypt(plaintext, key):\n    des = DES.new(binascii.unhexlify(key), DES.MODE_ECB)\n    ciphertext = des.encrypt(binascii.unhexlify(plaintext))\n    return binascii.hexlify(ciphertext)\n\ndef des_decrypt(ciphertext, key):\n    des = DES.new(binascii.unhexlify(key), DES.MODE_ECB)\n    decrypted_text = des.decrypt(binascii.unhexlify(ciphertext))\n    return binascii.hexlify(decrypted_text)\n\nkey = "133457799BBCDFF1"\nplaintext = "0123456789ABCDEF"\nciphertext = des_encrypt(plaintext, key)\nprint("Ciphertext:", ciphertext)\ndecrypted_text = des_decrypt(ciphertext, key)\nprint("Decrypted Text:", decrypted_text)`} />
               </div>
-              <div className="bg-gray-700 p-6 mt-8 rounded-md">
+              <h2 className="text-3xl font-bold mb-2 mt-2">Related YouTube Videos</h2>
+              <div className="bg-green-800 p-6 mt-4 rounded-md">
               <div className="mt-2">
-                <h2 className="text-2xl font-bold mb-4">Related YouTube Videos</h2>
                 <div className="flex justify-center">
                 <div className="grid grid-cols-3 gap-4">
                 <a
@@ -494,14 +488,13 @@ const Study = () => {
               </div>  
               </div>
               </div>
-
               </>
               )}
 
               {selectedAlgorithm === 'SHA' && (
               <>
                 <h1 className="text-3xl font-bold mb-2">Introduction and Message Preparation</h1>
-                <div className="bg-gray-700 p-6 mt-8 rounded-md">
+                <div className="bg-green-800 p-6 mt-4 rounded-md">
                 <h1 className="text-xl font-bold mb-2">Introduction</h1>
                 <p><strong>SHA (Secure Hash Algorithm)</strong> is a family of cryptographic hash functions designed to provide data integrity.</p>
                 <h2 className="text-l font-bold mt-2">Historical Context</h2>
@@ -514,7 +507,7 @@ const Study = () => {
                     <li>Commonly used versions: SHA-1, SHA-256, SHA-512.</li>
                 </ul>
                 </div>
-                <div className="bg-gray-700 p-6 mt-8 rounded-md">
+                <div className="bg-green-800 p-6 mt-4 rounded-md">
                 <h1 className="text-xl font-bold mt-2 mb-2">Message Preparation</h1>
                 <ol className="list-decimal pl-5">
                     <li><strong>Padding</strong></li>
@@ -533,7 +526,7 @@ const Study = () => {
                     <CopyableInput value={`import hashlib\n\ndef prepare_message(message):\n    original_length = len(message) * 8\n    message += b'\\x80'\n    while (len(message) * 8) % 512 != 448:\n        message += b'\\x00'\n    message += original_length.to_bytes(8, byteorder='big')\n    return message\n\nmessage = b"hello"\nprepared_message = prepare_message(message)\nprint("Prepared Message:", prepared_message)`} />
                 </div>  
               <h1 className="text-3xl font-bold mb-2 mt-2">Hash Computation</h1>
-              <div className="bg-gray-700 p-6 mt-8 rounded-md">
+              <div className="bg-green-800 p-6 mt-4 rounded-md">
               <h1 className="text-xl font-bold mb-2">Hash Computation Steps</h1>
               <ol className="list-decimal pl-5">
               <li><strong>Initialize Hash Values</strong></li>
@@ -549,7 +542,7 @@ const Study = () => {
               </ul>
               </ol>
               </div> 
-              <div className="bg-gray-700 p-6 mt-8 rounded-md">
+              <div className="bg-green-800 p-6 mt-4 rounded-md">
               <h1 className="text-2xl font-bold mb-2">Example</h1> 
               <ul className="list-disc pl-5">
               <li><strong>Initial Hash Values</strong></li>
@@ -573,9 +566,9 @@ const Study = () => {
               </ul>
               <CopyableInput value={`def compute_sha256(message):\n    sha256 = hashlib.sha256()\n    sha256.update(message)\n    return sha256.hexdigest()\n\nmessage = prepare_message(b"hello")\nhash_value = compute_sha256(message)\nprint("SHA-256 Hash:", hash_value)`} />
               </div>
-              <div className="bg-gray-700 p-6 mt-8 rounded-md">
+              <h2 className="text-3xl font-bold mb-2 mt-2">Related YouTube Videos</h2>
+              <div className="bg-green-800 p-6 mt-4 rounded-md">
               <div className="mt-2">
-                <h2 className="text-2xl font-bold mb-4">Related YouTube Videos</h2>
                 <div className="flex justify-center">
                 <div className="grid grid-cols-3 gap-4">
                 <a
@@ -624,7 +617,6 @@ const Study = () => {
 
               </>
               )}
-
 
               <button
                 onClick={() => handleCompletion(selectedAlgorithm)}
