@@ -16,25 +16,25 @@ function EncryptComponent() {
         <div className="mb-4">
           <button
             onClick={() => setEncryptionType('aes')}
-            className={`px-4 py-2 mr-2 ${encryptionType === 'aes' ? 'bg-blue-500' : 'bg-gray-300'} text-white rounded-md hover:bg-blue-600`}
+            className={`px-4 py-2 mr-2 ${encryptionType === 'aes' ? 'bg-blue-500' : 'bg-gray-300'} text-white rounded-md`}
           >
             AES
           </button>
           <button
             onClick={() => setEncryptionType('rsa')}
-            className={`px-4 py-2 mr-2 ${encryptionType === 'rsa' ? 'bg-blue-500' : 'bg-gray-300'} text-white rounded-md hover:bg-blue-600`}
+            className={`px-4 py-2 mr-2 ${encryptionType === 'rsa' ? 'bg-blue-500' : 'bg-gray-300'} text-white rounded-md `}
           >
             RSA
           </button>
           <button
             onClick={() => setEncryptionType('dsa')}
-            className={`px-4 py-2 mr-2 ${encryptionType === 'dsa' ? 'bg-blue-500' : 'bg-gray-300'} text-white rounded-md hover:bg-blue-600`}
+            className={`px-4 py-2 mr-2 ${encryptionType === 'dsa' ? 'bg-blue-500' : 'bg-gray-300'} text-white rounded-md`}
           >
             DSA
           </button>
           <button
             onClick={() => setEncryptionType('sha')}
-            className={`px-4 py-2 ${encryptionType === 'sha' ? 'bg-blue-500' : 'bg-gray-300'} text-white rounded-md hover:bg-blue-600`}
+            className={`px-4 py-2 ${encryptionType === 'sha' ? 'bg-blue-500' : 'bg-gray-300'} text-white rounded-md`}
           >
             SHA
           </button>
