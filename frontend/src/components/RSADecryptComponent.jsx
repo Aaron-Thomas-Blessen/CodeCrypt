@@ -1,10 +1,9 @@
-// src/components/RSADecryptComponent.jsx
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 function RSADecryptComponent() {
-  const [encryptedText, setEncryptedText] = useState('');
-  const [privateKey, setPrivateKey] = useState('');
-  const [decryptedText, setDecryptedText] = useState('');
+  const [encryptedText, setEncryptedText] = useState("");
+  const [privateKey, setPrivateKey] = useState("");
+  const [decryptedText, setDecryptedText] = useState("");
 
   const handleEncryptedTextChange = (e) => {
     setEncryptedText(e.target.value);
@@ -15,16 +14,16 @@ function RSADecryptComponent() {
   };
 
   const handleDecryptButtonClick = () => {
-    fetch('http://localhost:5000/decrypt/rsa', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    fetch("http://localhost:5000/decrypt/rsa", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ encryptedText, privateKey }),
     })
-    .then(response => response.json())
-    .then(data => {
-      setDecryptedText(data.decryptedText);
-    })
-    .catch(error => console.error('Error:', error));
+      .then((response) => response.json())
+      .then((data) => {
+        setDecryptedText(data.decryptedText);
+      })
+      .catch((error) => console.error("Error:", error));
   };
 
   return (
@@ -34,14 +33,14 @@ function RSADecryptComponent() {
         rows={4}
         onChange={handleEncryptedTextChange}
         placeholder="Enter encrypted text here..."
-        className="p-2 mb-4 border rounded-md w-full bg-gray-50"
+        className="p-2 mb-4 border rounded-md w-full bg-gray-800 text-white placeholder-gray-400"
       />
       <textarea
         value={privateKey}
         rows={10}
         onChange={handlePrivateKeyChange}
         placeholder="Enter private key here..."
-        className="p-2 mb-4 border rounded-md w-full bg-gray-50"
+        className="p-2 mb-4 border rounded-md w-full bg-gray-800 text-white placeholder-gray-400"
       />
       <button
         onClick={handleDecryptButtonClick}
@@ -56,7 +55,7 @@ function RSADecryptComponent() {
             value={decryptedText}
             readOnly
             rows={4}
-            className="p-2 w-full border rounded-md bg-gray-50 mb-2"
+            className="p-2 w-full border rounded-md bg-gray-800 text-white mb-2"
           />
           <button
             onClick={() => navigator.clipboard.writeText(decryptedText)}
