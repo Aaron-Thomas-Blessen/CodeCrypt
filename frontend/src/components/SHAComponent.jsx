@@ -1,32 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 function SHAComponent() {
-  const [inputText, setInputText] = useState('');
-  const [hash, setHash] = useState('');
+  const [inputText, setInputText] = useState("");
+  const [hash, setHash] = useState("");
 
   const handleInputChange = (e) => {
     setInputText(e.target.value);
   };
 
   const handleHashButtonClick = () => {
-    fetch('http://localhost:5000/hash', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    fetch("http://localhost:5000/hash", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ message: inputText }),
     })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then(data => {
-      setHash(data.hash);
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      alert(`Error: ${error.message}`);
-    });
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setHash(data.hash);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        alert(`Error: ${error.message}`);
+      });
   };
 
   return (
@@ -36,7 +36,7 @@ function SHAComponent() {
         value={inputText}
         onChange={handleInputChange}
         placeholder="Enter text here..."
-        className="p-2 mb-4 border rounded-md w-full"
+        className="p-2 mb-4 border rounded-md w-full bg-gray-800 text-white placeholder-gray-400"
       />
       <button
         onClick={handleHashButtonClick}
@@ -51,7 +51,7 @@ function SHAComponent() {
             value={hash}
             readOnly
             rows={4}
-            className="p-2 w-full border rounded-md bg-gray-50 mb-2"
+            className="p-2 w-full border rounded-md bg-gray-800 text-white mb-2"
           />
           <button
             onClick={() => navigator.clipboard.writeText(hash)}
