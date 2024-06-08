@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Navbar from "../components/nav2";
+import Navbar from "../components/nav";
 import AESDecryptComponent from "../components/AESDecryptComponent";
 import RSADecryptComponent from "../components/RSADecryptComponent";
 import DSADecryptComponent from "../components/DSADecryptComponent";
