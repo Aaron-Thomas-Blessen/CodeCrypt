@@ -18,7 +18,7 @@ const Navbar = () => {
         </li>
         <li>
           <a
-            href="/about"
+            href="#discover-cryptographic-techniques"
             className="text-white font-semibold hover:text-orange-500"
           >
             About
