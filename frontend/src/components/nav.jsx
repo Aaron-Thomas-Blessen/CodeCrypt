@@ -18,7 +18,10 @@ const Navbar = () => {
 
   return (
     <nav className="bg-gray-800 p-4 flex items-center justify-between">
-      <div className="flex-shrink-0">
+      <div
+        className="flex-shrink-0 cursor-pointer"
+        onClick={() => navigate("/")}
+      >
         <img src={logo} alt="Logo" className="h-10" />
       </div>
       <ul className="hidden md:flex space-x-6">
