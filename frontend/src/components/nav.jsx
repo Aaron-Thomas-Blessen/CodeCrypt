@@ -1,13 +1,20 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import logo from "../images/logo.png";
 import { useAuth } from "../context/AuthContext";
 
 const Navbar = () => {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const location = useLocation();
+  const navigate = useNavigate();
   const isAuthPage =
     location.pathname === "/signin" || location.pathname === "/signup";
+  const isHomePage = location.pathname === "/";
+
+  const handleLogout = async () => {
+    await logout();
+    navigate("/");
+  };
 
   return (
     <nav className="bg-gray-800 p-4 flex items-center justify-between">
@@ -23,7 +30,17 @@ const Navbar = () => {
             Home
           </a>
         </li>
-        {!isAuthPage && user && (
+        {isHomePage && (
+          <li>
+            <a
+              href="#discover-cryptographic-techniques"
+              className="text-white font-semibold hover:text-orange-500"
+            >
+              About
+            </a>
+          </li>
+        )}
+        {!isHomePage && user && !isAuthPage && (
           <>
             <li>
               <a
@@ -51,32 +68,38 @@ const Navbar = () => {
             </li>
           </>
         )}
-        {!isAuthPage && !user && (
-          <>
-            <li>
-              <a
-                href="#discover-cryptographic-techniques"
-                className="text-white font-semibold hover:text-orange-500"
-              >
-                About
-              </a>
-            </li>
-          </>
-        )}
       </ul>
       <div>
-        {!isAuthPage && (
-          <>
-            {user ? (
-              <button className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-300">
-                <a href="/">LogOut</a>
-              </button>
-            ) : (
-              <button className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition duration-300">
-                <a href="/signin">SignIn</a>
-              </button>
-            )}
-          </>
+        {isAuthPage ? (
+          location.pathname === "/signin" ? (
+            <button
+              className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition duration-300"
+              onClick={() => navigate("/signup")}
+            >
+              SignUp
+            </button>
+          ) : (
+            <button
+              className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition duration-300"
+              onClick={() => navigate("/signin")}
+            >
+              SignIn
+            </button>
+          )
+        ) : user ? (
+          <button
+            onClick={handleLogout}
+            className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-300"
+          >
+            LogOut
+          </button>
+        ) : (
+          <button
+            className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition duration-300"
+            onClick={() => navigate("/signin")}
+          >
+            SignIn
+          </button>
         )}
       </div>
     </nav>
