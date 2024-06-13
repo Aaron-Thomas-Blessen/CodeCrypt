@@ -7,7 +7,6 @@ import des from "../images/des-icon.png";
 import crypto1 from "../images/cryptography1.png";
 import crypto2 from "../images/cryptography2.png";
 
-
 const Home = () => {
   const TwoColumnSection = () => {
     return (
@@ -107,13 +106,13 @@ const Home = () => {
           <div className="lg:w-1/2 lg:pr-4">
             <img
               className="cryptography-img lg:float-right"
-              src = {crypto}
+              src={crypto}
               alt="Cryptography Simulation"
             />
           </div>
         </div>
 
-        <section id="services-home-container" className="py-12">
+        <section id="discover-cryptographic-techniques" className="py-12">
           <div className="container mx-auto px-4">
             <div className="text-center">
               <h1 className="text-4xl font-bold mb-8">
@@ -195,7 +194,7 @@ const Home = () => {
             <div className="button-container1 flex justify-center py-8">
               <div className="mx-4">
                 <button className="signup px-6 py-3 bg-white border-2 border-blue-gray-700 text-black rounded-lg hover:bg-gray-200">
-                  Explore
+                  <a href="/encrypt">Explore</a>
                 </button>
               </div>
             </div>
@@ -217,7 +216,7 @@ const Home = () => {
               <div className="button-container2 flex justify-center lg:justify-start">
                 <div className="mx-4">
                   <button className="login1 px-6 py-3 bg-white border-2 border-blue-gray-700 text-black rounded-lg hover:bg-gray-200">
-                    Learn More
+                    <a href="/study">Learn More</a>
                   </button>
                 </div>
               </div>

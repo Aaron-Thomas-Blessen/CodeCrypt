@@ -1,29 +1,28 @@
-// src/components/RSAComponent.jsx
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 function RSAComponent() {
-  const [inputText, setInputText] = useState('');
-  const [encryptedText, setEncryptedText] = useState('');
-  const [publicKey, setPublicKey] = useState('');
-  const [privateKey, setPrivateKey] = useState('');
+  const [inputText, setInputText] = useState("");
+  const [encryptedText, setEncryptedText] = useState("");
+  const [publicKey, setPublicKey] = useState("");
+  const [privateKey, setPrivateKey] = useState("");
 
   const handleInputChange = (e) => {
     setInputText(e.target.value);
   };
 
   const handleEncryptButtonClick = () => {
-    fetch('http://localhost:5000/encrypt/rsa', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    fetch("http://localhost:5000/encrypt/rsa", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ text: inputText }),
     })
-    .then(response => response.json())
-    .then(data => {
-      setEncryptedText(data.encryptedText);
-      setPublicKey(data.publicKey);
-      setPrivateKey(data.privateKey);
-    })
-    .catch(error => console.error('Error:', error));
+      .then((response) => response.json())
+      .then((data) => {
+        setEncryptedText(data.encryptedText);
+        setPublicKey(data.publicKey);
+        setPrivateKey(data.privateKey);
+      })
+      .catch((error) => console.error("Error:", error));
   };
 
   return (
@@ -33,7 +32,7 @@ function RSAComponent() {
         value={inputText}
         onChange={handleInputChange}
         placeholder="Enter text here..."
-        className="p-2 mb-4 border rounded-md w-full"
+        className="p-2 mb-4 border rounded-md w-full bg-gray-800 text-white placeholder-gray-400"
       />
       <button
         onClick={handleEncryptButtonClick}
@@ -48,7 +47,7 @@ function RSAComponent() {
             value={encryptedText}
             readOnly
             rows={4}
-            className="p-2 w-full border rounded-md bg-gray-50 mb-2"
+            className="p-2 w-full border rounded-md bg-gray-800 text-white mb-2"
           />
           <button
             onClick={() => navigator.clipboard.writeText(encryptedText)}
@@ -65,7 +64,7 @@ function RSAComponent() {
             value={publicKey}
             readOnly
             rows={10}
-            className="p-2 w-full border rounded-md bg-gray-50 mb-2"
+            className="p-2 w-full border rounded-md bg-gray-800 text-white mb-2"
           />
           <button
             onClick={() => navigator.clipboard.writeText(publicKey)}
@@ -82,7 +81,7 @@ function RSAComponent() {
             value={privateKey}
             readOnly
             rows={10}
-            className="p-2 w-full border rounded-md bg-gray-50 mb-2"
+            className="p-2 w-full border rounded-md bg-gray-800 text-white mb-2"
           />
           <button
             onClick={() => navigator.clipboard.writeText(privateKey)}
