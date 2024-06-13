@@ -6,6 +6,8 @@ import { AuthProvider } from "./context/AuthContext";
 
 import Home from "./pages/Home";
 
+import Profile from "./pages/Profile";
+
 import Study from "./pages/Study";
 
 import Encrypt from "./pages/Encrypt";
@@ -20,6 +22,9 @@ const App = () => {
       <AuthProvider>
         <Routes>
           <Route path="/" element={<Home />}></Route>
+
+          <Route path="/profile" element={<Profile />}></Route>
+
           <Route path="/study" element={<Study />}></Route>
 
           <Route path="/encrypt" element={<Encrypt />}></Route>
