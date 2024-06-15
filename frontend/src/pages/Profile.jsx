@@ -3,9 +3,10 @@ import { auth, db } from "../Firebase/Firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/nav";
+import { useAuth } from "../context/AuthContext";
 
 const ProfilePage = () => {
-  const [user, setUser] = useState(null);
+  const { user, setUser } = useAuth();
   const [username, setUsername] = useState("");
   const [bio, setBio] = useState("");
   const [profilePictureUrl, setProfilePictureUrl] = useState("");
@@ -14,26 +15,12 @@ const ProfilePage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      setLoading(true);
-      const currentUser = auth.currentUser;
-      if (currentUser) {
-        const userDoc = await getDoc(doc(db, "users", currentUser.uid));
-        if (userDoc.exists()) {
-          const userData = userDoc.data();
-          setUser(userData);
-          setUsername(userData.username || "");
-          setBio(userData.bio || "");
-          setProfilePictureUrl(userData.profilePictureUrl || "");
-        } else {
-          setMessage("User data not found");
-        }
-      }
-      setLoading(false);
-    };
-
-    fetchUserData();
-  }, []);
+    if (user) {
+      setUsername(user.username || "");
+      setBio(user.bio || "");
+      setProfilePictureUrl(user.profilePictureUrl || "");
+    }
+  }, [user]);
 
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
@@ -43,11 +30,16 @@ const ProfilePage = () => {
     if (currentUser) {
       const userRef = doc(db, "users", currentUser.uid);
       try {
-        await updateDoc(userRef, {
+        const updatedUser = {
           username,
           bio,
           profilePictureUrl,
-        });
+        };
+        await updateDoc(userRef, updatedUser);
+        setUser((prevUser) => ({
+          ...prevUser,
+          ...updatedUser,
+        }));
         setMessage("Profile updated successfully");
       } catch (error) {
         console.error("Error updating profile:", error);
