@@ -1,6 +1,6 @@
-# Cryptography Simulation with mbedTLS/OpenSSL
+# Cryptography Simulation with OpenSSL
 
-This project is an interactive simulation of cryptographic techniques using C and the mbedTLS/OpenSSL library. It enables users to understand and experiment with various aspects of cryptography, including encryption, decryption, key generation, and different cryptographic algorithms. The frontend is built using Vite and React, providing an intuitive and user-friendly interface.
+This project is an interactive simulation of cryptographic techniques using C and the OpenSSL library. It enables users to understand and experiment with various aspects of cryptography, including encryption, decryption, key generation, and different cryptographic algorithms. The frontend is built using Vite and React, providing an intuitive and user-friendly interface.
 
 ## Table of Contents
 
