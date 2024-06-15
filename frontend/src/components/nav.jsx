@@ -76,9 +76,13 @@ const Navbar = () => {
         {user && !isAuthPage && (
           <button
             onClick={() => navigate("/profile")}
-            className="bg-blue-500 text-white px-4 py-2 rounded mr-2 hover:bg-blue-600 transition duration-300"
+            className="rounded-full mr-1 border border-gray-300 bg-gray-300 text-white font-bold py-2 px-2 uppercase tracking-wider transition-transform duration-200 ease-in-out transform hover:scale-105 focus:outline-none"
           >
-            Profile
+            <img
+              src={user.profilePictureUrl}
+              alt="Profile"
+              className="rounded-full h-8 w-8 object-cover"
+            />
           </button>
         )}
         {isAuthPage ? (
