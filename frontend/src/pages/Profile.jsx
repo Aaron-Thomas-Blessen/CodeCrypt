@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { auth, db } from "../Firebase/Firebase";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/nav";
 import { useAuth } from "../context/AuthContext";
@@ -73,7 +73,7 @@ const ProfilePage = () => {
       <Navbar />
       <div className="flex items-center justify-center min-h-screen bg-gray-100">
         <div className="form-container bg-white shadow-md rounded-lg p-8 max-w-md w-full">
-          <h1 className="font-bold text-3xl mb-6">Profile</h1>
+          <h1 className="font-bold ml-36 text-3xl mb-6">Profile</h1>
           <div className="flex flex-col items-center">
             {editMode ? (
               <form onSubmit={handleUpdateProfile} className="w-full">
@@ -96,7 +96,7 @@ const ProfilePage = () => {
                   placeholder="Profile Picture URL"
                   value={profilePictureUrl}
                   onChange={(e) => setProfilePictureUrl(e.target.value)}
-                  className="bg-gray-200 border border-gray-300 rounded p-3 my-2 w-full text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="bg-gray-200  border border-gray-300 rounded p-3 my-2 w-full text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <button
                   type="submit"
@@ -110,15 +110,19 @@ const ProfilePage = () => {
                 )}
               </form>
             ) : (
-              <div className="w-full">
+              <div className="w-full  text-center">
+                <div className="mb-4 ml-36">
+                  <img
+                    src={profilePictureUrl}
+                    alt="Profile"
+                    className="rounded-full h-24 w-24 object-cover mb-2"
+                  />
+                </div>
                 <div className="mb-4">
                   <strong>Username:</strong> {username}
                 </div>
                 <div className="mb-4">
                   <strong>Bio:</strong> {bio}
-                </div>
-                <div className="mb-4">
-                  <strong>Profile Picture URL:</strong> {profilePictureUrl}
                 </div>
                 <button
                   onClick={toggleEditMode}
