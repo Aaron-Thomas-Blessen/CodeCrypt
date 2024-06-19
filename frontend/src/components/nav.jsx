@@ -81,6 +81,30 @@ const Navbar = () => {
             </li>
           </>
         )}
+        {!isHomePage && !user && !isAuthPage && (
+          <>
+            {location.pathname === "/encrypt" && (
+              <li>
+                <a
+                  href="/decrypt"
+                  className="text-white font-semibold hover:text-orange-500"
+                >
+                  Decrypt
+                </a>
+              </li>
+            )}
+            {location.pathname === "/decrypt" && (
+              <li>
+                <a
+                  href="/encrypt"
+                  className="text-white font-semibold hover:text-orange-500"
+                >
+                  Encrypt
+                </a>
+              </li>
+            )}
+          </>
+        )}
       </ul>
       <div className="flex items-center relative">
         {user && !isAuthPage && (
