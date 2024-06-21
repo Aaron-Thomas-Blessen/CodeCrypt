@@ -11,7 +11,7 @@ function SHAVerifyComponent() {
 
   const handleHashChange = (e) => {
     setHash(e.target.value);
-  };
+  }; 
 
   const handleVerifyButtonClick = () => {
     fetch("http://localhost:5000/verify-hash", {
