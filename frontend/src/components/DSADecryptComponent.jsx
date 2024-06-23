@@ -18,17 +18,40 @@ function DSADecryptComponent() {
     setPublicKey(e.target.value);
   };
 
-  const handleVerifyButtonClick = () => {
-    fetch("http://localhost:5000/verify", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message, signature, publicKeyPem: publicKey }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setIsValid(data.isValid);
-      })
-      .catch((error) => console.error("Error:", error));
+  const handleVerifyButtonClick = async () => {
+    const publicKeyArrayBuffer = Uint8Array.from(atob(publicKey), (c) =>
+      c.charCodeAt(0)
+    ).buffer;
+
+    const publicKeyObject = await window.crypto.subtle.importKey(
+      "spki",
+      publicKeyArrayBuffer,
+      {
+        name: "ECDSA",
+        namedCurve: "P-256",
+      },
+      true,
+      ["verify"]
+    );
+
+    const encoder = new TextEncoder();
+    const data = encoder.encode(message);
+
+    const signatureArrayBuffer = Uint8Array.from(atob(signature), (c) =>
+      c.charCodeAt(0)
+    ).buffer;
+
+    const isValid = await window.crypto.subtle.verify(
+      {
+        name: "ECDSA",
+        hash: { name: "SHA-256" },
+      },
+      publicKeyObject,
+      signatureArrayBuffer,
+      data
+    );
+
+    setIsValid(isValid);
   };
 
   return (
