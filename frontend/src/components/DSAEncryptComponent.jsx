@@ -1,26 +1,59 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 function DSAEncryptComponent() {
   const [inputText, setInputText] = useState("");
   const [signature, setSignature] = useState("");
   const [publicKey, setPublicKey] = useState("");
+  const [privateKey, setPrivateKey] = useState(null);
+
+  useEffect(() => {
+    // Generate key pair when the component mounts
+    const generateKeyPair = async () => {
+      const keyPair = await window.crypto.subtle.generateKey(
+        {
+          name: "ECDSA",
+          namedCurve: "P-256",
+        },
+        true,
+        ["sign", "verify"]
+      );
+
+      const publicKeyArrayBuffer = await window.crypto.subtle.exportKey(
+        "spki",
+        keyPair.publicKey
+      );
+      const publicKeyBase64 = window.btoa(
+        String.fromCharCode(...new Uint8Array(publicKeyArrayBuffer))
+      );
+      setPublicKey(publicKeyBase64);
+      setPrivateKey(keyPair.privateKey);
+    };
+
+    generateKeyPair();
+  }, []);
 
   const handleInputChange = (e) => {
     setInputText(e.target.value);
   };
 
-  const handleSignButtonClick = () => {
-    fetch("http://localhost:5000/sign", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: inputText }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setSignature(data.signature);
-        setPublicKey(data.publicKey);
-      })
-      .catch((error) => console.error("Error:", error));
+  const handleSignButtonClick = async () => {
+    if (!privateKey) return;
+
+    const encoder = new TextEncoder();
+    const data = encoder.encode(inputText);
+
+    const signatureArrayBuffer = await window.crypto.subtle.sign(
+      {
+        name: "ECDSA",
+        hash: { name: "SHA-256" },
+      },
+      privateKey,
+      data
+    );
+
+    setSignature(
+      window.btoa(String.fromCharCode(...new Uint8Array(signatureArrayBuffer)))
+    );
   };
 
   return (

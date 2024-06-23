@@ -13,17 +13,17 @@ function SHAVerifyComponent() {
     setHash(e.target.value);
   };
 
-  const handleVerifyButtonClick = () => {
-    fetch("http://localhost:5000/verify-hash", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message, hash }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setIsValid(data.isValid);
-      })
-      .catch((error) => console.error("Error:", error));
+  const handleVerifyButtonClick = async () => {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(message);
+
+    const hashBuffer = await window.crypto.subtle.digest("SHA-256", data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const newHashHex = hashArray
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("");
+
+    setIsValid(newHashHex === hash);
   };
 
   return (
