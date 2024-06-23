@@ -10,19 +10,61 @@ function RSAComponent() {
     setInputText(e.target.value);
   };
 
-  const handleEncryptButtonClick = () => {
-    fetch("http://localhost:5000/encrypt/rsa", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text: inputText }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setEncryptedText(data.encryptedText);
-        setPublicKey(data.publicKey);
-        setPrivateKey(data.privateKey);
-      })
-      .catch((error) => console.error("Error:", error));
+  const handleEncryptButtonClick = async () => {
+    try {
+      // Generate RSA key pair
+      const keyPair = await window.crypto.subtle.generateKey(
+        {
+          name: "RSA-OAEP",
+          modulusLength: 2048,
+          publicExponent: new Uint8Array([1, 0, 1]),
+          hash: { name: "SHA-256" },
+        },
+        true,
+        ["encrypt", "decrypt"]
+      );
+
+      const encoder = new TextEncoder();
+      const data = encoder.encode(inputText);
+
+      // Encrypt the data
+      const encryptedBuffer = await window.crypto.subtle.encrypt(
+        {
+          name: "RSA-OAEP",
+        },
+        keyPair.publicKey,
+        data
+      );
+
+      const encryptedArray = new Uint8Array(encryptedBuffer);
+      const encryptedHex = Array.prototype.map
+        .call(encryptedArray, (x) => ("00" + x.toString(16)).slice(-2))
+        .join("");
+
+      // Export the public key
+      const publicKeyData = await window.crypto.subtle.exportKey(
+        "spki",
+        keyPair.publicKey
+      );
+      const publicKeyBase64 = btoa(
+        String.fromCharCode.apply(null, new Uint8Array(publicKeyData))
+      );
+
+      // Export the private key
+      const privateKeyData = await window.crypto.subtle.exportKey(
+        "pkcs8",
+        keyPair.privateKey
+      );
+      const privateKeyBase64 = btoa(
+        String.fromCharCode.apply(null, new Uint8Array(privateKeyData))
+      );
+
+      setEncryptedText(encryptedHex);
+      setPublicKey(publicKeyBase64);
+      setPrivateKey(privateKeyBase64);
+    } catch (error) {
+      console.error("Encryption Error:", error);
+    }
   };
 
   return (

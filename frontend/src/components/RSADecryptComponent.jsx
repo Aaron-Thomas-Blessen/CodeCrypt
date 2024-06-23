@@ -13,17 +13,49 @@ function RSADecryptComponent() {
     setPrivateKey(e.target.value);
   };
 
-  const handleDecryptButtonClick = () => {
-    fetch("http://localhost:5000/decrypt/rsa", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ encryptedText, privateKey }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setDecryptedText(data.decryptedText);
-      })
-      .catch((error) => console.error("Error:", error));
+  const base64ToArrayBuffer = (base64) => {
+    const binaryString = atob(base64);
+    const bytes = new Uint8Array(binaryString.length);
+    for (let i = 0; i < binaryString.length; i++) {
+      bytes[i] = binaryString.charCodeAt(i);
+    }
+    return bytes.buffer;
+  };
+
+  const hexToBytes = (hex) =>
+    new Uint8Array(hex.match(/.{1,2}/g).map((byte) => parseInt(byte, 16)));
+
+  const handleDecryptButtonClick = async () => {
+    try {
+      const privateKeyData = base64ToArrayBuffer(privateKey);
+      const encryptedData = hexToBytes(encryptedText);
+
+      const importedKey = await window.crypto.subtle.importKey(
+        "pkcs8",
+        privateKeyData,
+        {
+          name: "RSA-OAEP",
+          hash: { name: "SHA-256" },
+        },
+        false,
+        ["decrypt"]
+      );
+
+      const decryptedBuffer = await window.crypto.subtle.decrypt(
+        {
+          name: "RSA-OAEP",
+        },
+        importedKey,
+        encryptedData
+      );
+
+      const decoder = new TextDecoder();
+      const decryptedText = decoder.decode(decryptedBuffer);
+
+      setDecryptedText(decryptedText);
+    } catch (error) {
+      console.error("Decryption Error:", error);
+    }
   };
 
   return (
