@@ -8,25 +8,17 @@ function SHAComponent() {
     setInputText(e.target.value);
   };
 
-  const handleHashButtonClick = () => {
-    fetch("http://localhost:5000/hash", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: inputText }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setHash(data.hash);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        alert(`Error: ${error.message}`);
-      });
+  const handleHashButtonClick = async () => {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(inputText);
+
+    const hashBuffer = await window.crypto.subtle.digest("SHA-256", data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("");
+
+    setHash(hashHex);
   };
 
   return (
