@@ -10,19 +10,50 @@ function AESComponent() {
     setInputText(e.target.value);
   };
 
-  const handleEncryptButtonClick = () => {
-    fetch("http://localhost:5000/encrypt/aes", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text: inputText }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setEncryptedText(data.encryptedText);
-        setKey(data.key);
-        setIv(data.iv);
-      })
-      .catch((error) => console.error("Error:", error));
+  const handleEncryptButtonClick = async () => {
+    try {
+      const key = await window.crypto.subtle.generateKey(
+        {
+          name: "AES-CBC",
+          length: 256,
+        },
+        true,
+        ["encrypt", "decrypt"]
+      );
+
+      const encoder = new TextEncoder();
+      const data = encoder.encode(inputText);
+      const iv = window.crypto.getRandomValues(new Uint8Array(16));
+
+      const encryptedBuffer = await window.crypto.subtle.encrypt(
+        {
+          name: "AES-CBC",
+          iv: iv,
+        },
+        key,
+        data
+      );
+
+      const encryptedArray = new Uint8Array(encryptedBuffer);
+      const encryptedHex = Array.prototype.map
+        .call(encryptedArray, (x) => ("00" + x.toString(16)).slice(-2))
+        .join("");
+
+      const keyData = await window.crypto.subtle.exportKey("raw", key);
+      const keyHex = Array.prototype.map
+        .call(new Uint8Array(keyData), (x) => ("00" + x.toString(16)).slice(-2))
+        .join("");
+
+      setEncryptedText(encryptedHex);
+      setKey(keyHex);
+      setIv(
+        Array.prototype.map
+          .call(iv, (x) => ("00" + x.toString(16)).slice(-2))
+          .join("")
+      );
+    } catch (error) {
+      console.error("Encryption Error:", error);
+    }
   };
 
   return (

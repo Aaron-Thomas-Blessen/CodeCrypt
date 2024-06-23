@@ -18,17 +18,39 @@ function AESDecryptComponent() {
     setIv(e.target.value);
   };
 
-  const handleDecryptButtonClick = () => {
-    fetch("http://localhost:5000/decrypt/aes", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ encryptedText, key, iv }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setDecryptedText(data.decryptedText);
-      })
-      .catch((error) => console.error("Error:", error));
+  const hexToBytes = (hex) =>
+    new Uint8Array(hex.match(/.{1,2}/g).map((byte) => parseInt(byte, 16)));
+
+  const handleDecryptButtonClick = async () => {
+    try {
+      const keyData = hexToBytes(key);
+      const ivData = hexToBytes(iv);
+      const encryptedData = hexToBytes(encryptedText);
+
+      const importedKey = await window.crypto.subtle.importKey(
+        "raw",
+        keyData,
+        { name: "AES-CBC" },
+        false,
+        ["decrypt"]
+      );
+
+      const decryptedBuffer = await window.crypto.subtle.decrypt(
+        {
+          name: "AES-CBC",
+          iv: ivData,
+        },
+        importedKey,
+        encryptedData
+      );
+
+      const decoder = new TextDecoder();
+      const decryptedText = decoder.decode(decryptedBuffer);
+
+      setDecryptedText(decryptedText);
+    } catch (error) {
+      console.error("Decryption Error:", error);
+    }
   };
 
   return (
