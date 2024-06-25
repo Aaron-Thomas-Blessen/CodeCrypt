@@ -36,7 +36,7 @@ function EncryptComponent() {
               encryptionType === "dsa" ? "bg-blue-500" : "bg-gray-700"
             } text-white rounded-md hover:bg-blue-600`}
           >
-            DSA
+            DES
           </button>
           <button
             onClick={() => setEncryptionType("sha")}
