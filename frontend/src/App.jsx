@@ -16,8 +16,8 @@ import Decrypt from "./pages/Decrypt";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 
-import RSADecryptAudio from "./components/audio/RSADecryptAudio";
-import RSAEncryptAudio from "./components/audio/RSAEncryptAudio";
+import RSADecryptAudio from "./components/audio/AESDecryptAudio";
+import RSAEncryptAudio from "./components/audio/AESEncryptAudio";
 
 const App = () => {
   return (
