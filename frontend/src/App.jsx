@@ -16,6 +16,9 @@ import Decrypt from "./pages/Decrypt";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 
+import RSADecryptAudio from "./components/audio/AESDecryptAudio";
+import RSAEncryptAudio from "./components/audio/AESEncryptAudio";
+
 const App = () => {
   return (
     <BrowserRouter>
@@ -32,6 +35,9 @@ const App = () => {
 
           <Route path="/signin" element={<SignIn />}></Route>
           <Route path="/signup" element={<SignUp />}></Route>
+
+          <Route path="/encryptaudio" element={<RSAEncryptAudio />}></Route>
+          <Route path="/decryptaudio" element={<RSADecryptAudio />}></Route>
         </Routes>
       </AuthProvider>
     </BrowserRouter>
