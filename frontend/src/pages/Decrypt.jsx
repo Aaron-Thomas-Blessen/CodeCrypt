@@ -6,6 +6,8 @@ import DSADecryptComponent from "../components/DSADecryptComponent";
 import SHADecryptComponent from "../components/SHAVerifyComponent";
 import sharedClasses from "../styles/sharedClasses";
 
+import FileAESDecryptComponent from "../components/file/FileAESDecryptComponent";
+
 function DecryptComponent() {
   const [decryptionType, setDecryptionType] = useState(null); // null means no decryption type selected
   const [decryptionAlgorithm, setDecryptionAlgorithm] = useState(null); // null means no specific algorithm selected
@@ -123,8 +125,9 @@ function DecryptComponent() {
                 <SHADecryptComponent />
               )}
               {decryptionType === "file" &&
-                decryptionAlgorithm === "fileAes" && <AESDecryptComponent />}
-              {/* Add more decryption components as needed */}
+                decryptionAlgorithm === "fileAes" && (
+                  <FileAESDecryptComponent />
+                )}
             </div>
           )}
         </div>

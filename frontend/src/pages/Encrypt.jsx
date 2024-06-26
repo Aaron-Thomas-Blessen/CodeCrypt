@@ -6,6 +6,8 @@ import DSAEncryptComponent from "../components/DSAEncryptComponent";
 import SHAComponent from "../components/SHAComponent";
 import sharedClasses from "../styles/sharedClasses";
 
+import FileAESComponent from "../components/file/FileAESComponent";
+
 function EncryptComponent() {
   const [encryptionType, setEncryptionType] = useState(null); // null means neither text nor file encryption selected
   const [encryptionAlgorithm, setEncryptionAlgorithm] = useState(null); // null means no specific algorithm selected
@@ -133,8 +135,7 @@ function EncryptComponent() {
                 <SHAComponent />
               )}
               {encryptionType === "file" && encryptionAlgorithm === "aes" && (
-                // Implement the file encryption component for AES
-                <div>AES File Encryption Component</div>
+                <FileAESComponent />
               )}
               {encryptionType === "file" && encryptionAlgorithm === "rsa" && (
                 // Implement the file encryption component for RSA
