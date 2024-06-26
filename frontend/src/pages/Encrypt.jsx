@@ -141,7 +141,6 @@ function EncryptComponent() {
               {encryptionType === "file" && encryptionAlgorithm === "rsa" && (
                 <RSAFileEncryptComponent />
               )}
-              {/* Add more file encryption components for other algorithms */}
             </div>
           )}
         </div>

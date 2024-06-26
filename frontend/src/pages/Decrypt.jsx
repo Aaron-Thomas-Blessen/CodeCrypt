@@ -116,7 +116,7 @@ function DecryptComponent() {
                   >
                     RSA (File)
                   </button>
-                  {/* Add more file decryption algorithm buttons as needed */}
+
                 </>
               )}
             </div>
