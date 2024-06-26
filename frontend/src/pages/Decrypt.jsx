@@ -7,6 +7,7 @@ import SHADecryptComponent from "../components/SHAVerifyComponent";
 import sharedClasses from "../styles/sharedClasses";
 
 import FileAESDecryptComponent from "../components/file/FileAESDecryptComponent";
+import RSAFileDecryptComponent from "../components/file/RSAFileDecryptComponent";
 
 function DecryptComponent() {
   const [decryptionType, setDecryptionType] = useState(null); // null means no decryption type selected
@@ -105,6 +106,16 @@ function DecryptComponent() {
                   >
                     AES (File)
                   </button>
+                  <button
+                    onClick={() => handleAlgorithmSelection("fileRsa")}
+                    className={`px-6 py-3 ${
+                      decryptionAlgorithm === "fileRsa"
+                        ? "bg-blue-500"
+                        : "bg-gray-700"
+                    } text-white rounded-md hover:bg-blue-600`}
+                  >
+                    RSA (File)
+                  </button>
                   {/* Add more file decryption algorithm buttons as needed */}
                 </>
               )}
@@ -127,6 +138,10 @@ function DecryptComponent() {
               {decryptionType === "file" &&
                 decryptionAlgorithm === "fileAes" && (
                   <FileAESDecryptComponent />
+                )}
+              {decryptionType === "file" &&
+                decryptionAlgorithm === "fileRsa" && (
+                  <RSAFileDecryptComponent />
                 )}
             </div>
           )}

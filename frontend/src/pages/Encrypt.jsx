@@ -7,6 +7,7 @@ import SHAComponent from "../components/SHAComponent";
 import sharedClasses from "../styles/sharedClasses";
 
 import FileAESComponent from "../components/file/FileAESComponent";
+import RSAFileEncryptComponent from "../components/file/RSAFileEncryptComponent";
 
 function EncryptComponent() {
   const [encryptionType, setEncryptionType] = useState(null); // null means neither text nor file encryption selected
@@ -138,8 +139,7 @@ function EncryptComponent() {
                 <FileAESComponent />
               )}
               {encryptionType === "file" && encryptionAlgorithm === "rsa" && (
-                // Implement the file encryption component for RSA
-                <div>RSA File Encryption Component</div>
+                <RSAFileEncryptComponent />
               )}
               {/* Add more file encryption components for other algorithms */}
             </div>
