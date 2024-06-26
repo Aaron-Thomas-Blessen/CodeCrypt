@@ -1,65 +1,68 @@
 import React, { useState } from "react";
-import crypto from "crypto";
 
-function RSAFileDecryptComponent() {
-  const [selectedEncryptedFile, setSelectedEncryptedFile] = useState(null);
-  const [decryptedFile, setDecryptedFile] = useState(null);
+function RSADecryptComponent() {
+  const [encryptedFile, setEncryptedFile] = useState(null);
   const [privateKey, setPrivateKey] = useState("");
+  const [decryptedFile, setDecryptedFile] = useState(null);
 
   const handleFileChange = (e) => {
-    setSelectedEncryptedFile(e.target.files[0]);
+    setEncryptedFile(e.target.files[0]);
   };
 
   const handlePrivateKeyChange = (e) => {
     setPrivateKey(e.target.value);
   };
 
-  const decryptFile = async () => {
-    if (!selectedEncryptedFile || !privateKey) {
-      alert("Please select an encrypted file and enter your private key.");
+  const base64ToArrayBuffer = (base64) => {
+    const binaryString = atob(base64);
+    const bytes = new Uint8Array(binaryString.length);
+    for (let i = 0; i < binaryString.length; i++) {
+      bytes[i] = binaryString.charCodeAt(i);
+    }
+    return bytes.buffer;
+  };
+
+  const handleDecryptButtonClick = async () => {
+    if (!encryptedFile) {
+      alert("Please select an encrypted file first.");
       return;
     }
 
-    const reader = new FileReader();
-    reader.onload = async () => {
-      const encryptedData = new Uint8Array(reader.result);
+    try {
+      const privateKeyData = base64ToArrayBuffer(privateKey);
 
-      try {
-        const privateKeyObj = crypto.createPrivateKey({
-          key: privateKey,
-          format: "pem",
-          type: "pkcs8",
-        });
+      const importedKey = await window.crypto.subtle.importKey(
+        "pkcs8",
+        privateKeyData,
+        {
+          name: "RSA-OAEP",
+          hash: { name: "SHA-256" },
+        },
+        false,
+        ["decrypt"]
+      );
 
-        const decryptedData = crypto.privateDecrypt(
+      const fileReader = new FileReader();
+      fileReader.onload = async (event) => {
+        const encryptedBuffer = event.target.result;
+
+        const decryptedBuffer = await window.crypto.subtle.decrypt(
           {
-            key: privateKeyObj,
-            padding: crypto.constants.RSA_PKCS1_OAEP_PADDING,
+            name: "RSA-OAEP",
           },
-          encryptedData
+          importedKey,
+          encryptedBuffer
         );
 
-        const decryptedBlob = new Blob([decryptedData]);
-        setDecryptedFile(decryptedBlob);
-      } catch (error) {
-        console.error("Decryption Error:", error);
-        alert("Decryption failed. Check your private key or encrypted file.");
-      }
-    };
+        const blob = new Blob([new Uint8Array(decryptedBuffer)], {
+          type: "application/octet-stream",
+        });
+        setDecryptedFile(blob);
+      };
 
-    reader.readAsArrayBuffer(selectedEncryptedFile);
-  };
-
-  const downloadDecryptedFile = () => {
-    if (decryptedFile) {
-      const url = URL.createObjectURL(decryptedFile);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "decrypted-file";
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
+      fileReader.readAsArrayBuffer(encryptedFile);
+    } catch (error) {
+      console.error("Decryption Error:", error);
     }
   };
 
@@ -68,33 +71,35 @@ function RSAFileDecryptComponent() {
       <input
         type="file"
         onChange={handleFileChange}
-        className="p-2 mb-4 border rounded-md w-full"
+        className="p-2 mb-4 border rounded-md w-full bg-gray-800 text-white"
       />
-      <input
-        type="text"
+      <textarea
         value={privateKey}
+        rows={10}
         onChange={handlePrivateKeyChange}
-        placeholder="Enter your private key"
-        className="p-2 mb-4 border rounded-md w-full"
+        placeholder="Enter private key here..."
+        className="p-2 mb-4 border rounded-md w-full bg-gray-800 text-white"
       />
       <button
-        onClick={decryptFile}
+        onClick={handleDecryptButtonClick}
         className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
       >
         Decrypt File
       </button>
       {decryptedFile && (
         <div className="mt-4">
-          <button
-            onClick={downloadDecryptedFile}
+          <label className="block font-semibold mb-2">Decrypted File:</label>
+          <a
+            href={URL.createObjectURL(decryptedFile)}
+            download="decrypted_file"
             className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
           >
             Download Decrypted File
-          </button>
+          </a>
         </div>
       )}
     </div>
   );
 }
 
-export default RSAFileDecryptComponent;
+export default RSADecryptComponent;
