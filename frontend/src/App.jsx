@@ -16,6 +16,9 @@ import Decrypt from "./pages/Decrypt";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 
+import Encryptfile from "./components/file/encryptfile";
+import Decryptfile from "./components/file/decryptfile";
+
 const App = () => {
   return (
     <BrowserRouter>
@@ -32,6 +35,9 @@ const App = () => {
 
           <Route path="/signin" element={<SignIn />}></Route>
           <Route path="/signup" element={<SignUp />}></Route>
+
+          <Route path="/encryptfile" element={<Encryptfile />}></Route>
+          <Route path="/decryptfile" element={<Decryptfile />}></Route>
         </Routes>
       </AuthProvider>
     </BrowserRouter>
