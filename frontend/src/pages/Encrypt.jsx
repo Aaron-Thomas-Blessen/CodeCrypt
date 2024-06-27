@@ -11,6 +11,8 @@ import RSAFileEncryptComponent from "../components/file/RSAFileEncryptComponent"
 import AESEncryptAudio from "../components/audio/AESEncryptAudio";
 import RSAEncryptAudio from "../components/audio/RSAEncryptAudio";
 
+import AESEncryptImage from "../components/image/AESEncryptImage";
+
 import VideoEncryption from "../components/video/AESEncryptVideo";
 
 function EncryptComponent() {
@@ -58,6 +60,14 @@ function EncryptComponent() {
               } text-white rounded-md hover:bg-blue-600`}
             >
               Audio Encryption
+            </button>
+            <button
+              onClick={() => handleTypeSelection("image")}
+              className={`px-6 py-3 ${
+                encryptionType === "video" ? "bg-blue-500" : "bg-gray-700"
+              } text-white rounded-md hover:bg-blue-600`}
+            >
+              Image Encryption
             </button>
             <button
               onClick={() => handleTypeSelection("video")}
@@ -164,6 +174,20 @@ function EncryptComponent() {
                   {/* Add more audio encryption algorithms if needed */}
                 </>
               )}
+              {encryptionType === "image" && (
+                <>
+                  <button
+                    onClick={() => handleAlgorithmSelection("aes")}
+                    className={`px-6 py-3 ${
+                      encryptionAlgorithm === "aes"
+                        ? "bg-blue-500"
+                        : "bg-gray-700"
+                    } text-white rounded-md hover:bg-blue-600`}
+                  >
+                    AES
+                  </button>
+                </>
+              )}
               {encryptionType === "video" && (
                 <>
                   <button
@@ -205,6 +229,9 @@ function EncryptComponent() {
               )}
               {encryptionType === "audio" && encryptionAlgorithm === "rsa" && (
                 <RSAEncryptAudio />
+              )}
+              {encryptionType === "image" && encryptionAlgorithm === "aes" && (
+                <AESEncryptImage />
               )}
               {encryptionType === "video" && encryptionAlgorithm === "aes" && (
                 <VideoEncryption />
