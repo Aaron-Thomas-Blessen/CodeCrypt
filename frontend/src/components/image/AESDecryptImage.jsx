@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 
-function DESDecryptVideo() {
+function AESDecryptImage() {
   const [encryptedFile, setEncryptedFile] = useState(null);
-  const [desKeyBase64, setDesKeyBase64] = useState("");
+  const [aesKeyBase64, setAesKeyBase64] = useState("");
   const [decryptedFile, setDecryptedFile] = useState(null);
 
   const handleFileChange = (e) => {
     setEncryptedFile(e.target.files[0]);
   };
 
-  const handleDesKeyChange = (e) => {
-    setDesKeyBase64(e.target.value);
+  const handleAesKeyChange = (e) => {
+    setAesKeyBase64(e.target.value);
   };
 
   const base64ToArrayBuffer = (base64) => {
@@ -24,18 +24,18 @@ function DESDecryptVideo() {
 
   const handleDecryptButtonClick = async () => {
     if (!encryptedFile) {
-      alert("Please select an encrypted video file first.");
+      alert("Please select an encrypted image file first.");
       return;
     }
 
     try {
-      const desKeyData = base64ToArrayBuffer(desKeyBase64);
+      const aesKeyData = base64ToArrayBuffer(aesKeyBase64);
 
       const importedKey = await window.crypto.subtle.importKey(
         "raw",
-        desKeyData,
+        aesKeyData,
         {
-          name: "AES-CBC",
+          name: "AES-GCM",
         },
         false,
         ["decrypt"]
@@ -46,15 +46,15 @@ function DESDecryptVideo() {
         const combinedBuffer = new Uint8Array(event.target.result);
 
         // Extract IV
-        const iv = combinedBuffer.slice(0, 16);
+        const iv = combinedBuffer.slice(0, 12);
 
         // Extract encrypted file data
-        const encryptedData = combinedBuffer.slice(16);
+        const encryptedData = combinedBuffer.slice(12);
 
-        // Decrypt the file data using 3DES
+        // Decrypt the file data using AES
         const decryptedBuffer = await window.crypto.subtle.decrypt(
           {
-            name: "AES-CBC",
+            name: "AES-GCM",
             iv: iv,
           },
           importedKey,
@@ -62,7 +62,7 @@ function DESDecryptVideo() {
         );
 
         const blob = new Blob([new Uint8Array(decryptedBuffer)], {
-          type: "video/mp4",
+          type: "image/png", // Change to the correct MIME type for your images
         });
         setDecryptedFile(blob);
       };
@@ -77,14 +77,14 @@ function DESDecryptVideo() {
     <div className="w-full max-w-lg">
       <input
         type="file"
-        accept="video/*"
+        accept="image/*"
         onChange={handleFileChange}
         className="p-2 mb-4 border rounded-md w-full bg-gray-800 text-white"
       />
       <textarea
-        value={desKeyBase64}
+        value={aesKeyBase64}
         rows={4}
-        onChange={handleDesKeyChange}
+        onChange={handleAesKeyChange}
         placeholder="Enter AES key here..."
         className="p-2 mb-4 border rounded-md w-full bg-gray-800 text-white"
       />
@@ -92,19 +92,19 @@ function DESDecryptVideo() {
         onClick={handleDecryptButtonClick}
         className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
       >
-        Decrypt Video File
+        Decrypt Image File
       </button>
       {decryptedFile && (
         <div className="mt-4">
           <label className="block font-semibold mb-2">
-            Decrypted Video File:
+            Decrypted Image File:
           </label>
           <a
             href={URL.createObjectURL(decryptedFile)}
-            download="decrypted_video"
+            download="decrypted_image"
             className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
           >
-            Download Decrypted Video
+            Download Decrypted Image
           </a>
         </div>
       )}
@@ -112,4 +112,4 @@ function DESDecryptVideo() {
   );
 }
 
-export default DESDecryptVideo;
+export default AESDecryptImage;

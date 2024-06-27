@@ -12,6 +12,8 @@ import RSAFileDecryptComponent from "../components/file/RSAFileDecryptComponent"
 import AESDecryptAudio from "../components/audio/AESDecryptAudio";
 import RSADecryptAudio from "../components/audio/RSADecryptAudio";
 
+import AESDecryptImage from "../components/image/AESDecryptImage";
+
 import VideoDecryption from "../components/video/AESDecryptVideo";
 
 function DecryptComponent() {
@@ -59,6 +61,14 @@ function DecryptComponent() {
               } text-white rounded-md hover:bg-blue-600`}
             >
               Audio Decryption
+            </button>
+            <button
+              onClick={() => handleTypeSelection("image")}
+              className={`px-6 py-3 ${
+                decryptionType === "video" ? "bg-blue-500" : "bg-gray-700"
+              } text-white rounded-md hover:bg-blue-600`}
+            >
+              Image Decryption
             </button>
             <button
               onClick={() => handleTypeSelection("video")}
@@ -163,6 +173,20 @@ function DecryptComponent() {
                   </button>
                 </>
               )}
+              {decryptionType === "image" && (
+                <>
+                  <button
+                    onClick={() => handleAlgorithmSelection("aes")}
+                    className={`px-6 py-3 ${
+                      decryptionAlgorithm === "aes"
+                        ? "bg-blue-500"
+                        : "bg-gray-700"
+                    } text-white rounded-md hover:bg-blue-600`}
+                  >
+                    AES
+                  </button>
+                </>
+              )}
               {decryptionType === "video" && (
                 <>
                   <button
@@ -206,6 +230,9 @@ function DecryptComponent() {
               )}
               {decryptionType === "audio" && decryptionAlgorithm === "rsa" && (
                 <RSADecryptAudio />
+              )}
+              {decryptionType === "image" && decryptionAlgorithm === "aes" && (
+                <AESDecryptImage />
               )}
               {decryptionType === "video" && decryptionAlgorithm === "aes" && (
                 <VideoDecryption />
