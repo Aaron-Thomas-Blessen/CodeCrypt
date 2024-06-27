@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 
-function DESDecryptVideo() {
+function AESDecryptVideo() {
   const [encryptedFile, setEncryptedFile] = useState(null);
-  const [desKeyBase64, setDesKeyBase64] = useState("");
+  const [aesKeyBase64, setAesKeyBase64] = useState("");
   const [decryptedFile, setDecryptedFile] = useState(null);
 
   const handleFileChange = (e) => {
     setEncryptedFile(e.target.files[0]);
   };
 
-  const handleDesKeyChange = (e) => {
-    setDesKeyBase64(e.target.value);
+  const handleAesKeyChange = (e) => {
+    setAesKeyBase64(e.target.value);
   };
 
   const base64ToArrayBuffer = (base64) => {
@@ -29,13 +29,13 @@ function DESDecryptVideo() {
     }
 
     try {
-      const desKeyData = base64ToArrayBuffer(desKeyBase64);
+      const aesKeyData = base64ToArrayBuffer(aesKeyBase64);
 
       const importedKey = await window.crypto.subtle.importKey(
         "raw",
-        desKeyData,
+        aesKeyData,
         {
-          name: "AES-CBC",
+          name: "AES-GCM",
         },
         false,
         ["decrypt"]
@@ -46,15 +46,15 @@ function DESDecryptVideo() {
         const combinedBuffer = new Uint8Array(event.target.result);
 
         // Extract IV
-        const iv = combinedBuffer.slice(0, 16);
+        const iv = combinedBuffer.slice(0, 12);
 
         // Extract encrypted file data
-        const encryptedData = combinedBuffer.slice(16);
+        const encryptedData = combinedBuffer.slice(12);
 
-        // Decrypt the file data using 3DES
+        // Decrypt the file data using AES
         const decryptedBuffer = await window.crypto.subtle.decrypt(
           {
-            name: "AES-CBC",
+            name: "AES-GCM",
             iv: iv,
           },
           importedKey,
@@ -82,9 +82,9 @@ function DESDecryptVideo() {
         className="p-2 mb-4 border rounded-md w-full bg-gray-800 text-white"
       />
       <textarea
-        value={desKeyBase64}
+        value={aesKeyBase64}
         rows={4}
-        onChange={handleDesKeyChange}
+        onChange={handleAesKeyChange}
         placeholder="Enter AES key here..."
         className="p-2 mb-4 border rounded-md w-full bg-gray-800 text-white"
       />
@@ -112,4 +112,4 @@ function DESDecryptVideo() {
   );
 }
 
-export default DESDecryptVideo;
+export default AESDecryptVideo;

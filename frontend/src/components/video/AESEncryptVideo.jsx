@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 
-function DESEncryptVideo() {
+function AESEncryptVideo() {
   const [file, setFile] = useState(null);
   const [encryptedFile, setEncryptedFile] = useState(null);
-  const [desKeyBase64, setDesKeyBase64] = useState("");
+  const [aesKeyBase64, setAesKeyBase64] = useState("");
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -16,10 +16,10 @@ function DESEncryptVideo() {
     }
 
     try {
-      // Generate 3DES key
-      const desKey = await window.crypto.subtle.generateKey(
+      // Generate AES key
+      const aesKey = await window.crypto.subtle.generateKey(
         {
-          name: "AES-CBC",
+          name: "AES-GCM",
           length: 256,
         },
         true,
@@ -30,21 +30,21 @@ function DESEncryptVideo() {
       fileReader.onload = async (event) => {
         const arrayBuffer = event.target.result;
 
-        // Encrypt the file data using 3DES
-        const iv = window.crypto.getRandomValues(new Uint8Array(16)); // Initialization vector
+        // Encrypt the file data using AES
+        const iv = window.crypto.getRandomValues(new Uint8Array(12)); // Initialization vector
         const encryptedBuffer = await window.crypto.subtle.encrypt(
           {
-            name: "AES-CBC",
+            name: "AES-GCM",
             iv: iv,
           },
-          desKey,
+          aesKey,
           arrayBuffer
         );
 
-        // Export the 3DES key
-        const desKeyData = await window.crypto.subtle.exportKey("raw", desKey);
-        const desKeyBase64 = btoa(
-          String.fromCharCode.apply(null, new Uint8Array(desKeyData))
+        // Export the AES key
+        const aesKeyData = await window.crypto.subtle.exportKey("raw", aesKey);
+        const aesKeyBase64 = btoa(
+          String.fromCharCode.apply(null, new Uint8Array(aesKeyData))
         );
 
         // Combine IV and encrypted file data
@@ -58,7 +58,7 @@ function DESEncryptVideo() {
           type: "application/octet-stream",
         });
         setEncryptedFile(blob);
-        setDesKeyBase64(desKeyBase64);
+        setAesKeyBase64(aesKeyBase64);
       };
 
       fileReader.readAsArrayBuffer(file);
@@ -95,17 +95,17 @@ function DESEncryptVideo() {
           </a>
         </div>
       )}
-      {desKeyBase64 && (
+      {aesKeyBase64 && (
         <div className="mt-4">
           <label className="block font-semibold mb-2">AES Key:</label>
           <textarea
-            value={desKeyBase64}
+            value={aesKeyBase64}
             readOnly
             rows={4}
             className="p-2 w-full border rounded-md bg-gray-800 text-white mb-2"
           />
           <button
-            onClick={() => navigator.clipboard.writeText(desKeyBase64)}
+            onClick={() => navigator.clipboard.writeText(aesKeyBase64)}
             className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
           >
             Copy AES Key
@@ -116,4 +116,4 @@ function DESEncryptVideo() {
   );
 }
 
-export default DESEncryptVideo;
+export default AESEncryptVideo;

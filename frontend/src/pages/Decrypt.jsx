@@ -12,6 +12,8 @@ import RSAFileDecryptComponent from "../components/file/RSAFileDecryptComponent"
 import AESDecryptAudio from "../components/audio/AESDecryptAudio";
 import RSADecryptAudio from "../components/audio/RSADecryptAudio";
 
+import VideoDecryption from "../components/video/VideoDecryption";
+
 function DecryptComponent() {
   const [decryptionType, setDecryptionType] = useState(null); // null means no decryption type selected
   const [decryptionAlgorithm, setDecryptionAlgorithm] = useState(null); // null means no specific algorithm selected

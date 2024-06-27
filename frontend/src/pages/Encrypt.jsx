@@ -10,6 +10,10 @@ import FileAESComponent from "../components/file/FileAESComponent";
 import RSAFileEncryptComponent from "../components/file/RSAFileEncryptComponent";
 import AESEncryptAudio from "../components/audio/AESEncryptAudio";
 import RSAEncryptAudio from "../components/audio/RSAEncryptAudio";
+
+import VideoEncryption from "../components/video/VideoEncryption";
+
+
 function EncryptComponent() {
   const [encryptionType, setEncryptionType] = useState(null); // null means neither text nor file encryption selected
   const [encryptionAlgorithm, setEncryptionAlgorithm] = useState(null); // null means no specific algorithm selected
@@ -173,17 +177,7 @@ function EncryptComponent() {
                   >
                     AES
                   </button>
-                  <button
-                    onClick={() => handleAlgorithmSelection("rsa")}
-                    className={`px-6 py-3 ${
-                      encryptionAlgorithm === "rsa"
-                        ? "bg-blue-500"
-                        : "bg-gray-700"
-                    } text-white rounded-md hover:bg-blue-600`}
-                  >
-                    RSA
-                  </button>
-                  {/* Add more video encryption algorithms if needed */}
+                  
                 </>
               )}
             </div>
