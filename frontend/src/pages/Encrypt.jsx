@@ -11,8 +11,7 @@ import RSAFileEncryptComponent from "../components/file/RSAFileEncryptComponent"
 import AESEncryptAudio from "../components/audio/AESEncryptAudio";
 import RSAEncryptAudio from "../components/audio/RSAEncryptAudio";
 
-import VideoEncryption from "../components/video/VideoEncryption";
-
+import VideoEncryption from "../components/video/AESEncryptVideo";
 
 function EncryptComponent() {
   const [encryptionType, setEncryptionType] = useState(null); // null means neither text nor file encryption selected
@@ -177,7 +176,6 @@ function EncryptComponent() {
                   >
                     AES
                   </button>
-                  
                 </>
               )}
             </div>
@@ -208,12 +206,9 @@ function EncryptComponent() {
               {encryptionType === "audio" && encryptionAlgorithm === "rsa" && (
                 <RSAEncryptAudio />
               )}
-              {/* {encryptionType === "video" && encryptionAlgorithm === "aes" && (
-                <VideoAESComponent />
+              {encryptionType === "video" && encryptionAlgorithm === "aes" && (
+                <VideoEncryption />
               )}
-              {encryptionType === "video" && encryptionAlgorithm === "rsa" && (
-                <RSAVideoEncryptComponent />
-              )} */}
             </div>
           )}
         </div>
