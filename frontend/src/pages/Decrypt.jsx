@@ -9,6 +9,9 @@ import sharedClasses from "../styles/sharedClasses";
 import FileAESDecryptComponent from "../components/file/FileAESDecryptComponent";
 import RSAFileDecryptComponent from "../components/file/RSAFileDecryptComponent";
 
+import AESDecryptAudio from "../components/audio/AESDecryptAudio";
+import RSADecryptAudio from "../components/audio/RSADecryptAudio";
+
 function DecryptComponent() {
   const [decryptionType, setDecryptionType] = useState(null); // null means no decryption type selected
   const [decryptionAlgorithm, setDecryptionAlgorithm] = useState(null); // null means no specific algorithm selected
@@ -46,6 +49,22 @@ function DecryptComponent() {
               } text-white rounded-md hover:bg-blue-600`}
             >
               File Decryption
+            </button>
+            <button
+              onClick={() => handleTypeSelection("audio")}
+              className={`px-6 py-3 ${
+                decryptionType === "audio" ? "bg-blue-500" : "bg-gray-700"
+              } text-white rounded-md hover:bg-blue-600`}
+            >
+              Audio Decryption
+            </button>
+            <button
+              onClick={() => handleTypeSelection("video")}
+              className={`px-6 py-3 ${
+                decryptionType === "video" ? "bg-blue-500" : "bg-gray-700"
+              } text-white rounded-md hover:bg-blue-600`}
+            >
+              Video Decryption
             </button>
           </div>
           {decryptionType && (
@@ -116,7 +135,54 @@ function DecryptComponent() {
                   >
                     RSA (File)
                   </button>
-
+                </>
+              )}
+              {decryptionType === "audio" && (
+                <>
+                  <button
+                    onClick={() => handleAlgorithmSelection("aes")}
+                    className={`px-6 py-3 ${
+                      decryptionAlgorithm === "aes"
+                        ? "bg-blue-500"
+                        : "bg-gray-700"
+                    } text-white rounded-md hover:bg-blue-600`}
+                  >
+                    AES
+                  </button>
+                  <button
+                    onClick={() => handleAlgorithmSelection("rsa")}
+                    className={`px-6 py-3 ${
+                      decryptionAlgorithm === "rsa"
+                        ? "bg-blue-500"
+                        : "bg-gray-700"
+                    } text-white rounded-md hover:bg-blue-600`}
+                  >
+                    RSA
+                  </button>
+                </>
+              )}
+              {decryptionType === "video" && (
+                <>
+                  <button
+                    onClick={() => handleAlgorithmSelection("aes")}
+                    className={`px-6 py-3 ${
+                      decryptionAlgorithm === "aes"
+                        ? "bg-blue-500"
+                        : "bg-gray-700"
+                    } text-white rounded-md hover:bg-blue-600`}
+                  >
+                    AES
+                  </button>
+                  <button
+                    onClick={() => handleAlgorithmSelection("rsa")}
+                    className={`px-6 py-3 ${
+                      decryptionAlgorithm === "rsa"
+                        ? "bg-blue-500"
+                        : "bg-gray-700"
+                    } text-white rounded-md hover:bg-blue-600`}
+                  >
+                    RSA
+                  </button>
                 </>
               )}
             </div>
@@ -143,6 +209,18 @@ function DecryptComponent() {
                 decryptionAlgorithm === "fileRsa" && (
                   <RSAFileDecryptComponent />
                 )}
+              {decryptionType === "audio" && decryptionAlgorithm === "aes" && (
+                <AESDecryptAudio />
+              )}
+              {decryptionType === "audio" && decryptionAlgorithm === "rsa" && (
+                <RSADecryptAudio />
+              )}
+              {/* {decryptionType === "video" && decryptionAlgorithm === "aes" && (
+                <VideoAESDecryptComponent />
+              )}
+              {decryptionType === "video" && decryptionAlgorithm === "rsa" && (
+                <RSAVideoDecryptComponent />
+              )} */}
             </div>
           )}
         </div>

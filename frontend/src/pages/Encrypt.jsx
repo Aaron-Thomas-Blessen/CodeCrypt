@@ -8,7 +8,8 @@ import sharedClasses from "../styles/sharedClasses";
 
 import FileAESComponent from "../components/file/FileAESComponent";
 import RSAFileEncryptComponent from "../components/file/RSAFileEncryptComponent";
-
+import AESEncryptAudio from "../components/audio/AESEncryptAudio";
+import RSAEncryptAudio from "../components/audio/RSAEncryptAudio";
 function EncryptComponent() {
   const [encryptionType, setEncryptionType] = useState(null); // null means neither text nor file encryption selected
   const [encryptionAlgorithm, setEncryptionAlgorithm] = useState(null); // null means no specific algorithm selected
@@ -46,6 +47,22 @@ function EncryptComponent() {
               } text-white rounded-md hover:bg-blue-600`}
             >
               File Encryption
+            </button>
+            <button
+              onClick={() => handleTypeSelection("audio")}
+              className={`px-6 py-3 ${
+                encryptionType === "audio" ? "bg-blue-500" : "bg-gray-700"
+              } text-white rounded-md hover:bg-blue-600`}
+            >
+              Audio Encryption
+            </button>
+            <button
+              onClick={() => handleTypeSelection("video")}
+              className={`px-6 py-3 ${
+                encryptionType === "video" ? "bg-blue-500" : "bg-gray-700"
+              } text-white rounded-md hover:bg-blue-600`}
+            >
+              Video Encryption
             </button>
           </div>
           {encryptionType && (
@@ -119,6 +136,56 @@ function EncryptComponent() {
                   {/* Add more file encryption algorithms if needed */}
                 </>
               )}
+              {encryptionType === "audio" && (
+                <>
+                  <button
+                    onClick={() => handleAlgorithmSelection("aes")}
+                    className={`px-6 py-3 ${
+                      encryptionAlgorithm === "aes"
+                        ? "bg-blue-500"
+                        : "bg-gray-700"
+                    } text-white rounded-md hover:bg-blue-600`}
+                  >
+                    AES
+                  </button>
+                  <button
+                    onClick={() => handleAlgorithmSelection("rsa")}
+                    className={`px-6 py-3 ${
+                      encryptionAlgorithm === "rsa"
+                        ? "bg-blue-500"
+                        : "bg-gray-700"
+                    } text-white rounded-md hover:bg-blue-600`}
+                  >
+                    RSA
+                  </button>
+                  {/* Add more audio encryption algorithms if needed */}
+                </>
+              )}
+              {encryptionType === "video" && (
+                <>
+                  <button
+                    onClick={() => handleAlgorithmSelection("aes")}
+                    className={`px-6 py-3 ${
+                      encryptionAlgorithm === "aes"
+                        ? "bg-blue-500"
+                        : "bg-gray-700"
+                    } text-white rounded-md hover:bg-blue-600`}
+                  >
+                    AES
+                  </button>
+                  <button
+                    onClick={() => handleAlgorithmSelection("rsa")}
+                    className={`px-6 py-3 ${
+                      encryptionAlgorithm === "rsa"
+                        ? "bg-blue-500"
+                        : "bg-gray-700"
+                    } text-white rounded-md hover:bg-blue-600`}
+                  >
+                    RSA
+                  </button>
+                  {/* Add more video encryption algorithms if needed */}
+                </>
+              )}
             </div>
           )}
           {encryptionType && encryptionAlgorithm && (
@@ -141,6 +208,18 @@ function EncryptComponent() {
               {encryptionType === "file" && encryptionAlgorithm === "rsa" && (
                 <RSAFileEncryptComponent />
               )}
+              {encryptionType === "audio" && encryptionAlgorithm === "aes" && (
+                <AESEncryptAudio />
+              )}
+              {encryptionType === "audio" && encryptionAlgorithm === "rsa" && (
+                <RSAEncryptAudio />
+              )}
+              {/* {encryptionType === "video" && encryptionAlgorithm === "aes" && (
+                <VideoAESComponent />
+              )}
+              {encryptionType === "video" && encryptionAlgorithm === "rsa" && (
+                <RSAVideoEncryptComponent />
+              )} */}
             </div>
           )}
         </div>
