@@ -12,6 +12,8 @@ import RSAFileDecryptComponent from "../components/file/RSAFileDecryptComponent"
 import AESDecryptAudio from "../components/audio/AESDecryptAudio";
 import RSADecryptAudio from "../components/audio/RSADecryptAudio";
 
+import VideoDecryption from "../components/video/AESDecryptVideo";
+
 function DecryptComponent() {
   const [decryptionType, setDecryptionType] = useState(null); // null means no decryption type selected
   const [decryptionAlgorithm, setDecryptionAlgorithm] = useState(null); // null means no specific algorithm selected
@@ -173,16 +175,6 @@ function DecryptComponent() {
                   >
                     AES
                   </button>
-                  <button
-                    onClick={() => handleAlgorithmSelection("rsa")}
-                    className={`px-6 py-3 ${
-                      decryptionAlgorithm === "rsa"
-                        ? "bg-blue-500"
-                        : "bg-gray-700"
-                    } text-white rounded-md hover:bg-blue-600`}
-                  >
-                    RSA
-                  </button>
                 </>
               )}
             </div>
@@ -215,12 +207,9 @@ function DecryptComponent() {
               {decryptionType === "audio" && decryptionAlgorithm === "rsa" && (
                 <RSADecryptAudio />
               )}
-              {/* {decryptionType === "video" && decryptionAlgorithm === "aes" && (
-                <VideoAESDecryptComponent />
+              {decryptionType === "video" && decryptionAlgorithm === "aes" && (
+                <VideoDecryption />
               )}
-              {decryptionType === "video" && decryptionAlgorithm === "rsa" && (
-                <RSAVideoDecryptComponent />
-              )} */}
             </div>
           )}
         </div>
