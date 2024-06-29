@@ -5,6 +5,8 @@ function DSAEncryptComponent() {
   const [signature, setSignature] = useState("");
   const [publicKey, setPublicKey] = useState("");
   const [privateKey, setPrivateKey] = useState(null);
+  const [keyGenerated, setKeyGenerated] = useState(false);
+  const [messageSigned, setMessageSigned] = useState(false);
 
   useEffect(() => {
     // Generate key pair when the component mounts
@@ -27,6 +29,7 @@ function DSAEncryptComponent() {
       );
       setPublicKey(publicKeyBase64);
       setPrivateKey(keyPair.privateKey);
+      setKeyGenerated(true);
     };
 
     generateKeyPair();
@@ -54,6 +57,38 @@ function DSAEncryptComponent() {
     setSignature(
       window.btoa(String.fromCharCode(...new Uint8Array(signatureArrayBuffer)))
     );
+    setMessageSigned(true);
+  };
+
+  const handleCopyToClipboard = (text) => {
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(
+        () => {
+          console.log("Text copied to clipboard successfully!");
+        },
+        (err) => {
+          console.error("Failed to copy text: ", err);
+        }
+      );
+    } else {
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      textArea.style.position = "fixed"; // Prevent scrolling to bottom of page in MS Edge.
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        const successful = document.execCommand("copy");
+        if (successful) {
+          console.log("Text copied to clipboard successfully!");
+        } else {
+          console.error("Failed to copy text.");
+        }
+      } catch (err) {
+        console.error("Failed to copy text: ", err);
+      }
+      document.body.removeChild(textArea);
+    }
   };
 
   return (
@@ -81,14 +116,14 @@ function DSAEncryptComponent() {
             className="p-2 w-full border rounded-md bg-gray-800 text-white mb-2"
           />
           <button
-            onClick={() => navigator.clipboard.writeText(signature)}
+            onClick={() => handleCopyToClipboard(signature)}
             className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
           >
             Copy Signature
           </button>
         </div>
       )}
-      {publicKey && (
+      {messageSigned && (
         <div className="mt-4">
           <label className="block font-semibold mb-2">Public Key:</label>
           <textarea
@@ -98,7 +133,7 @@ function DSAEncryptComponent() {
             className="p-2 w-full border rounded-md bg-gray-800 text-white mb-2"
           />
           <button
-            onClick={() => navigator.clipboard.writeText(publicKey)}
+            onClick={() => handleCopyToClipboard(publicKey)}
             className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
           >
             Copy Public Key
