@@ -10,9 +10,7 @@ import FileAESComponent from "../components/file/FileAESComponent";
 import RSAFileEncryptComponent from "../components/file/RSAFileEncryptComponent";
 import AESEncryptAudio from "../components/audio/AESEncryptAudio";
 import RSAEncryptAudio from "../components/audio/RSAEncryptAudio";
-
 import AESEncryptImage from "../components/image/AESEncryptImage";
-
 import VideoEncryption from "../components/video/AESEncryptVideo";
 
 function EncryptComponent() {
@@ -64,7 +62,7 @@ function EncryptComponent() {
             <button
               onClick={() => handleTypeSelection("image")}
               className={`px-6 py-3 ${
-                encryptionType === "video" ? "bg-blue-500" : "bg-gray-700"
+                encryptionType === "image" ? "bg-blue-500" : "bg-gray-700"
               } text-white rounded-md hover:bg-blue-600`}
             >
               Image Encryption

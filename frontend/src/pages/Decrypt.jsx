@@ -65,7 +65,7 @@ function DecryptComponent() {
             <button
               onClick={() => handleTypeSelection("image")}
               className={`px-6 py-3 ${
-                decryptionType === "video" ? "bg-blue-500" : "bg-gray-700"
+                decryptionType === "image" ? "bg-blue-500" : "bg-gray-700"
               } text-white rounded-md hover:bg-blue-600`}
             >
               Image Decryption
