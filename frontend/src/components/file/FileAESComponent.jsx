@@ -54,10 +54,12 @@ function App() {
   };
 
   return (
-    <div className="w-full max-w-lg mx-auto mt-10">
-      <div className="mb-6">
-        <h2 className="text-xl font-bold mb-4">Encrypt File</h2>
-        <input type="file" onChange={handleFileChange} className="mb-4" />
+    <div className="w-full max-w-lg">
+      <input
+        type="file"
+        onChange={handleFileChange}
+        className="p-2 mb-4 border rounded-md w-full bg-gray-800 text-white"
+      />
         <button
           onClick={encryptFile}
           className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
@@ -75,7 +77,6 @@ function App() {
             </a>
           </div>
         )}
-      </div>
 
       {key && (
         <div className="mt-4">

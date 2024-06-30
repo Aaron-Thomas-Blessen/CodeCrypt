@@ -8,7 +8,7 @@ const StudyRSA = () => {
       <h1 className="text-3xl font-bold mb-2">
         Introduction and Key Generation
       </h1>
-      <div className="bg-grey-800 p-6 mt-4 rounded-md">
+      <div className="bg-green-800 p-6 mt-4 rounded-md">
         <h1 className="text-xl font-bold mb-2">Introduction</h1>
         <p>
           <strong>RSA (Rivest–Shamir–Adleman)</strong> is an asymmetric

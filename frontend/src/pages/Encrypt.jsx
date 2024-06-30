@@ -27,96 +27,93 @@ function EncryptComponent() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-black text-white">
+    <div className="flex flex-col min-h-screen bg-black text-white ">
       <Navbar />
-      <div className={`${sharedClasses.container} flex-grow pt-0`}>
-        <div className="container mx-auto px-1 py-2 mt-0">
+      <div className={`${sharedClasses.container} shadow-2xl bg-gradient-to-r from-gray-800 via-slate-900 to-gray-900 p-8 rounded-lg`}>
+        <div className="container mx-auto max-w-4xl p-6 md:p-8 bg-gray-900 rounded-md border border-gray-700">
           <h1 className="text-3xl font-bold text-center dark:text-zinc-100">
             Encryption
           </h1>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
-            <button
-              onClick={() => handleTypeSelection("text")}
-              className={`px-6 py-3 ${
-                encryptionType === "text" ? "bg-blue-500" : "bg-gray-700"
-              } text-white rounded-md hover:bg-blue-600`}
-            >
+          <div className="bg-gradient-to-r from-gray-800 to-gray-900 p-6 rounded-lg shadow-md mt-6">
+            <div className="flex items-center justify-center"> 
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <button
+                onClick={() => handleTypeSelection("text")}
+                className={`px-8 py-4 text-xl font-bold text-white bg-gradient-to-r from-blue-gray-700 to-teal-800 rounded-md shadow-md
+                            hover:scale-105 hover:shadow-lg transition-all duration-300
+                            ${encryptionType === "text" ? "border-4 border-blue-300" : ""} flex items-center justify-center`}
+              >
               Text Encryption
             </button>
             <button
-              onClick={() => handleTypeSelection("file")}
-              className={`px-6 py-3 ${
-                encryptionType === "file" ? "bg-blue-500" : "bg-gray-700"
-              } text-white rounded-md hover:bg-blue-600`}
-            >
+                onClick={() => handleTypeSelection("file")}
+                className={`px-8 py-4 text-xl font-bold text-white bg-gradient-to-r from-blue-gray-700 to-teal-800 rounded-md shadow-md
+                            hover:scale-105 hover:shadow-lg transition-all duration-300
+                            ${encryptionType === "file" ? "border-4 border-blue-300" : ""} flex items-center justify-center`}
+              >
               File Encryption
             </button>
             <button
-              onClick={() => handleTypeSelection("audio")}
-              className={`px-6 py-3 ${
-                encryptionType === "audio" ? "bg-blue-500" : "bg-gray-700"
-              } text-white rounded-md hover:bg-blue-600`}
-            >
+                onClick={() => handleTypeSelection("audio")}
+                className={`px-8 py-4 text-xl font-bold text-white bg-gradient-to-r from-blue-gray-700 to-teal-800 rounded-md shadow-md
+                            hover:scale-105 hover:shadow-lg transition-all duration-300
+                            ${encryptionType === "audio" ? "border-4 border-blue-300" : ""} flex items-center justify-center`}
+              >
               Audio Encryption
             </button>
             <button
-              onClick={() => handleTypeSelection("image")}
-              className={`px-6 py-3 ${
-                encryptionType === "image" ? "bg-blue-500" : "bg-gray-700"
-              } text-white rounded-md hover:bg-blue-600`}
-            >
+                onClick={() => handleTypeSelection("image")}
+                className={`px-8 py-4 text-xl font-bold text-white bg-gradient-to-r from-blue-gray-700 to-teal-800 rounded-md shadow-md
+                            hover:scale-105 hover:shadow-lg transition-all duration-300
+                            ${encryptionType === "image" ? "border-4 border-blue-300" : ""} flex items-center justify-center`}
+              >
               Image Encryption
             </button>
             <button
-              onClick={() => handleTypeSelection("video")}
-              className={`px-6 py-3 ${
-                encryptionType === "video" ? "bg-blue-500" : "bg-gray-700"
-              } text-white rounded-md hover:bg-blue-600`}
-            >
+                onClick={() => handleTypeSelection("video")}
+                className={`px-8 py-4 text-xl font-bold text-white bg-gradient-to-r from-blue-gray-700 to-teal-800 rounded-md shadow-md
+                            hover:scale-105 hover:shadow-lg transition-all duration-300
+                            ${encryptionType === "video" ? "border-4 border-blue-300" : ""} flex items-center justify-center`}
+              >
               Video Encryption
             </button>
+              </div>
+            </div>
           </div>
           {encryptionType && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
+            <div className="bg-gradient-to-r from-gray-800 to-gray-900 p-6 rounded-lg shadow-md mt-6">
+              <div className="flex items-center justify-center flex-wrap gap-4">  
               {encryptionType === "text" && (
                 <>
                   <button
-                    onClick={() => handleAlgorithmSelection("aes")}
-                    className={`px-6 py-3 ${
-                      encryptionAlgorithm === "aes"
-                        ? "bg-blue-500"
-                        : "bg-gray-700"
-                    } text-white rounded-md hover:bg-blue-600`}
+                onClick={() => handleAlgorithmSelection("aes")}
+                className={`px-8 py-4 text-l font-bold text-white bg-gradient-to-r from-blue-gray-700 to-teal-800 rounded-md shadow-md
+                            hover:scale-105 hover:shadow-lg transition-all duration-300
+                            ${encryptionAlgorithm === "aes" ? "border-4 border-blue-300" : ""} flex items-center justify-center`}
                   >
                     AES
                   </button>
                   <button
-                    onClick={() => handleAlgorithmSelection("rsa")}
-                    className={`px-6 py-3 ${
-                      encryptionAlgorithm === "rsa"
-                        ? "bg-blue-500"
-                        : "bg-gray-700"
-                    } text-white rounded-md hover:bg-blue-600`}
+                onClick={() => handleAlgorithmSelection("rsa")}
+                className={`px-8 py-4 text-l font-bold text-white bg-gradient-to-r from-blue-gray-700 to-teal-800 rounded-md shadow-md
+                            hover:scale-105 hover:shadow-lg transition-all duration-300
+                            ${encryptionAlgorithm === "rsa" ? "border-4 border-blue-300" : ""} flex items-center justify-center`}
                   >
                     RSA
                   </button>
                   <button
-                    onClick={() => handleAlgorithmSelection("dsa")}
-                    className={`px-6 py-3 ${
-                      encryptionAlgorithm === "dsa"
-                        ? "bg-blue-500"
-                        : "bg-gray-700"
-                    } text-white rounded-md hover:bg-blue-600`}
+                onClick={() => handleAlgorithmSelection("dsa")}
+                className={`px-8 py-4 text-l font-bold text-white bg-gradient-to-r from-blue-gray-700 to-teal-800 rounded-md shadow-md
+                            hover:scale-105 hover:shadow-lg transition-all duration-300
+                            ${encryptionAlgorithm === "dsa" ? "border-4 border-blue-300" : ""} flex items-center justify-center`}
                   >
-                    DSA
+                    DES
                   </button>
                   <button
-                    onClick={() => handleAlgorithmSelection("sha")}
-                    className={`px-6 py-3 ${
-                      encryptionAlgorithm === "sha"
-                        ? "bg-blue-500"
-                        : "bg-gray-700"
-                    } text-white rounded-md hover:bg-blue-600`}
+                onClick={() => handleAlgorithmSelection("sha")}
+                className={`px-8 py-4 text-l font-bold text-white bg-gradient-to-r from-blue-gray-700 to-teal-800 rounded-md shadow-md
+                            hover:scale-105 hover:shadow-lg transition-all duration-300
+                            ${encryptionAlgorithm === "sha" ? "border-4 border-blue-300" : ""} flex items-center justify-center`}
                   >
                     SHA
                   </button>
@@ -125,22 +122,18 @@ function EncryptComponent() {
               {encryptionType === "file" && (
                 <>
                   <button
-                    onClick={() => handleAlgorithmSelection("aes")}
-                    className={`px-6 py-3 ${
-                      encryptionAlgorithm === "aes"
-                        ? "bg-blue-500"
-                        : "bg-gray-700"
-                    } text-white rounded-md hover:bg-blue-600`}
+                onClick={() => handleAlgorithmSelection("aes")}
+                className={`px-8 py-4 text-l font-bold text-white bg-gradient-to-r from-blue-gray-700 to-teal-800 rounded-md shadow-md
+                            hover:scale-105 hover:shadow-lg transition-all duration-300
+                            ${encryptionAlgorithm === "aes" ? "border-4 border-blue-300" : ""} flex items-center justify-center`}
                   >
                     AES
                   </button>
                   <button
-                    onClick={() => handleAlgorithmSelection("rsa")}
-                    className={`px-6 py-3 ${
-                      encryptionAlgorithm === "rsa"
-                        ? "bg-blue-500"
-                        : "bg-gray-700"
-                    } text-white rounded-md hover:bg-blue-600`}
+                onClick={() => handleAlgorithmSelection("rsa")}
+                className={`px-8 py-4 text-l font-bold text-white bg-gradient-to-r from-blue-gray-700 to-teal-800 rounded-md shadow-md
+                            hover:scale-105 hover:shadow-lg transition-all duration-300
+                            ${encryptionAlgorithm === "rsa" ? "border-4 border-blue-300" : ""} flex items-center justify-center`}
                   >
                     RSA
                   </button>
@@ -150,22 +143,18 @@ function EncryptComponent() {
               {encryptionType === "audio" && (
                 <>
                   <button
-                    onClick={() => handleAlgorithmSelection("aes")}
-                    className={`px-6 py-3 ${
-                      encryptionAlgorithm === "aes"
-                        ? "bg-blue-500"
-                        : "bg-gray-700"
-                    } text-white rounded-md hover:bg-blue-600`}
+                onClick={() => handleAlgorithmSelection("aes")}
+                className={`px-8 py-4 text-l font-bold text-white bg-gradient-to-r from-blue-gray-700 to-teal-800 rounded-md shadow-md
+                            hover:scale-105 hover:shadow-lg transition-all duration-300
+                            ${encryptionAlgorithm === "aes" ? "border-4 border-blue-300" : ""} flex items-center justify-center`}
                   >
                     AES
                   </button>
                   <button
-                    onClick={() => handleAlgorithmSelection("rsa")}
-                    className={`px-6 py-3 ${
-                      encryptionAlgorithm === "rsa"
-                        ? "bg-blue-500"
-                        : "bg-gray-700"
-                    } text-white rounded-md hover:bg-blue-600`}
+                onClick={() => handleAlgorithmSelection("rsa")}
+                className={`px-8 py-4 text-l font-bold text-white bg-gradient-to-r from-blue-gray-700 to-teal-800 rounded-md shadow-md
+                            hover:scale-105 hover:shadow-lg transition-all duration-300
+                            ${encryptionAlgorithm === "rsa" ? "border-4 border-blue-300" : ""} flex items-center justify-center`}
                   >
                     RSA
                   </button>
@@ -175,12 +164,10 @@ function EncryptComponent() {
               {encryptionType === "image" && (
                 <>
                   <button
-                    onClick={() => handleAlgorithmSelection("aes")}
-                    className={`px-6 py-3 ${
-                      encryptionAlgorithm === "aes"
-                        ? "bg-blue-500"
-                        : "bg-gray-700"
-                    } text-white rounded-md hover:bg-blue-600`}
+                onClick={() => handleAlgorithmSelection("aes")}
+                className={`px-8 py-4 text-l font-bold text-white bg-gradient-to-r from-blue-gray-700 to-teal-800 rounded-md shadow-md
+                            hover:scale-105 hover:shadow-lg transition-all duration-300
+                            ${encryptionAlgorithm === "aes" ? "border-4 border-blue-300" : ""} flex items-center justify-center`}
                   >
                     AES
                   </button>
@@ -189,21 +176,21 @@ function EncryptComponent() {
               {encryptionType === "video" && (
                 <>
                   <button
-                    onClick={() => handleAlgorithmSelection("aes")}
-                    className={`px-6 py-3 ${
-                      encryptionAlgorithm === "aes"
-                        ? "bg-blue-500"
-                        : "bg-gray-700"
-                    } text-white rounded-md hover:bg-blue-600`}
+                onClick={() => handleAlgorithmSelection("aes")}
+                className={`px-8 py-4 text-l font-bold text-white bg-gradient-to-r from-blue-gray-700 to-teal-800 rounded-md shadow-md
+                            hover:scale-105 hover:shadow-lg transition-all duration-300
+                            ${encryptionAlgorithm === "aes" ? "border-4 border-blue-300" : ""} flex items-center justify-center`}
                   >
                     AES
                   </button>
                 </>
               )}
-            </div>
+                </div>
+              </div>
           )}
           {encryptionType && encryptionAlgorithm && (
-            <div className="mt-8">
+            <div className="bg-gradient-to-r from-gray-800 to-gray-900 p-6 rounded-lg shadow-md mt-8">
+              <div className="mt-8 flex items-center justify-center"> 
               {encryptionType === "text" && encryptionAlgorithm === "aes" && (
                 <AESComponent />
               )}
@@ -234,6 +221,7 @@ function EncryptComponent() {
               {encryptionType === "video" && encryptionAlgorithm === "aes" && (
                 <VideoEncryption />
               )}
+              </div>
             </div>
           )}
         </div>
