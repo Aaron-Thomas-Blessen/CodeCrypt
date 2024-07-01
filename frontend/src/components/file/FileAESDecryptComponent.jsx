@@ -58,23 +58,25 @@ function App() {
   };
 
   return (
-    <div className="w-full max-w-lg mx-auto mt-10">
-      <div className="mb-6">
-        <h2 className="text-xl font-bold mb-4">Decrypt File</h2>
-        <input type="file" onChange={handleFileChange} className="mb-4" />
+    <div className="w-full max-w-lg">
+    <input
+      type="file"
+      onChange={handleFileChange}
+      className="p-2 mb-4 border rounded-md w-full bg-gray-800 text-white"
+    />
         <input
           type="text"
           value={key}
           onChange={handleKeyChange}
           placeholder="Enter key here..."
-          className="p-2 mb-4 border rounded-md w-full"
+          className="p-2 mb-4 border rounded-md w-full bg-gray-800 text-white"
         />
         <input
           type="text"
           value={iv}
           onChange={handleIvChange}
           placeholder="Enter IV here..."
-          className="p-2 mb-4 border rounded-md w-full"
+           className="p-2 mb-4 border rounded-md w-full bg-gray-800 text-white"
         />
         <button
           onClick={decryptFile}
@@ -94,7 +96,6 @@ function App() {
           </div>
         )}
       </div>
-    </div>
   );
 }
 
