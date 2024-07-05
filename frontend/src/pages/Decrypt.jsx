@@ -15,6 +15,7 @@ import RSADecryptAudio from "../components/audio/RSADecryptAudio";
 import AESDecryptImage from "../components/image/AESDecryptImage";
 
 import VideoDecryption from "../components/video/AESDecryptVideo";
+import { useActionData } from "react-router-dom";
 
 function DecryptComponent() {
   const [decryptionType, setDecryptionType] = useState(null); // null means no decryption type selected
