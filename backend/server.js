@@ -2,19 +2,24 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const { exec } = require("child_process");
+const multer = require("multer");
+const path = require("path");
 const crypto = require("crypto");
 
 const app = express();
 const port = 5000;
 
+const upload = multer({ dest: "uploads/" });
+
 app.use(cors());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
   res.send("Server is running");
 });
 
-// AES encryption and decryption
+// AES text encryption and decryption
 app.post("/encrypt/aes", (req, res) => {
   const { text } = req.body;
   exec(`./aes encrypt "${text}"`, (error, stdout, stderr) => {
@@ -46,7 +51,40 @@ app.post("/decrypt/aes", (req, res) => {
   );
 });
 
-// RSA encryption and decryption
+// AES file encryption and decryption
+app.post("/encrypt/aes/file", upload.single("file"), (req, res) => {
+  const { path: filePath } = req.file;
+  exec(`./aes encryptfile "${filePath}"`, (error, stdout, stderr) => {
+    if (error) {
+      return res.status(500).json({ error: stderr });
+    }
+
+    const output = stdout.trim().split("\n");
+    const encryptedFilePath = output[0];
+    const key = output[1];
+    const iv = output[2];
+
+    res.json({ encryptedFilePath, key, iv });
+  });
+});
+
+app.post("/decrypt/aes/file", upload.single("file"), (req, res) => {
+  const { key, iv } = req.body;
+  const { path: filePath } = req.file;
+  exec(
+    `./aes decryptfile "${filePath}" "${key}" "${iv}"`,
+    (error, stdout, stderr) => {
+      if (error) {
+        return res.status(500).json({ error: stderr });
+      }
+
+      const decryptedFilePath = stdout.trim();
+      res.json({ decryptedFilePath });
+    }
+  );
+});
+
+// RSA text encryption and decryption
 app.post("/encrypt/rsa", (req, res) => {
   const { text } = req.body;
   exec(`./rsa encrypt "${text}"`, (error, stdout, stderr) => {
@@ -78,6 +116,183 @@ app.post("/decrypt/rsa", (req, res) => {
 
       const decryptedText = stdout.trim();
       res.json({ decryptedText });
+    }
+  );
+});
+
+// RSA file encryption and decryption
+app.post("/encrypt/rsa/file", upload.single("file"), (req, res) => {
+  const { path: filePath } = req.file;
+  exec(`./rsa encryptfile "${filePath}"`, (error, stdout, stderr) => {
+    if (error) {
+      return res.status(500).json({ error: stderr });
+    }
+
+    const output = stdout.trim().split("\n");
+    const encryptedFilePath = output[0];
+    const publicKey = output
+      .slice(1, output.indexOf("-----END PUBLIC KEY-----") + 1)
+      .join("\n");
+    const privateKey = output
+      .slice(output.indexOf("-----BEGIN RSA PRIVATE KEY-----"))
+      .join("\n");
+
+    res.json({ encryptedFilePath, publicKey, privateKey });
+  });
+});
+
+app.post("/decrypt/rsa/file", upload.single("file"), (req, res) => {
+  const { privateKey } = req.body;
+  const { path: filePath } = req.file;
+  exec(
+    `./rsa decryptfile "${filePath}" "${privateKey}"`,
+    (error, stdout, stderr) => {
+      if (error) {
+        return res.status(500).json({ error: stderr });
+      }
+
+      const decryptedFilePath = stdout.trim();
+      res.json({ decryptedFilePath });
+    }
+  );
+});
+
+// AES audio encryption and decryption
+app.post("/encrypt/aes/audio", upload.single("file"), (req, res) => {
+  const { path: filePath } = req.file;
+  exec(`./aes encryptfile "${filePath}"`, (error, stdout, stderr) => {
+    if (error) {
+      return res.status(500).json({ error: stderr });
+    }
+
+    const output = stdout.trim().split("\n");
+    const encryptedFilePath = output[0];
+    const key = output[1];
+    const iv = output[2];
+
+    res.json({ encryptedFilePath, key, iv });
+  });
+});
+
+app.post("/decrypt/aes/audio", upload.single("file"), (req, res) => {
+  const { key, iv } = req.body;
+  const { path: filePath } = req.file;
+  exec(
+    `./aes decryptfile "${filePath}" "${key}" "${iv}"`,
+    (error, stdout, stderr) => {
+      if (error) {
+        return res.status(500).json({ error: stderr });
+      }
+
+      const decryptedFilePath = stdout.trim();
+      res.json({ decryptedFilePath });
+    }
+  );
+});
+
+// RSA audio encryption and decryption
+app.post("/encrypt/rsa/audio", upload.single("file"), (req, res) => {
+  const { path: filePath } = req.file;
+  exec(`./rsa encryptfile "${filePath}"`, (error, stdout, stderr) => {
+    if (error) {
+      return res.status(500).json({ error: stderr });
+    }
+
+    const output = stdout.trim().split("\n");
+    const encryptedFilePath = output[0];
+    const publicKey = output
+      .slice(1, output.indexOf("-----END PUBLIC KEY-----") + 1)
+      .join("\n");
+    const privateKey = output
+      .slice(output.indexOf("-----BEGIN RSA PRIVATE KEY-----"))
+      .join("\n");
+
+    res.json({ encryptedFilePath, publicKey, privateKey });
+  });
+});
+
+app.post("/decrypt/rsa/audio", upload.single("file"), (req, res) => {
+  const { privateKey } = req.body;
+  const { path: filePath } = req.file;
+  exec(
+    `./rsa decryptfile "${filePath}" "${privateKey}"`,
+    (error, stdout, stderr) => {
+      if (error) {
+        return res.status(500).json({ error: stderr });
+      }
+
+      const decryptedFilePath = stdout.trim();
+      res.json({ decryptedFilePath });
+    }
+  );
+});
+
+// AES image encryption and decryption
+app.post("/encrypt/aes/image", upload.single("file"), (req, res) => {
+  const { path: filePath } = req.file;
+  exec(`./aes encryptfile "${filePath}"`, (error, stdout, stderr) => {
+    if (error) {
+      return res.status(500).json({ error: stderr });
+    }
+
+    const output = stdout.trim().split("\n");
+    const encryptedFilePath = output[0];
+    const key = output[1];
+    const iv = output[2];
+
+    res.json({ encryptedFilePath, key, iv });
+  });
+});
+
+app.post("/decrypt/aes/image", upload.single("file"), (req, res) => {
+  const { key, iv } = req.body;
+  const { path: filePath } = req.file;
+  exec(
+    `./aes decryptfile "${filePath}" "${key}" "${iv}"`,
+    (error, stdout, stderr) => {
+      if (error) {
+        return res.status(500).json({ error: stderr });
+      }
+
+      const decryptedFilePath = stdout.trim();
+      res.json({ decryptedFilePath });
+    }
+  );
+});
+
+// RSA image encryption and decryption
+app.post("/encrypt/rsa/image", upload.single("file"), (req, res) => {
+  const { path: filePath } = req.file;
+  exec(`./rsa encryptfile "${filePath}"`, (error, stdout, stderr) => {
+    if (error) {
+      return res.status(500).json({ error: stderr });
+    }
+
+    const output = stdout.trim().split("\n");
+    const encryptedFilePath = output[0];
+    const publicKey = output
+      .slice(1, output.indexOf("-----END PUBLIC KEY-----") + 1)
+      .join("\n");
+    const privateKey = output
+      .slice(output.indexOf("-----BEGIN RSA PRIVATE KEY-----"))
+      .join("\n");
+
+    res.json({ encryptedFilePath, publicKey, privateKey });
+  });
+});
+
+app.post("/decrypt/rsa/image", upload.single("file"), (req, res) => {
+  const { privateKey } = req.body;
+  const { path: filePath } = req.file;
+  exec(
+    `./rsa decryptfile "${filePath}" "${privateKey}"`,
+    (error, stdout, stderr) => {
+      if (error) {
+        return res.status(500).json({ error: stderr });
+      }
+
+      const decryptedFilePath = stdout.trim();
+      res.json({ decryptedFilePath });
     }
   );
 });
