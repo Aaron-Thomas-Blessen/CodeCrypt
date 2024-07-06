@@ -17,12 +17,19 @@ This README provides an overview of the features, usage instructions, and contac
 
 CodeCrypt offers several convenient options for exploring cryptography:
 
-1. **Algorithm Implementation:** Experiment with implementations of various cryptographic algorithms like RSA, AES, DES, and SHA using mbedTLS/OpenSSL.
-2. **Interactive Encryption/Decryption:** Input text or data, select an encryption method, view the encrypted result, and decrypt it back to the original text or data.
-3. **Key Generation and Management:** Simulate cryptographic key generation, exchange, and management.
-4. **User-Friendly Interface:** Enjoy an intuitive and user-friendly interface built with Vite and React.
-5. **Educational Content:** Access interactive tutorials and educational content on fundamental security concepts like public/private keys, symmetric/asymmetric encryption, key derivation functions, digital signatures, and hash functions.
-6. **User Interaction:** Experiment with different algorithms, key sizes, and encryption parameters.
+1. **Algorithm Implementation:** Experiment with implementations of various cryptographic algorithms like RSA, AES, DES, and SHA using OpenSSL and c as backend.
+
+2. **Interactive Encryption/Decryption:** Input data and select an encryption method, view the encrypted result, and decrypt it back to the original data.
+
+3. **Different Data Types:** Experiment with Encryption, Decryption and key generation of text, file, audio, image and video files.
+   
+4. **Key Generation and Management:** Simulate cryptographic key generation, exchange, and management.
+   
+5. **User-Friendly Interface:** Enjoy an intuitive and user-friendly interface built with Vite and React.
+   
+6. **Educational Content:** Access interactive tutorials and educational content on fundamental security concepts like public/private keys, symmetric/asymmetric encryption, key derivation functions, digital signatures, and hash functions.
+
+7. **User Interaction:** Experiment with different algorithms and different data types.
 
 ## Getting Started
 
