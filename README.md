@@ -1,7 +1,13 @@
 
-# CODECRYPT - The Ultimate Cryptography Simulation with OpenSSL
+# CODECRYPT - The Ultimate Cryptography Simulation Tool with OpenSSL
 
-Welcome to our Cryptography Simulation project! Our tool allows you to effortlessly explore and experiment with various cryptographic techniques. Whether you want to understand encryption and decryption, generate cryptographic keys, or delve into different algorithms, CodeCrypt has you covered.
+![Your Image Description](https://drive.google.com/uc?id=1AaUX_aB_QV9QRvU1AmK5MdY_JN6qU-ST)
+
+[Website](https://codecrypt-b591f.web.app/) 
+
+[Demo Video]()
+
+Welcome to our Cryptography Simulation project! Our tool allows you to effortlessly explore and experiment with various cryptographic techniques and thoroughly study them. Whether you want to understand encryption and decryption or delve into different algorithms, CodeCrypt has you covered.
 
 ## Introduction
 
