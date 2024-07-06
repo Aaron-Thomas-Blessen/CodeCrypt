@@ -8,4 +8,3 @@ const sharedClasses = {
   };
   
   export default sharedClasses;
-  

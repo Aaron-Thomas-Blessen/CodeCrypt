@@ -1,11 +1,10 @@
-// src/components/AESDecryptComponent.jsx
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 function AESDecryptComponent() {
-  const [encryptedText, setEncryptedText] = useState('');
-  const [key, setKey] = useState('');
-  const [iv, setIv] = useState('');
-  const [decryptedText, setDecryptedText] = useState('');
+  const [encryptedText, setEncryptedText] = useState("");
+  const [key, setKey] = useState("");
+  const [iv, setIv] = useState("");
+  const [decryptedText, setDecryptedText] = useState("");
 
   const handleEncryptedTextChange = (e) => {
     setEncryptedText(e.target.value);
@@ -19,17 +18,39 @@ function AESDecryptComponent() {
     setIv(e.target.value);
   };
 
-  const handleDecryptButtonClick = () => {
-    fetch('http://localhost:5000/decrypt/aes', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ encryptedText, key, iv }),
-    })
-    .then(response => response.json())
-    .then(data => {
-      setDecryptedText(data.decryptedText);
-    })
-    .catch(error => console.error('Error:', error));
+  const hexToBytes = (hex) =>
+    new Uint8Array(hex.match(/.{1,2}/g).map((byte) => parseInt(byte, 16)));
+
+  const handleDecryptButtonClick = async () => {
+    try {
+      const keyData = hexToBytes(key);
+      const ivData = hexToBytes(iv);
+      const encryptedData = hexToBytes(encryptedText);
+
+      const importedKey = await window.crypto.subtle.importKey(
+        "raw",
+        keyData,
+        { name: "AES-CBC" },
+        false,
+        ["decrypt"]
+      );
+
+      const decryptedBuffer = await window.crypto.subtle.decrypt(
+        {
+          name: "AES-CBC",
+          iv: ivData,
+        },
+        importedKey,
+        encryptedData
+      );
+
+      const decoder = new TextDecoder();
+      const decryptedText = decoder.decode(decryptedBuffer);
+
+      setDecryptedText(decryptedText);
+    } catch (error) {
+      console.error("Decryption Error:", error);
+    }
   };
 
   return (
@@ -39,21 +60,21 @@ function AESDecryptComponent() {
         rows={4}
         onChange={handleEncryptedTextChange}
         placeholder="Enter encrypted text here..."
-        className="p-2 mb-4 border rounded-md w-full bg-gray-50"
+        className="p-2 mb-4 border rounded-md w-full bg-gray-800 text-white placeholder-gray-400"
       />
       <textarea
         value={key}
         rows={4}
         onChange={handleKeyChange}
         placeholder="Enter key here..."
-        className="p-2 mb-4 border rounded-md w-full bg-gray-50"
+        className="p-2 mb-4 border rounded-md w-full bg-gray-800 text-white placeholder-gray-400"
       />
       <textarea
         value={iv}
         rows={4}
         onChange={handleIvChange}
         placeholder="Enter IV here..."
-        className="p-2 mb-4 border rounded-md w-full bg-gray-50"
+        className="p-2 mb-4 border rounded-md w-full bg-gray-800 text-white placeholder-gray-400"
       />
       <button
         onClick={handleDecryptButtonClick}
@@ -68,7 +89,7 @@ function AESDecryptComponent() {
             value={decryptedText}
             readOnly
             rows={4}
-            className="p-2 w-full border rounded-md bg-gray-50 mb-2"
+            className="p-2 w-full border rounded-md bg-gray-800 text-white mb-2"
           />
           <button
             onClick={() => navigator.clipboard.writeText(decryptedText)}

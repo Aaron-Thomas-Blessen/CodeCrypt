@@ -1,16 +1,21 @@
 import React, { useState } from "react";
 
 function RSAComponent() {
-  const [inputText, setInputText] = useState("");
-  const [encryptedText, setEncryptedText] = useState("");
+  const [file, setFile] = useState(null);
+  const [encryptedFile, setEncryptedFile] = useState(null);
   const [publicKey, setPublicKey] = useState("");
   const [privateKey, setPrivateKey] = useState("");
 
-  const handleInputChange = (e) => {
-    setInputText(e.target.value);
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
   };
 
   const handleEncryptButtonClick = async () => {
+    if (!file) {
+      alert("Please select a file first.");
+      return;
+    }
+
     try {
       // Generate RSA key pair
       const keyPair = await window.crypto.subtle.generateKey(
@@ -24,44 +29,47 @@ function RSAComponent() {
         ["encrypt", "decrypt"]
       );
 
-      const encoder = new TextEncoder();
-      const data = encoder.encode(inputText);
+      const fileReader = new FileReader();
+      fileReader.onload = async (event) => {
+        const arrayBuffer = event.target.result;
 
-      // Encrypt the data
-      const encryptedBuffer = await window.crypto.subtle.encrypt(
-        {
-          name: "RSA-OAEP",
-        },
-        keyPair.publicKey,
-        data
-      );
+        // Encrypt the file data
+        const encryptedBuffer = await window.crypto.subtle.encrypt(
+          {
+            name: "RSA-OAEP",
+          },
+          keyPair.publicKey,
+          arrayBuffer
+        );
 
-      const encryptedArray = new Uint8Array(encryptedBuffer);
-      const encryptedHex = Array.prototype.map
-        .call(encryptedArray, (x) => ("00" + x.toString(16)).slice(-2))
-        .join("");
+        const blob = new Blob([new Uint8Array(encryptedBuffer)], {
+          type: "application/octet-stream",
+        });
+        setEncryptedFile(blob);
 
-      // Export the public key
-      const publicKeyData = await window.crypto.subtle.exportKey(
-        "spki",
-        keyPair.publicKey
-      );
-      const publicKeyBase64 = btoa(
-        String.fromCharCode.apply(null, new Uint8Array(publicKeyData))
-      );
+        // Export the public key
+        const publicKeyData = await window.crypto.subtle.exportKey(
+          "spki",
+          keyPair.publicKey
+        );
+        const publicKeyBase64 = btoa(
+          String.fromCharCode.apply(null, new Uint8Array(publicKeyData))
+        );
 
-      // Export the private key
-      const privateKeyData = await window.crypto.subtle.exportKey(
-        "pkcs8",
-        keyPair.privateKey
-      );
-      const privateKeyBase64 = btoa(
-        String.fromCharCode.apply(null, new Uint8Array(privateKeyData))
-      );
+        // Export the private key
+        const privateKeyData = await window.crypto.subtle.exportKey(
+          "pkcs8",
+          keyPair.privateKey
+        );
+        const privateKeyBase64 = btoa(
+          String.fromCharCode.apply(null, new Uint8Array(privateKeyData))
+        );
 
-      setEncryptedText(encryptedHex);
-      setPublicKey(publicKeyBase64);
-      setPrivateKey(privateKeyBase64);
+        setPublicKey(publicKeyBase64);
+        setPrivateKey(privateKeyBase64);
+      };
+
+      fileReader.readAsArrayBuffer(file);
     } catch (error) {
       console.error("Encryption Error:", error);
     }
@@ -70,33 +78,26 @@ function RSAComponent() {
   return (
     <div className="w-full max-w-lg">
       <input
-        type="text"
-        value={inputText}
-        onChange={handleInputChange}
-        placeholder="Enter text here..."
-        className="p-2 mb-4 border rounded-md w-full bg-gray-800 text-white placeholder-gray-400"
+        type="file"
+        onChange={handleFileChange}
+        className="p-2 mb-4 border rounded-md w-full bg-gray-800 text-white"
       />
       <button
         onClick={handleEncryptButtonClick}
         className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
       >
-        Encrypt Text
+        Encrypt File
       </button>
-      {encryptedText && (
+      {encryptedFile && (
         <div className="mt-4">
-          <label className="block font-semibold mb-2">Encrypted Text:</label>
-          <textarea
-            value={encryptedText}
-            readOnly
-            rows={4}
-            className="p-2 w-full border rounded-md bg-gray-800 text-white mb-2"
-          />
-          <button
-            onClick={() => navigator.clipboard.writeText(encryptedText)}
+          <label className="block font-semibold mb-2">Encrypted File:</label>
+          <a
+            href={URL.createObjectURL(encryptedFile)}
+            download="encrypted_file"
             className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
           >
-            Copy Encrypted Text
-          </button>
+            Download Encrypted File
+          </a>
         </div>
       )}
       {publicKey && (

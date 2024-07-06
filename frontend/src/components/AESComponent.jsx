@@ -1,29 +1,59 @@
-// src/components/AESComponent.jsx
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 function AESComponent() {
-  const [inputText, setInputText] = useState('');
-  const [encryptedText, setEncryptedText] = useState('');
-  const [key, setKey] = useState('');
-  const [iv, setIv] = useState('');
+  const [inputText, setInputText] = useState("");
+  const [encryptedText, setEncryptedText] = useState("");
+  const [key, setKey] = useState("");
+  const [iv, setIv] = useState("");
 
   const handleInputChange = (e) => {
     setInputText(e.target.value);
   };
 
-  const handleEncryptButtonClick = () => {
-    fetch('http://localhost:5000/encrypt/aes', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text: inputText }),
-    })
-    .then(response => response.json())
-    .then(data => {
-      setEncryptedText(data.encryptedText);
-      setKey(data.key);
-      setIv(data.iv);
-    })
-    .catch(error => console.error('Error:', error));
+  const handleEncryptButtonClick = async () => {
+    try {
+      const key = await window.crypto.subtle.generateKey(
+        {
+          name: "AES-CBC",
+          length: 256,
+        },
+        true,
+        ["encrypt", "decrypt"]
+      );
+
+      const encoder = new TextEncoder();
+      const data = encoder.encode(inputText);
+      const iv = window.crypto.getRandomValues(new Uint8Array(16));
+
+      const encryptedBuffer = await window.crypto.subtle.encrypt(
+        {
+          name: "AES-CBC",
+          iv: iv,
+        },
+        key,
+        data
+      );
+
+      const encryptedArray = new Uint8Array(encryptedBuffer);
+      const encryptedHex = Array.prototype.map
+        .call(encryptedArray, (x) => ("00" + x.toString(16)).slice(-2))
+        .join("");
+
+      const keyData = await window.crypto.subtle.exportKey("raw", key);
+      const keyHex = Array.prototype.map
+        .call(new Uint8Array(keyData), (x) => ("00" + x.toString(16)).slice(-2))
+        .join("");
+
+      setEncryptedText(encryptedHex);
+      setKey(keyHex);
+      setIv(
+        Array.prototype.map
+          .call(iv, (x) => ("00" + x.toString(16)).slice(-2))
+          .join("")
+      );
+    } catch (error) {
+      console.error("Encryption Error:", error);
+    }
   };
 
   return (
@@ -33,7 +63,7 @@ function AESComponent() {
         value={inputText}
         onChange={handleInputChange}
         placeholder="Enter text here..."
-        className="p-2 mb-4 border rounded-md w-full"
+        className="p-2 mb-4 border rounded-md w-full bg-gray-800 text-white placeholder-gray-400"
       />
       <button
         onClick={handleEncryptButtonClick}
@@ -48,7 +78,7 @@ function AESComponent() {
             value={encryptedText}
             readOnly
             rows={4}
-            className="p-2 w-full border rounded-md bg-gray-50 mb-2"
+            className="p-2 w-full border rounded-md bg-gray-800 text-white mb-2"
           />
           <button
             onClick={() => navigator.clipboard.writeText(encryptedText)}
@@ -65,7 +95,7 @@ function AESComponent() {
             value={key}
             readOnly
             rows={4}
-            className="p-2 w-full border rounded-md bg-gray-50 mb-2"
+            className="p-2 w-full border rounded-md bg-gray-800 text-white mb-2"
           />
           <button
             onClick={() => navigator.clipboard.writeText(key)}
@@ -82,7 +112,7 @@ function AESComponent() {
             value={iv}
             readOnly
             rows={4}
-            className="p-2 w-full border rounded-md bg-gray-50 mb-2"
+            className="p-2 w-full border rounded-md bg-gray-800 text-white mb-2"
           />
           <button
             onClick={() => navigator.clipboard.writeText(iv)}
