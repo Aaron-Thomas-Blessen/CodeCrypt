@@ -1,10 +1,40 @@
-import React from "react";
-import sharedClasses from "../styles/sharedClasses";
+import React, { useState } from "react";
 import CopyableInput from "../components/ci2";
+import ProgressButton from "../components/ProgressButton";
 
 const StudyRSA = () => {
+  const [progress, setProgress] = useState(0);
+  const [currentButton, setCurrentButton] = useState(0);
+
+  const updateProgress = (buttonIndex) => {
+    if (buttonIndex === currentButton) {
+      let newProgress = progress;
+      // Increment progress by 33% for each button click
+      newProgress = Math.min(progress + 33, 100);
+      setProgress(newProgress);
+      setCurrentButton(currentButton + 1);
+
+      // Ensure progress reaches 100% on the last button click
+      if (buttonIndex === 2) {
+        setProgress(100);
+        setCurrentButton(3);
+      }
+    }
+  };
+
   return (
     <div>
+       <div className="relative mt-4">
+        <div className="h-2 bg-gray-200 rounded-md overflow-hidden">
+          <div
+            className={`h-full ${progress === 100 ? 'bg-green-500' : 'bg-red-600'}`}
+            style={{ width: `${progress}%` }}
+          ></div>
+        </div>
+        <div className="absolute top-0 right-0 p-2 bg-gray-200 rounded-md">
+          <span className="text-s font-bold text-black">{progress}%</span>
+        </div>
+      </div>
       <h1 className="text-3xl font-bold mb-2">
         Introduction and Key Generation
       </h1>
@@ -91,6 +121,14 @@ const StudyRSA = () => {
           value={`import sympy\n\ndef generate_rsa_keys(p, q):\n    n = p * q\n    phi = (p - 1) * (q - 1)\n    e = sympy.randprime(1, phi)\n    d = pow(e, -1, phi)\n    return (e, n), (d, n)\n\np = 61\nq = 53\npublic_key, private_key = generate_rsa_keys(p, q)\nprint("Public Key:", public_key)\nprint("Private Key:", private_key)`}
         />
       </div>
+      <div className="mt-4 space-y-4 flex justify-end space-x-4">
+        <ProgressButton
+          onClick={() => updateProgress(0)}
+          progress={progress}
+          isCompleted={progress >= 33}
+          disabled={currentButton !== 0}
+        />
+      </div>
       <h1 className="text-3xl font-bold mb-2 mt-2">
         Encryption and Decryption
       </h1>
@@ -152,6 +190,14 @@ const StudyRSA = () => {
           value={`def rsa_encrypt(plaintext, public_key):\n    e, n = public_key\n    plaintext_int = [ord(char) for char in plaintext]\n    ciphertext = [pow(m, e, n) for m in plaintext_int]\n    return ciphertext\n\ndef rsa_decrypt(ciphertext, private_key):\n    d, n = private_key\n    decrypted_int = [pow(c, d, n) for c in ciphertext]\n    decrypted_text = ''.join([chr(m) for m in decrypted_int])\n    return decrypted_text\n\npublic_key = (17, 3233)\nprivate_key = (2753, 3233)\nplaintext = "HI"\nciphertext = rsa_encrypt(plaintext, public_key)\nprint("Ciphertext:", ciphertext)\ndecrypted_text = rsa_decrypt(ciphertext, private_key)\nprint("Decrypted Text:", decrypted_text)`}
         />
       </div>
+      <div className="mt-4 space-y-4 flex justify-end space-x-4">
+      <ProgressButton
+          onClick={() => updateProgress(1)}
+          progress={progress}
+          isCompleted={progress >= 66}
+          disabled={currentButton !== 1}
+        />
+        </div>
       <h2 className="text-3xl font-bold mb-2 mt-2">Related YouTube Videos</h2>
       <div className="bg-green-800 p-6 mt-4 rounded-md">
         <div className="mt-2">
@@ -219,6 +265,14 @@ const StudyRSA = () => {
           </div>
         </div>
       </div>
+      <div className="mt-4 space-y-4 flex justify-end space-x-4">
+      <ProgressButton
+          onClick={() => updateProgress(2)}
+          progress={progress}
+          isCompleted={progress === 100}
+          disabled={currentButton !== 2}
+        />
+        </div>
     </div>
   );
 };

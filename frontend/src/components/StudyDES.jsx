@@ -1,9 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
 import CopyableInput from "../components/ci2";
+import ProgressButton from "../components/ProgressButton";
 
 const StudyDES = () => {
+  const [progress, setProgress] = useState(0);
+  const [currentButton, setCurrentButton] = useState(0);
+
+  const updateProgress = (buttonIndex) => {
+    if (buttonIndex === currentButton) {
+      let newProgress = progress;
+      // Increment progress by 33% for each button click
+      newProgress = Math.min(progress + 33, 100);
+      setProgress(newProgress);
+      setCurrentButton(currentButton + 1);
+
+      // Ensure progress reaches 100% on the last button click
+      if (buttonIndex === 2) {
+        setProgress(100);
+        setCurrentButton(3);
+      }
+    }
+  };
+
   return (
     <div>
+      <div className="relative mt-4">
+        <div className="h-2 bg-gray-200 rounded-md overflow-hidden">
+          <div
+            className={`h-full ${progress === 100 ? 'bg-green-500' : 'bg-red-600'}`}
+            style={{ width: `${progress}%` }}
+          ></div>
+        </div>
+        <div className="absolute top-0 right-0 p-2 bg-gray-200 rounded-md">
+          <span className="text-s font-bold text-black">{progress}%</span>
+        </div>
+      </div>
       <h1 className="text-3xl font-bold mb-2">
         Introduction and Key Generation
       </h1>
@@ -55,6 +86,14 @@ const StudyDES = () => {
         </ul>
         <CopyableInput
           value={`from Crypto.Cipher import DES\n\ndef generate_des_subkeys(key):\n    des = DES.new(binascii.unhexlify(key), DES.MODE_ECB)\n    subkeys = des.key_schedule()\n    return [binascii.hexlify(k) for k in subkeys]\n\nkey = "133457799BBCDFF1"\nsubkeys = generate_des_subkeys(key)\nprint("Subkeys:", subkeys)`}
+        />
+      </div>
+      <div className="mt-4 space-y-4 flex justify-end space-x-4">
+        <ProgressButton
+          onClick={() => updateProgress(0)}
+          progress={progress}
+          isCompleted={progress >= 33}
+          disabled={currentButton !== 0}
         />
       </div>
       <h1 className="text-3xl font-bold mb-2 mt-2">
@@ -121,6 +160,14 @@ const StudyDES = () => {
           value={`def des_encrypt(plaintext, key):\n    des = DES.new(binascii.unhexlify(key), DES.MODE_ECB)\n    ciphertext = des.encrypt(binascii.unhexlify(plaintext))\n    return binascii.hexlify(ciphertext)\n\ndef des_decrypt(ciphertext, key):\n    des = DES.new(binascii.unhexlify(key), DES.MODE_ECB)\n    decrypted_text = des.decrypt(binascii.unhexlify(ciphertext))\n    return binascii.hexlify(decrypted_text)\n\nkey = "133457799BBCDFF1"\nplaintext = "0123456789ABCDEF"\nciphertext = des_encrypt(plaintext, key)\nprint("Ciphertext:", ciphertext)\ndecrypted_text = des_decrypt(ciphertext, key)\nprint("Decrypted Text:", decrypted_text)`}
         />
       </div>
+      <div className="mt-4 space-y-4 flex justify-end space-x-4">
+      <ProgressButton
+          onClick={() => updateProgress(1)}
+          progress={progress}
+          isCompleted={progress >= 66}
+          disabled={currentButton !== 1}
+        />
+        </div>
       <h2 className="text-3xl font-bold mb-2 mt-2">Related YouTube Videos</h2>
       <div className="bg-green-800 p-6 mt-4 rounded-md">
         <div className="mt-2">
@@ -188,6 +235,14 @@ const StudyDES = () => {
           </div>
         </div>
       </div>
+      <div className="mt-4 space-y-4 flex justify-end space-x-4">
+      <ProgressButton
+          onClick={() => updateProgress(2)}
+          progress={progress}
+          isCompleted={progress === 100}
+          disabled={currentButton !== 2}
+        />
+        </div>
     </div>
   );
 };

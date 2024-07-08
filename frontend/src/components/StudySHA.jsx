@@ -1,9 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import CopyableInput from "../components/ci2";
+import ProgressButton from "../components/ProgressButton";
 
 const StudySHA = () => {
+  const [progress, setProgress] = useState(0);
+  const [currentButton, setCurrentButton] = useState(0);
+
+  const updateProgress = (buttonIndex) => {
+    if (buttonIndex === currentButton) {
+      let newProgress = progress;
+      // Increment progress by 33% for each button click
+      newProgress = Math.min(progress + 33, 100);
+      setProgress(newProgress);
+      setCurrentButton(currentButton + 1);
+
+      // Ensure progress reaches 100% on the last button click
+      if (buttonIndex === 2) {
+        setProgress(100);
+        setCurrentButton(3);
+      }
+    }
+  };
   return (
     <>
+     <div className="relative mt-4">
+        <div className="h-2 bg-gray-200 rounded-md overflow-hidden">
+          <div
+            className={`h-full ${progress === 100 ? 'bg-green-500' : 'bg-red-600'}`}
+            style={{ width: `${progress}%` }}
+          ></div>
+        </div>
+        <div className="absolute top-0 right-0 p-2 bg-gray-200 rounded-md">
+          <span className="text-s font-bold text-black">{progress}%</span>
+        </div>
+      </div>
       <h1 className="text-3xl font-bold mb-2">
         Introduction and Message Preparation
       </h1>
@@ -52,6 +82,14 @@ const StudySHA = () => {
         </ul>
         <CopyableInput
           value={`import hashlib\n\ndef prepare_message(message):\n    original_length = len(message) * 8\n    message += b'\\x80'\n    while (len(message) * 8) % 512 != 448:\n        message += b'\\x00'\n    message += original_length.to_bytes(8, byteorder='big')\n    return message\n\nmessage = b"hello"\nprepared_message = prepare_message(message)\nprint("Prepared Message:", prepared_message)`}
+        />
+      </div>
+      <div className="mt-4 space-y-4 flex justify-end space-x-4">
+        <ProgressButton
+          onClick={() => updateProgress(0)}
+          progress={progress}
+          isCompleted={progress >= 33}
+          disabled={currentButton !== 0}
         />
       </div>
       <h1 className="text-3xl font-bold mb-2 mt-2">Hash Computation</h1>
@@ -114,6 +152,14 @@ const StudySHA = () => {
           value={`def compute_sha256(message):\n    sha256 = hashlib.sha256()\n    sha256.update(message)\n    return sha256.hexdigest()\n\nmessage = prepare_message(b"hello")\nhash_value = compute_sha256(message)\nprint("SHA-256 Hash:", hash_value)`}
         />
       </div>
+      <div className="mt-4 space-y-4 flex justify-end space-x-4">
+      <ProgressButton
+          onClick={() => updateProgress(1)}
+          progress={progress}
+          isCompleted={progress >= 66}
+          disabled={currentButton !== 1}
+        />
+        </div>
       <h2 className="text-3xl font-bold mb-2 mt-2">Related YouTube Videos</h2>
       <div className="bg-green-800 p-6 mt-4 rounded-md">
         <div className="mt-2">
@@ -182,6 +228,14 @@ const StudySHA = () => {
           </div>
         </div>
       </div>
+      <div className="mt-4 space-y-4 flex justify-end space-x-4">
+      <ProgressButton
+          onClick={() => updateProgress(2)}
+          progress={progress}
+          isCompleted={progress === 100}
+          disabled={currentButton !== 2}
+        />
+        </div>
     </>
   );
 };

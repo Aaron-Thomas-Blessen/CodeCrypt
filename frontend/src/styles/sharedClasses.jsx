@@ -5,6 +5,7 @@ const sharedClasses = {
     input: 'flex-1 p-2.5 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 rounded-md border border-zinc-300 dark:border-zinc-700',
     label: 'block text-sm font-medium text-zinc-700 dark:text-zinc-300',
     textarea: 'mt-1 block w-full p-2.5 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 rounded-md border border-zinc-300 dark:border-zinc-700 focus:ring-blue-500 focus:border-blue-500',
+    progressButtonDisabled: 'opacity-50 cursor-not-allowed',
   };
   
   export default sharedClasses;

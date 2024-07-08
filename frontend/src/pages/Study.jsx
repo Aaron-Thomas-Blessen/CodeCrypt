@@ -66,19 +66,18 @@ const Study = () => {
               {selectedAlgorithm === "AES" && <StudyAES />}
               {selectedAlgorithm === "DES" && <StudyDES />}
               {selectedAlgorithm === "SHA" && <StudySHA />}
-
-              <button
-                onClick={() => handleCompletion(selectedAlgorithm)}
-                className={`mt-4 px-4 py-2 rounded-md text-white ${
-                  completedAlgorithms.includes(selectedAlgorithm)
-                    ? "bg-green-500"
-                    : "bg-blue-500"
-                } hover:bg-blue-700`}
-              >
-                {completedAlgorithms.includes(selectedAlgorithm)
-                  ? "Completed"
-                  : "Mark as Completed"}
-              </button>
+                <button
+                  onClick={() => handleCompletion(selectedAlgorithm)}
+                  className={`mt-4 px-4 py-2 rounded-md text-white ${
+                    completedAlgorithms.includes(selectedAlgorithm)
+                      ? "bg-green-500"
+                      : "bg-blue-500"
+                  } hover:bg-blue-700`}
+                >
+                  {completedAlgorithms.includes(selectedAlgorithm)
+                    ? "Completed"
+                    : "Mark as Completed"}
+                </button>
             </div>
           )}
         </div>
