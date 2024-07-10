@@ -87,13 +87,14 @@ To start using Cryptic Canvas, simply follow these steps:
 - OpenSSL library
 - A C compiler (e.g., GCC)
 
-####OpenSSL
--Windows:
+###OpenSSL
+
+- Windows:
 1. Download from : [OpenSSL](https://www.openssl.org/source/)
 2. Extract the file
 3. Place the extracted openssl file in C:\Program Files
 
--Ubuntu/linux:
+- Ubuntu/linux:
 1. Open Terminal
 2. Update the Package Lists
    ```bash
