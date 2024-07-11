@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import CopyableInput from "../components/ci2";
 import ProgressButton from "../components/ProgressButton";
-import CircularProgress from "../components/CircularProgress";
 
 const StudyRSA = () => {
   const [progress, setProgress] = useState(0);
