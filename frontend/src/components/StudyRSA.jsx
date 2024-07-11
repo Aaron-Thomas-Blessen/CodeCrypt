@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import CopyableInput from "../components/ci2";
 import ProgressButton from "../components/ProgressButton";
+import CircularProgress from "../components/CircularProgress";
 
 const StudyRSA = () => {
   const [progress, setProgress] = useState(0);
@@ -14,7 +15,7 @@ const StudyRSA = () => {
       setProgress(newProgress);
       setCurrentButton(currentButton + 1);
 
-      // Ensure progress reaches 100% on the last button click
+    
       if (buttonIndex === 2) {
         setProgress(100);
         setCurrentButton(3);
