@@ -1,9 +1,12 @@
 import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
-function AESDecryptAudio() {
+function AESDecryptToAudio() {
   const [encryptedFile, setEncryptedFile] = useState(null);
   const [aesKeyBase64, setAesKeyBase64] = useState("");
   const [decryptedFile, setDecryptedFile] = useState(null);
+  const [decryptStatus, setDecryptStatus] = useState(false);
 
   const handleFileChange = (e) => {
     setEncryptedFile(e.target.files[0]);
@@ -24,7 +27,7 @@ function AESDecryptAudio() {
 
   const handleDecryptButtonClick = async () => {
     if (!encryptedFile) {
-      alert("Please select an encrypted audio file first.");
+      alert("Please select an encrypted file first.");
       return;
     }
 
@@ -61,10 +64,17 @@ function AESDecryptAudio() {
           encryptedData
         );
 
+        // Convert decrypted buffer to audio/mpeg blob
         const blob = new Blob([new Uint8Array(decryptedBuffer)], {
           type: "audio/mpeg",
         });
+
         setDecryptedFile(blob);
+        setDecryptStatus(true);
+
+        setTimeout(() => {
+          setDecryptStatus(false);
+        }, 2000); // Revert decrypt status after 2 seconds
       };
 
       fileReader.readAsArrayBuffer(encryptedFile);
@@ -77,7 +87,6 @@ function AESDecryptAudio() {
     <div className="w-full max-w-lg">
       <input
         type="file"
-        accept="audio/*"
         onChange={handleFileChange}
         className="p-2 mb-4 border rounded-md w-full bg-gray-800 text-white"
       />
@@ -90,9 +99,15 @@ function AESDecryptAudio() {
       />
       <button
         onClick={handleDecryptButtonClick}
-        className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+        className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 relative"
       >
-        Decrypt Audio File
+        {decryptStatus ? (
+          <>
+            Decrypted <FontAwesomeIcon icon={faCheck} className="ml-2" />
+          </>
+        ) : (
+          "Decrypt File"
+        )}
       </button>
       {decryptedFile && (
         <div className="mt-4">
@@ -112,4 +127,4 @@ function AESDecryptAudio() {
   );
 }
 
-export default AESDecryptAudio;
+export default AESDecryptToAudio;

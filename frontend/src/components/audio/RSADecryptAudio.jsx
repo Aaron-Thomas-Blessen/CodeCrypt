@@ -1,9 +1,12 @@
 import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
-function RSADecryptAudio() {
+function RSADecryptToAudio() {
   const [encryptedFile, setEncryptedFile] = useState(null);
   const [privateKey, setPrivateKey] = useState("");
   const [decryptedFile, setDecryptedFile] = useState(null);
+  const [decryptedStatus, setDecryptedStatus] = useState(false);
 
   const handleFileChange = (e) => {
     setEncryptedFile(e.target.files[0]);
@@ -24,7 +27,7 @@ function RSADecryptAudio() {
 
   const handleDecryptButtonClick = async () => {
     if (!encryptedFile) {
-      alert("Please select an encrypted audio file first.");
+      alert("Please select an encrypted file first.");
       return;
     }
 
@@ -85,10 +88,16 @@ function RSADecryptAudio() {
           encryptedData
         );
 
+        // Convert decrypted buffer to audio/mpeg blob
         const blob = new Blob([new Uint8Array(decryptedBuffer)], {
           type: "audio/mpeg",
         });
+
         setDecryptedFile(blob);
+        setDecryptedStatus(true);
+        setTimeout(() => {
+          setDecryptedStatus(false);
+        }, 3000); // Reset decrypted status after 3 seconds
       };
 
       fileReader.readAsArrayBuffer(encryptedFile);
@@ -101,7 +110,6 @@ function RSADecryptAudio() {
     <div className="w-full max-w-lg">
       <input
         type="file"
-        accept="audio/*"
         onChange={handleFileChange}
         className="p-2 mb-4 border rounded-md w-full bg-gray-800 text-white"
       />
@@ -114,9 +122,19 @@ function RSADecryptAudio() {
       />
       <button
         onClick={handleDecryptButtonClick}
-        className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+        className={`px-4 py-2 text-white rounded-md ${
+          decryptedStatus ? "bg-green-500" : "bg-blue-500 hover:bg-blue-600"
+        }`}
+        disabled={decryptedStatus}
       >
-        Decrypt Audio File
+        {decryptedStatus ? (
+          <>
+            <FontAwesomeIcon icon={faCheck} className="mr-2" />
+            Decrypted
+          </>
+        ) : (
+          "Decrypt File to Audio"
+        )}
       </button>
       {decryptedFile && (
         <div className="mt-4">
@@ -136,4 +154,4 @@ function RSADecryptAudio() {
   );
 }
 
-export default RSADecryptAudio;
+export default RSADecryptToAudio;
