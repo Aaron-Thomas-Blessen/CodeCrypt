@@ -5,6 +5,9 @@ function RSAEncryptAudio() {
   const [encryptedFile, setEncryptedFile] = useState(null);
   const [publicKey, setPublicKey] = useState("");
   const [privateKey, setPrivateKey] = useState("");
+  const [encryptStatus, setEncryptStatus] = useState(false);
+  const [copyPublicKeyStatus, setCopyPublicKeyStatus] = useState(false);
+  const [copyPrivateKeyStatus, setCopyPrivateKeyStatus] = useState(false);
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -102,12 +105,25 @@ function RSAEncryptAudio() {
 
         setPublicKey(publicKeyBase64);
         setPrivateKey(privateKeyBase64);
+
+        setEncryptStatus(true);
+        setTimeout(() => {
+          setEncryptStatus(false);
+        }, 2000);
       };
 
       fileReader.readAsArrayBuffer(file);
     } catch (error) {
       console.error("Encryption Error:", error);
     }
+  };
+
+  const handleCopy = (text, setStatus) => {
+    navigator.clipboard.writeText(text);
+    setStatus(true);
+    setTimeout(() => {
+      setStatus(false);
+    }, 2000);
   };
 
   return (
@@ -120,9 +136,10 @@ function RSAEncryptAudio() {
       />
       <button
         onClick={handleEncryptButtonClick}
-        className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+        className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 flex items-center justify-center"
       >
-        Encrypt Audio File
+        {encryptStatus ? "Encrypted" : "Encrypt Audio File"}
+        {encryptStatus && <span className="ml-2">✓</span>}
       </button>
       {encryptedFile && (
         <div className="mt-4">
@@ -148,10 +165,11 @@ function RSAEncryptAudio() {
             className="p-2 w-full border rounded-md bg-gray-800 text-white mb-2"
           />
           <button
-            onClick={() => navigator.clipboard.writeText(publicKey)}
-            className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+            onClick={() => handleCopy(publicKey, setCopyPublicKeyStatus)}
+            className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 flex items-center justify-center"
           >
-            Copy Public Key
+            {copyPublicKeyStatus ? "Copied" : "Copy Public Key"}
+            {copyPublicKeyStatus && <span className="ml-2">✓</span>}
           </button>
         </div>
       )}
@@ -165,10 +183,11 @@ function RSAEncryptAudio() {
             className="p-2 w-full border rounded-md bg-gray-800 text-white mb-2"
           />
           <button
-            onClick={() => navigator.clipboard.writeText(privateKey)}
-            className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+            onClick={() => handleCopy(privateKey, setCopyPrivateKeyStatus)}
+            className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 flex items-center justify-center"
           >
-            Copy Private Key
+            {copyPrivateKeyStatus ? "Copied" : "Copy Private Key"}
+            {copyPrivateKeyStatus && <span className="ml-2">✓</span>}
           </button>
         </div>
       )}

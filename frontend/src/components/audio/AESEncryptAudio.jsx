@@ -4,6 +4,8 @@ function AESEncryptAudio() {
   const [file, setFile] = useState(null);
   const [encryptedFile, setEncryptedFile] = useState(null);
   const [aesKeyBase64, setAesKeyBase64] = useState("");
+  const [encryptStatus, setEncryptStatus] = useState(false);
+  const [copyStatus, setCopyStatus] = useState(false);
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -59,12 +61,25 @@ function AESEncryptAudio() {
         });
         setEncryptedFile(blob);
         setAesKeyBase64(aesKeyBase64);
+
+        setEncryptStatus(true);
+        setTimeout(() => {
+          setEncryptStatus(false);
+        }, 2000);
       };
 
       fileReader.readAsArrayBuffer(file);
     } catch (error) {
       console.error("Encryption Error:", error);
     }
+  };
+
+  const handleCopy = (text, setStatus) => {
+    navigator.clipboard.writeText(text);
+    setStatus(true);
+    setTimeout(() => {
+      setStatus(false);
+    }, 2000);
   };
 
   return (
@@ -77,9 +92,10 @@ function AESEncryptAudio() {
       />
       <button
         onClick={handleEncryptButtonClick}
-        className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+        className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 flex items-center justify-center"
       >
-        Encrypt Audio File
+        {encryptStatus ? "Encrypted" : "Encrypt Audio File"}
+        {encryptStatus && <span className="ml-2">✓</span>}
       </button>
       {encryptedFile && (
         <div className="mt-4">
@@ -105,10 +121,11 @@ function AESEncryptAudio() {
             className="p-2 w-full border rounded-md bg-gray-800 text-white mb-2"
           />
           <button
-            onClick={() => navigator.clipboard.writeText(aesKeyBase64)}
-            className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+            onClick={() => handleCopy(aesKeyBase64, setCopyStatus)}
+            className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 flex items-center justify-center"
           >
-            Copy AES Key
+            {copyStatus ? "Copied" : "Copy AES Key"}
+            {copyStatus && <span className="ml-2">✓</span>}
           </button>
         </div>
       )}
