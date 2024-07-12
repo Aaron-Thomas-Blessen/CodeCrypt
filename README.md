@@ -1,4 +1,4 @@
-![image](https://github.com/Aaron-Thomas-Blessen/CodeCrypt/assets/85331681/034a5416-2fe8-42b6-b3b1-c7391071d1de)
+
 # CODECRYPT - The Ultimate Cryptography Simulation Tool with OpenSSL
 
 ![Your Image Description](https://drive.google.com/uc?id=1AaUX_aB_QV9QRvU1AmK5MdY_JN6qU-ST)
