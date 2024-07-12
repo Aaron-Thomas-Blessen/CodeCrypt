@@ -4,6 +4,7 @@ function RSADecryptComponent() {
   const [encryptedFile, setEncryptedFile] = useState(null);
   const [privateKey, setPrivateKey] = useState("");
   const [decryptedFile, setDecryptedFile] = useState(null);
+  const [decryptStatus, setDecryptStatus] = useState(false);
 
   const handleFileChange = (e) => {
     setEncryptedFile(e.target.files[0]);
@@ -46,6 +47,8 @@ function RSADecryptComponent() {
       fileReader.onload = async (event) => {
         const encryptedBuffer = event.target.result;
 
+        setDecryptStatus(true);
+
         const decryptedBuffer = await window.crypto.subtle.decrypt(
           {
             name: "RSA-OAEP",
@@ -58,6 +61,10 @@ function RSADecryptComponent() {
           type: "application/octet-stream",
         });
         setDecryptedFile(blob);
+
+        setTimeout(() => {
+          setDecryptStatus(false);
+        }, 2000); // Revert decrypt status after 2 seconds
       };
 
       fileReader.readAsArrayBuffer(encryptedFile);
@@ -82,9 +89,9 @@ function RSADecryptComponent() {
       />
       <button
         onClick={handleDecryptButtonClick}
-        className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+        className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 relative"
       >
-        Decrypt File
+        {decryptStatus ? "Decrypted" : "Decrypt File"}
       </button>
       {decryptedFile && (
         <div className="mt-4">
