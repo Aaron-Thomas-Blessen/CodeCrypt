@@ -5,6 +5,8 @@ function DSADecryptComponent() {
   const [signature, setSignature] = useState("");
   const [publicKey, setPublicKey] = useState("");
   const [isValid, setIsValid] = useState(null);
+  const [copyStatus, setCopyStatus] = useState(false);
+  const [verifyStatus, setVerifyStatus] = useState(false);
 
   const handleMessageChange = (e) => {
     setMessage(e.target.value);
@@ -19,39 +21,58 @@ function DSADecryptComponent() {
   };
 
   const handleVerifyButtonClick = async () => {
-    const publicKeyArrayBuffer = Uint8Array.from(atob(publicKey), (c) =>
-      c.charCodeAt(0)
-    ).buffer;
+    try {
+      const publicKeyArrayBuffer = Uint8Array.from(atob(publicKey), (c) =>
+        c.charCodeAt(0)
+      ).buffer;
 
-    const publicKeyObject = await window.crypto.subtle.importKey(
-      "spki",
-      publicKeyArrayBuffer,
-      {
-        name: "ECDSA",
-        namedCurve: "P-256",
-      },
-      true,
-      ["verify"]
-    );
+      const publicKeyObject = await window.crypto.subtle.importKey(
+        "spki",
+        publicKeyArrayBuffer,
+        {
+          name: "ECDSA",
+          namedCurve: "P-256",
+        },
+        true,
+        ["verify"]
+      );
 
-    const encoder = new TextEncoder();
-    const data = encoder.encode(message);
+      const encoder = new TextEncoder();
+      const data = encoder.encode(message);
 
-    const signatureArrayBuffer = Uint8Array.from(atob(signature), (c) =>
-      c.charCodeAt(0)
-    ).buffer;
+      const signatureArrayBuffer = Uint8Array.from(atob(signature), (c) =>
+        c.charCodeAt(0)
+      ).buffer;
 
-    const isValid = await window.crypto.subtle.verify(
-      {
-        name: "ECDSA",
-        hash: { name: "SHA-256" },
-      },
-      publicKeyObject,
-      signatureArrayBuffer,
-      data
-    );
+      const isValid = await window.crypto.subtle.verify(
+        {
+          name: "ECDSA",
+          hash: { name: "SHA-256" },
+        },
+        publicKeyObject,
+        signatureArrayBuffer,
+        data
+      );
 
-    setIsValid(isValid);
+      setIsValid(isValid);
+
+      // Show "Verified" temporarily
+      setVerifyStatus(true);
+      setTimeout(() => {
+        setVerifyStatus(false);
+      }, 2000); // Reset to normal after 2 seconds
+    } catch (error) {
+      console.error("Verification Error:", error);
+    }
+  };
+
+  const handleCopyResult = () => {
+    const resultText = isValid ? "Valid Signature" : "Invalid Signature";
+    navigator.clipboard.writeText(resultText);
+    setCopyStatus(true);
+    setTimeout(() => {
+      setCopyStatus(false);
+    }, 2000);
   };
 
   return (
@@ -81,7 +102,7 @@ function DSADecryptComponent() {
         onClick={handleVerifyButtonClick}
         className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 mb-4"
       >
-        Verify Message
+        {verifyStatus ? "Verified" : "Verify Message"}
       </button>
       {isValid !== null && (
         <div className="w-full max-w-lg mt-4">
@@ -95,14 +116,17 @@ function DSADecryptComponent() {
             className="p-2 w-full border rounded-md bg-gray-800 text-white mb-2"
           />
           <button
-            onClick={() =>
-              navigator.clipboard.writeText(
-                isValid ? "Valid Signature" : "Invalid Signature"
-              )
-            }
-            className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+            onClick={handleCopyResult}
+            className="relative px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 flex items-center justify-center"
           >
-            Copy Result
+            {copyStatus ? (
+              <>
+                <span className="mr-2">Copied</span>
+                <i className="fas fa-check"></i>
+              </>
+            ) : (
+              "Copy Result"
+            )}
           </button>
         </div>
       )}

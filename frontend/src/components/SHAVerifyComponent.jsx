@@ -4,6 +4,8 @@ function SHAVerifyComponent() {
   const [message, setMessage] = useState("");
   const [hash, setHash] = useState("");
   const [isValid, setIsValid] = useState(null);
+  const [verifyStatus, setVerifyStatus] = useState(false);
+  const [copyStatus, setCopyStatus] = useState(false);
 
   const handleMessageChange = (e) => {
     setMessage(e.target.value);
@@ -14,16 +16,35 @@ function SHAVerifyComponent() {
   };
 
   const handleVerifyButtonClick = async () => {
-    const encoder = new TextEncoder();
-    const data = encoder.encode(message);
+    try {
+      const encoder = new TextEncoder();
+      const data = encoder.encode(message);
 
-    const hashBuffer = await window.crypto.subtle.digest("SHA-256", data);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const newHashHex = hashArray
-      .map((b) => b.toString(16).padStart(2, "0"))
-      .join("");
+      const hashBuffer = await window.crypto.subtle.digest("SHA-256", data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const newHashHex = hashArray
+        .map((b) => b.toString(16).padStart(2, "0"))
+        .join("");
 
-    setIsValid(newHashHex === hash);
+      setIsValid(newHashHex === hash);
+
+      // Show "Verified" temporarily
+      setVerifyStatus(true);
+      setTimeout(() => {
+        setVerifyStatus(false);
+      }, 2000); // Reset to normal after 2 seconds
+    } catch (error) {
+      console.error("Verification Error:", error);
+    }
+  };
+
+  const handleCopyResult = () => {
+    const resultText = isValid ? "Valid Hash" : "Invalid Hash";
+    navigator.clipboard.writeText(resultText);
+    setCopyStatus(true);
+    setTimeout(() => {
+      setCopyStatus(false);
+    }, 2000);
   };
 
   return (
@@ -46,7 +67,7 @@ function SHAVerifyComponent() {
         onClick={handleVerifyButtonClick}
         className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 mb-4"
       >
-        Verify Hash
+        {verifyStatus ? "Verified" : "Verify Hash"}
       </button>
       {isValid !== null && (
         <div className="w-full max-w-lg">
@@ -60,14 +81,17 @@ function SHAVerifyComponent() {
             className="p-2 w-full border rounded-md bg-gray-800 text-white mb-2"
           />
           <button
-            onClick={() =>
-              navigator.clipboard.writeText(
-                isValid ? "Valid Hash" : "Invalid Hash"
-              )
-            }
-            className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+            onClick={handleCopyResult}
+            className="relative px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 flex items-center justify-center"
           >
-            Copy Result
+            {copyStatus ? (
+              <>
+                <span className="mr-2">Copied</span>
+                <i className="fas fa-check"></i>
+              </>
+            ) : (
+              "Copy Result"
+            )}
           </button>
         </div>
       )}
