@@ -1,10 +1,17 @@
 import React, { useState } from "react";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 
 function AESComponent() {
   const [inputText, setInputText] = useState("");
   const [encryptedText, setEncryptedText] = useState("");
   const [key, setKey] = useState("");
   const [iv, setIv] = useState("");
+  const [copyStatus, setCopyStatus] = useState({
+    text: false,
+    key: false,
+    iv: false,
+  });
+  const [encryptStatus, setEncryptStatus] = useState(false);
 
   const handleInputChange = (e) => {
     setInputText(e.target.value);
@@ -51,9 +58,22 @@ function AESComponent() {
           .call(iv, (x) => ("00" + x.toString(16)).slice(-2))
           .join("")
       );
+
+      setEncryptStatus(true);
+      setTimeout(() => {
+        setEncryptStatus(false);
+      }, 2000);
     } catch (error) {
       console.error("Encryption Error:", error);
     }
+  };
+
+  const handleCopyClick = (textType, text, duration = 2000) => {
+    navigator.clipboard.writeText(text);
+    setCopyStatus((prevState) => ({ ...prevState, [textType]: true }));
+    setTimeout(() => {
+      setCopyStatus((prevState) => ({ ...prevState, [textType]: false }));
+    }, duration);
   };
 
   return (
@@ -67,9 +87,16 @@ function AESComponent() {
       />
       <button
         onClick={handleEncryptButtonClick}
-        className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+        className="relative px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 flex items-center justify-center"
       >
-        Encrypt Text
+        {encryptStatus ? (
+          <>
+            <span className="mr-2">Encrypted</span>
+            <i className="fas fa-check"></i>
+          </>
+        ) : (
+          "Encrypt Text"
+        )}
       </button>
       {encryptedText && (
         <div className="mt-4">
@@ -81,10 +108,17 @@ function AESComponent() {
             className="p-2 w-full border rounded-md bg-gray-800 text-white mb-2"
           />
           <button
-            onClick={() => navigator.clipboard.writeText(encryptedText)}
-            className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+            onClick={() => handleCopyClick("text", encryptedText)}
+            className="relative px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 flex items-center justify-center"
           >
-            Copy Encrypted Text
+            {copyStatus.text ? (
+              <>
+                <span className="mr-2">Copied</span>
+                <i className="fas fa-check"></i>
+              </>
+            ) : (
+              "Copy Encrypted Text"
+            )}
           </button>
         </div>
       )}
@@ -98,10 +132,17 @@ function AESComponent() {
             className="p-2 w-full border rounded-md bg-gray-800 text-white mb-2"
           />
           <button
-            onClick={() => navigator.clipboard.writeText(key)}
-            className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+            onClick={() => handleCopyClick("key", key)}
+            className="relative px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 flex items-center justify-center"
           >
-            Copy Key
+            {copyStatus.key ? (
+              <>
+                <span className="mr-2">Copied</span>
+                <i className="fas fa-check"></i>
+              </>
+            ) : (
+              "Copy Key"
+            )}
           </button>
         </div>
       )}
@@ -115,10 +156,17 @@ function AESComponent() {
             className="p-2 w-full border rounded-md bg-gray-800 text-white mb-2"
           />
           <button
-            onClick={() => navigator.clipboard.writeText(iv)}
-            className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+            onClick={() => handleCopyClick("iv", iv)}
+            className="relative px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 flex items-center justify-center"
           >
-            Copy IV
+            {copyStatus.iv ? (
+              <>
+                <span className="mr-2">Copied</span>
+                <i className="fas fa-check"></i>
+              </>
+            ) : (
+              "Copy IV"
+            )}
           </button>
         </div>
       )}
