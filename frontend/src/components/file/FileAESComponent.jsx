@@ -68,14 +68,15 @@ function App() {
         </button>
         {encryptedFile && (
           <div className="mt-4">
-            <a
-              href={encryptedFile}
-              download="encrypted-file.enc"
-              className="block font-semibold mb-2"
-            >
-              Download Encrypted File
-            </a>
-          </div>
+          <label className="block font-semibold mb-2">Encrypted File:</label>
+          <a
+            href={encryptedFile}
+            download="encrypted_file"
+            className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+          >
+            Download Encrypted File
+          </a>
+        </div>
         )}
 
       {key && (
@@ -85,7 +86,7 @@ function App() {
             value={key}
             readOnly
             rows={2}
-            className="p-2 w-full border rounded-md mb-2"
+            className="p-2 w-full border rounded-md bg-gray-800 text-white mb-2"
           />
           <button
             onClick={() => navigator.clipboard.writeText(key)}
@@ -102,7 +103,7 @@ function App() {
             value={iv}
             readOnly
             rows={2}
-            className="p-2 w-full border rounded-md mb-2"
+            className="p-2 w-full border rounded-md bg-gray-800 text-white mb-2"
           />
           <button
             onClick={() => navigator.clipboard.writeText(iv)}

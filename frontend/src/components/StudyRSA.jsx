@@ -14,7 +14,7 @@ const StudyRSA = () => {
       setProgress(newProgress);
       setCurrentButton(currentButton + 1);
 
-      // Ensure progress reaches 100% on the last button click
+    
       if (buttonIndex === 2) {
         setProgress(100);
         setCurrentButton(3);
