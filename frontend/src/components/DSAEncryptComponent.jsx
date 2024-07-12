@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 
 function DSAEncryptComponent() {
   const [inputText, setInputText] = useState("");
@@ -7,9 +8,13 @@ function DSAEncryptComponent() {
   const [privateKey, setPrivateKey] = useState(null);
   const [keyGenerated, setKeyGenerated] = useState(false);
   const [messageSigned, setMessageSigned] = useState(false);
+  const [copyStatus, setCopyStatus] = useState({
+    signature: false,
+    publicKey: false,
+  });
+  const [signStatus, setSignStatus] = useState(false);
 
   useEffect(() => {
-    // Generate key pair when the component mounts
     const generateKeyPair = async () => {
       const keyPair = await window.crypto.subtle.generateKey(
         {
@@ -58,37 +63,18 @@ function DSAEncryptComponent() {
       window.btoa(String.fromCharCode(...new Uint8Array(signatureArrayBuffer)))
     );
     setMessageSigned(true);
+    setSignStatus(true);
+    setTimeout(() => {
+      setSignStatus(false);
+    }, 2000);
   };
 
-  const handleCopyToClipboard = (text) => {
-    if (navigator.clipboard && window.isSecureContext) {
-      navigator.clipboard.writeText(text).then(
-        () => {
-          console.log("Text copied to clipboard successfully!");
-        },
-        (err) => {
-          console.error("Failed to copy text: ", err);
-        }
-      );
-    } else {
-      const textArea = document.createElement("textarea");
-      textArea.value = text;
-      textArea.style.position = "fixed"; // Prevent scrolling to bottom of page in MS Edge.
-      document.body.appendChild(textArea);
-      textArea.focus();
-      textArea.select();
-      try {
-        const successful = document.execCommand("copy");
-        if (successful) {
-          console.log("Text copied to clipboard successfully!");
-        } else {
-          console.error("Failed to copy text.");
-        }
-      } catch (err) {
-        console.error("Failed to copy text: ", err);
-      }
-      document.body.removeChild(textArea);
-    }
+  const handleCopyClick = (textType, text, duration = 2000) => {
+    navigator.clipboard.writeText(text);
+    setCopyStatus((prevState) => ({ ...prevState, [textType]: true }));
+    setTimeout(() => {
+      setCopyStatus((prevState) => ({ ...prevState, [textType]: false }));
+    }, duration);
   };
 
   return (
@@ -102,9 +88,16 @@ function DSAEncryptComponent() {
       />
       <button
         onClick={handleSignButtonClick}
-        className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+        className="relative px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 flex items-center justify-center"
       >
-        Sign Message
+        {signStatus ? (
+          <>
+            <span className="mr-2">Signed</span>
+            <i className="fas fa-check"></i>
+          </>
+        ) : (
+          "Sign Message"
+        )}
       </button>
       {signature && (
         <div className="mt-4">
@@ -116,10 +109,17 @@ function DSAEncryptComponent() {
             className="p-2 w-full border rounded-md bg-gray-800 text-white mb-2"
           />
           <button
-            onClick={() => handleCopyToClipboard(signature)}
-            className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+            onClick={() => handleCopyClick("signature", signature)}
+            className="relative px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 flex items-center justify-center"
           >
-            Copy Signature
+            {copyStatus.signature ? (
+              <>
+                <span className="mr-2">Copied</span>
+                <i className="fas fa-check"></i>
+              </>
+            ) : (
+              "Copy Signature"
+            )}
           </button>
         </div>
       )}
@@ -133,10 +133,17 @@ function DSAEncryptComponent() {
             className="p-2 w-full border rounded-md bg-gray-800 text-white mb-2"
           />
           <button
-            onClick={() => handleCopyToClipboard(publicKey)}
-            className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+            onClick={() => handleCopyClick("publicKey", publicKey)}
+            className="relative px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 flex items-center justify-center"
           >
-            Copy Public Key
+            {copyStatus.publicKey ? (
+              <>
+                <span className="mr-2">Copied</span>
+                <i className="fas fa-check"></i>
+              </>
+            ) : (
+              "Copy Public Key"
+            )}
           </button>
         </div>
       )}

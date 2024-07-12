@@ -1,8 +1,11 @@
 import React, { useState } from "react";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 
 function SHAComponent() {
   const [inputText, setInputText] = useState("");
   const [hash, setHash] = useState("");
+  const [copyStatus, setCopyStatus] = useState(false);
+  const [hashStatus, setHashStatus] = useState(false);
 
   const handleInputChange = (e) => {
     setInputText(e.target.value);
@@ -19,6 +22,18 @@ function SHAComponent() {
       .join("");
 
     setHash(hashHex);
+    setHashStatus(true);
+    setTimeout(() => {
+      setHashStatus(false);
+    }, 2000);
+  };
+
+  const handleCopyClick = (text, duration = 2000) => {
+    navigator.clipboard.writeText(text);
+    setCopyStatus(true);
+    setTimeout(() => {
+      setCopyStatus(false);
+    }, duration);
   };
 
   return (
@@ -32,9 +47,16 @@ function SHAComponent() {
       />
       <button
         onClick={handleHashButtonClick}
-        className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+        className="relative px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 flex items-center justify-center"
       >
-        Hash Text
+        {hashStatus ? (
+          <>
+            <span className="mr-2">Hashed</span>
+            <i className="fas fa-check"></i>
+          </>
+        ) : (
+          "Hash Text"
+        )}
       </button>
       {hash && (
         <div className="mt-4">
@@ -46,10 +68,17 @@ function SHAComponent() {
             className="p-2 w-full border rounded-md bg-gray-800 text-white mb-2"
           />
           <button
-            onClick={() => navigator.clipboard.writeText(hash)}
-            className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+            onClick={() => handleCopyClick(hash)}
+            className="relative px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 flex items-center justify-center"
           >
-            Copy Hash
+            {copyStatus ? (
+              <>
+                <span className="mr-2">Copied</span>
+                <i className="fas fa-check"></i>
+              </>
+            ) : (
+              "Copy Hash"
+            )}
           </button>
         </div>
       )}

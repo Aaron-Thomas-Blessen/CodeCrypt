@@ -1,10 +1,17 @@
 import React, { useState } from "react";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 
 function RSAComponent() {
   const [inputText, setInputText] = useState("");
   const [encryptedText, setEncryptedText] = useState("");
   const [publicKey, setPublicKey] = useState("");
   const [privateKey, setPrivateKey] = useState("");
+  const [copyStatus, setCopyStatus] = useState({
+    text: false,
+    publicKey: false,
+    privateKey: false,
+  });
+  const [encryptStatus, setEncryptStatus] = useState(false);
 
   const handleInputChange = (e) => {
     setInputText(e.target.value);
@@ -62,9 +69,22 @@ function RSAComponent() {
       setEncryptedText(encryptedHex);
       setPublicKey(publicKeyBase64);
       setPrivateKey(privateKeyBase64);
+
+      setEncryptStatus(true);
+      setTimeout(() => {
+        setEncryptStatus(false);
+      }, 2000);
     } catch (error) {
       console.error("Encryption Error:", error);
     }
+  };
+
+  const handleCopyClick = (textType, text, duration = 2000) => {
+    navigator.clipboard.writeText(text);
+    setCopyStatus((prevState) => ({ ...prevState, [textType]: true }));
+    setTimeout(() => {
+      setCopyStatus((prevState) => ({ ...prevState, [textType]: false }));
+    }, duration);
   };
 
   return (
@@ -78,9 +98,16 @@ function RSAComponent() {
       />
       <button
         onClick={handleEncryptButtonClick}
-        className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+        className="relative px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 flex items-center justify-center"
       >
-        Encrypt Text
+        {encryptStatus ? (
+          <>
+            <span className="mr-2">Encrypted</span>
+            <i className="fas fa-check"></i>
+          </>
+        ) : (
+          "Encrypt Text"
+        )}
       </button>
       {encryptedText && (
         <div className="mt-4">
@@ -92,10 +119,17 @@ function RSAComponent() {
             className="p-2 w-full border rounded-md bg-gray-800 text-white mb-2"
           />
           <button
-            onClick={() => navigator.clipboard.writeText(encryptedText)}
-            className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+            onClick={() => handleCopyClick("text", encryptedText)}
+            className="relative px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 flex items-center justify-center"
           >
-            Copy Encrypted Text
+            {copyStatus.text ? (
+              <>
+                <span className="mr-2">Copied</span>
+                <i className="fas fa-check"></i>
+              </>
+            ) : (
+              "Copy Encrypted Text"
+            )}
           </button>
         </div>
       )}
@@ -109,10 +143,17 @@ function RSAComponent() {
             className="p-2 w-full border rounded-md bg-gray-800 text-white mb-2"
           />
           <button
-            onClick={() => navigator.clipboard.writeText(publicKey)}
-            className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+            onClick={() => handleCopyClick("publicKey", publicKey)}
+            className="relative px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 flex items-center justify-center"
           >
-            Copy Public Key
+            {copyStatus.publicKey ? (
+              <>
+                <span className="mr-2">Copied</span>
+                <i className="fas fa-check"></i>
+              </>
+            ) : (
+              "Copy Public Key"
+            )}
           </button>
         </div>
       )}
@@ -126,10 +167,17 @@ function RSAComponent() {
             className="p-2 w-full border rounded-md bg-gray-800 text-white mb-2"
           />
           <button
-            onClick={() => navigator.clipboard.writeText(privateKey)}
-            className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+            onClick={() => handleCopyClick("privateKey", privateKey)}
+            className="relative px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 flex items-center justify-center"
           >
-            Copy Private Key
+            {copyStatus.privateKey ? (
+              <>
+                <span className="mr-2">Copied</span>
+                <i className="fas fa-check"></i>
+              </>
+            ) : (
+              "Copy Private Key"
+            )}
           </button>
         </div>
       )}
