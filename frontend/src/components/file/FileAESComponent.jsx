@@ -71,7 +71,7 @@ function App() {
   };
 
   return (
-    <div className="w-full max-w-lg">
+    <div className="w-full max-w-lg mx-auto mt-10">
       <input
         type="file"
         onChange={handleFileChange}
@@ -79,9 +79,17 @@ function App() {
       />
       <button
         onClick={encryptFile}
-        className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+        className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 flex items-center justify-center"
       >
-        {encryptStatus ? "Encrypted" : "Encrypt File"}
+        {encryptStatus ? (
+          <>
+            <span className="mr-2">Encrypted</span>
+            <i className="fas fa-check"></i>{" "}
+            {/* Replace with appropriate audioaes icon class */}
+          </>
+        ) : (
+          "Encrypt File"
+        )}
       </button>
       {encryptedFile && (
         <div className="mt-4">
