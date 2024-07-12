@@ -31,7 +31,7 @@ CodeCrypt offers several convenient options for exploring cryptography:
 
 7. **User Interaction:** Experiment with different algorithms and different data types.
 
-8. **Profile:** You can create profile and update them.
+8. **Profile:** You can create profiles and update them.
 
 
 ## Technologies Used
@@ -63,25 +63,102 @@ To start using Cryptic Canvas, simply follow these steps:
    
 3. If you are new then click on the [Join here](https://codecrypt-b591f.web.app/signup) button to signup.
    
-4. Now you will be redirected to the [Study page](https://codecrypt-b591f.web.app/study) where you can select which algorithm you want to study like RSA, AES, DES, SHA. It has indepth information about Encryption, Decryption and Key Generation of that particular algorithm along with youtuve videos.
+4. Now you will be redirected to the [Study page](https://codecrypt-b591f.web.app/study) where you can select which algorithm you want to study like RSA, AES, DES, or SHA. It has in-depth information about Encryption, Decryption, and Key Generation of that particular algorithm along with YouTube videos.
    
-5. To Encrypt and Decrypt using Codecrypt click on [Encrypt](https://codecrypt-b591f.web.app/encrypt) or [Decrypt](https://codecrypt-b591f.web.app/decrypt) button.
+5. To Encrypt and Decrypt using Codecrypt click on the [Encrypt](https://codecrypt-b591f.web.app/encrypt) or [Decrypt](https://codecrypt-b591f.web.app/decrypt) button.
     
-6. In Encrption and Decryption, you can choose from a 5 different types of data encyption and decryption which are text, file, audio, image and video.
+6. In Encryption and Decryption, you can choose from 5 different types of data encryption and decryption which are text, file, audio, image, and video.
     
-7. Then select what type of algorithm to use, AES, RSA, DES or SHA.
+7. Then select what type of algorithm to use, AES, RSA, DES, or SHA.
     
-8. Copy the parameters from the encrypt page and send them to your frind for him to try.
+8. Copy the parameters from the encrypted page and send them to your friend for him to try.
     
 9. Or use the parameters to find the Encrypted Data.
 
 ## How to Do It Yourself
 
+**Do not Skip any steps**
+
+### Requirements
+- Firebase
+- Node.js and npm
+- Windows/Linux
+- Vite
+- OpenSSL library
+- A C compiler (e.g., GCC)
+
+#### OpenSSL
+
+- Windows:
+1. Download from : [OpenSSL](https://www.openssl.org/source/)
+2. Extract the file
+3. Place the extracted OpenSSL file in C:\Program Files
+
+- Ubuntu/Linux:
+1. Open Terminal
+2. Update the Package Lists
+   ```bash
+   sudo apt update
+   ```
+3. Install OpenSSL
+   ```bash
+   sudo apt install openssl
+   ```
+4. Verify the Installation
+   ```bash
+   openssl version
+   ```
+5. Install Development Libraries
+   ```bash
+   sudo apt install libssl-dev
+   ```
+
+#### GCC
+
+- Windows:
+1. Download MinGW from : [GCC](https://sourceforge.net/projects/gcc-win64/)
+2. Install MinGW 
+3. Set Environment Variables
+4. Verify Installation
+   ```bash
+   gcc --version
+   ```
+
+- Ubuntu/Linux:
+1. Open Terminal
+2. Update the Package Lists
+   ```bash
+   sudo apt update
+   ```
+3. Install GCC
+   ```bash
+   sudo apt install gcc
+   ```
+4. Verify the Installation
+   ```bash
+   gcc --version
+   ```
+5. Install Additional Tools 
+   ```bash
+   sudo apt install build-essential
+   ```
+
+The next steps are the same for all OS:
+
+### Firebase
+- Tables
+  - users
+    1. userId (String)
+    2. email (String)
+    3. username (String)
+    4. bio (String)
+    5. profilePictureUrl (String)
+
 1. **Clone the Repo:**
    To get started with CodeCrypt, clone the repository to your local machine using the following command:
    ```bash
-   git clone https://github.com/your-username/cryptography-simulation.git
-   cd cryptography-simulation
+   git clone https://github.com/Aaron-Thomas-Blessen/CodeCrypt.git
+   cd CodeCrypt
    ```
 
 2. **Install Dependencies:**
@@ -95,22 +172,23 @@ To start using Cryptic Canvas, simply follow these steps:
    Navigate to the `backend` folder and build the backend:
    ```bash
    cd ../backend
-   make
    ```
 
 4. **Run Locally:**
-   To run the CodeCrypt application locally, start the backend server:
+   To run the CodeCrypt application locally, open a terminal and start the backend server:
    ```bash
-   ./backend/server
+   node server.js
    ```
-   Then, start the frontend development server:
+   Then, start the frontend development server in another terminal:
    ```bash
    cd frontend
    npm run dev
    ```
 
 5. **Open in Browser:**
-   Open the application in your browser by navigating to [http://localhost:3000](http://localhost:3000).
+   Open the application in your browser by navigating to [http://localhost:5173/](http://localhost:5173/).
+
+   
 
 ## Usage
 
@@ -118,58 +196,15 @@ To start experimenting with cryptography:
 
 1. **Select an Algorithm:** Choose a cryptographic algorithm from the available options.
 2. **Input Data:** Enter the text or data you want to encrypt or decrypt.
-3. **Generate Keys:** Generate cryptographic keys if required by the chosen algorithm.
+3. **Generate Keys:** Cryptographic keys are automatically generated if required by the chosen algorithm.
 4. **Encrypt/Decrypt:** Perform encryption or decryption and view the results.
 5. **Explore Concepts:** Access tutorials and educational content to learn more about cryptographic principles and techniques.
-
-## How to Do It Yourself
-
-### Requirements
-
-- Node.js and npm (for running the frontend)
-- A C compiler (e.g., GCC)
-- OpenSSL library
-
-### Installation
-
-To install and run CodeCrypt:
-
-1. **Clone the Repo:**
-   ```bash
-   git clone https://github.com/your-username/cryptography-simulation.git
-   cd cryptography-simulation
-   ```
-
-2. **Install Frontend Dependencies:**
-   ```bash
-   cd frontend
-   npm install
-   ```
-
-3. **Build the Backend:**
-   ```bash
-   cd ../backend
-   make
-   ```
-
-4. **Run the Application:**
-   Start the backend server:
-   ```bash
-   ./backend/server
-   ```
-   Start the frontend development server:
-   ```bash
-   cd frontend
-   npm run dev
-   ```
-
-5. **Open the Application:**
-   Open your browser and navigate to [http://localhost:3000](http://localhost:3000).
+6. Sign up to create an Account and save progress.
 
 
 ## Feedback
 
-We're constantly striving to improve CodeCrypt to provide the best possible experience for our users. If you have any feedback, suggestions, or encounter any issues while using our platform, please don't hesitate to contact us. Your input is invaluable in helping us enhance our product and deliver exceptional results.
+We're constantly striving to improve CodeCrypt to provide the best possible experience for our users. If you have any feedback, or suggestions, or encounter any issues while using our platform, please don't hesitate to contact us. Your input is invaluable in helping us enhance our product and deliver exceptional results.
 
 ## Contact Us
 
