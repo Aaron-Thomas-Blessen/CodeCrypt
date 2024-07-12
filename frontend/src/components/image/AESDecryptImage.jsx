@@ -1,9 +1,13 @@
 import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 function AESDecryptImage() {
   const [encryptedFile, setEncryptedFile] = useState(null);
   const [aesKeyBase64, setAesKeyBase64] = useState("");
   const [decryptedFile, setDecryptedFile] = useState(null);
+  const [decrypting, setDecrypting] = useState(false);
+  const [decrypted, setDecrypted] = useState(false);
 
   const handleFileChange = (e) => {
     setEncryptedFile(e.target.files[0]);
@@ -27,6 +31,9 @@ function AESDecryptImage() {
       alert("Please select an encrypted image file first.");
       return;
     }
+
+    setDecrypting(true);
+    setDecrypted(false);
 
     try {
       const aesKeyData = base64ToArrayBuffer(aesKeyBase64);
@@ -65,11 +72,17 @@ function AESDecryptImage() {
           type: "image/png", // Change to the correct MIME type for your images
         });
         setDecryptedFile(blob);
+        setDecrypted(true);
+        setTimeout(() => {
+          setDecrypting(false);
+          setDecrypted(false);
+        }, 3000);
       };
 
       fileReader.readAsArrayBuffer(encryptedFile);
     } catch (error) {
       console.error("Decryption Error:", error);
+      setDecrypting(false);
     }
   };
 
@@ -77,7 +90,6 @@ function AESDecryptImage() {
     <div className="w-full max-w-lg">
       <input
         type="file"
-        accept="image/*"
         onChange={handleFileChange}
         className="p-2 mb-4 border rounded-md w-full bg-gray-800 text-white"
       />
@@ -90,9 +102,21 @@ function AESDecryptImage() {
       />
       <button
         onClick={handleDecryptButtonClick}
-        className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+        className={`px-4 py-2 rounded-md text-white ${
+          decrypting
+            ? "bg-green-500 hover:bg-green-600"
+            : "bg-blue-500 hover:bg-blue-600"
+        } flex items-center justify-center`}
+        disabled={decrypting}
       >
-        Decrypt Image File
+        {decrypting ? (
+          <>
+            Decrypted
+            <FontAwesomeIcon icon={faCheck} className="ml-2" />
+          </>
+        ) : (
+          "Decrypt Image File"
+        )}
       </button>
       {decryptedFile && (
         <div className="mt-4">
