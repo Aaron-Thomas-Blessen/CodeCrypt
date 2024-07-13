@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import CopyableInput from "../components/ci2";
 import ProgressButton from "../components/ProgressButton";
+import { useAuth } from "../context/AuthContext";
 
 const StudySHA = () => {
-  const [progress, setProgress] = useState(0);
+  const { user, updateProgress } = useAuth(); // Destructure updateProgress from useAuth
+  const [progress, setProgress] = useState(user?.progress?.SHA || 0);
   const [currentButton, setCurrentButton] = useState(0);
 
-  const updateProgress = (buttonIndex) => {
+  const handleUpdateProgress = async (buttonIndex) => {
     if (buttonIndex === currentButton) {
       let newProgress = progress;
       // Increment progress by 33% for each button click
@@ -19,14 +21,20 @@ const StudySHA = () => {
         setProgress(100);
         setCurrentButton(3);
       }
+
+      // Update progress in Firebase
+      await updateProgress("SHA", newProgress);
     }
   };
+
   return (
     <>
-     <div className="relative mt-4">
+      <div className="relative mt-4">
         <div className="h-2 bg-gray-200 rounded-md overflow-hidden">
           <div
-            className={`h-full ${progress === 100 ? 'bg-green-500' : 'bg-red-600'}`}
+            className={`h-full ${
+              progress === 100 ? "bg-green-500" : "bg-red-600"
+            }`}
             style={{ width: `${progress}%` }}
           ></div>
         </div>
@@ -86,7 +94,7 @@ const StudySHA = () => {
       </div>
       <div className="mt-4 space-y-4 flex justify-end space-x-4">
         <ProgressButton
-          onClick={() => updateProgress(0)}
+          onClick={() => handleUpdateProgress(0)}
           progress={progress}
           isCompleted={progress >= 33}
           disabled={currentButton !== 0}
@@ -153,13 +161,13 @@ const StudySHA = () => {
         />
       </div>
       <div className="mt-4 space-y-4 flex justify-end space-x-4">
-      <ProgressButton
-          onClick={() => updateProgress(1)}
+        <ProgressButton
+          onClick={() => handleUpdateProgress(1)}
           progress={progress}
           isCompleted={progress >= 66}
           disabled={currentButton !== 1}
         />
-        </div>
+      </div>
       <h2 className="text-3xl font-bold mb-2 mt-2">Related YouTube Videos</h2>
       <div className="bg-green-800 p-6 mt-4 rounded-md">
         <div className="mt-2">
@@ -229,13 +237,13 @@ const StudySHA = () => {
         </div>
       </div>
       <div className="mt-4 space-y-4 flex justify-end space-x-4">
-      <ProgressButton
-          onClick={() => updateProgress(2)}
+        <ProgressButton
+          onClick={() => handleUpdateProgress(2)}
           progress={progress}
           isCompleted={progress === 100}
           disabled={currentButton !== 2}
         />
-        </div>
+      </div>
     </>
   );
 };
