@@ -30,33 +30,19 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
-  const updateCompletedAlgorithms = async (algorithm, totalAlgorithms) => {
+  const updateCompletedAlgorithms = async (algorithm) => {
     if (user) {
       const userRef = doc(db, "users", user.uid);
       const newCompletedAlgorithms = {
         ...user.completedAlgorithms,
         [algorithm]: true,
       };
-      const completedAlgorithmCount = Object.keys(
-        newCompletedAlgorithms
-      ).filter((key) => newCompletedAlgorithms[key]).length;
-      const completionPercentage =
-        (completedAlgorithmCount / totalAlgorithms) * 100;
-
       await setDoc(
         userRef,
-        {
-          completedAlgorithms: newCompletedAlgorithms,
-          completionPercentage: completionPercentage.toFixed(2), // Store percentage with 2 decimal places
-        },
+        { completedAlgorithms: newCompletedAlgorithms },
         { merge: true }
       );
-
-      setUser({
-        ...user,
-        completedAlgorithms: newCompletedAlgorithms,
-        completionPercentage,
-      });
+      setUser({ ...user, completedAlgorithms: newCompletedAlgorithms });
     }
   };
 
