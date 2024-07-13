@@ -1,18 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useAuth } from "../context/AuthContext";
 import CopyableInput from "../components/ci2";
 import ProgressButton from "../components/ProgressButton";
 
 const StudyRSA = () => {
   const [progress, setProgress] = useState(0);
   const [currentButton, setCurrentButton] = useState(0);
+  const { updateProgress, user } = useAuth();
 
-  const updateProgress = (buttonIndex) => {
+  useEffect(() => {
+    // Load the user's progress when the component mounts
+    if (user && user.progress && user.progress.RSA) {
+      setProgress(user.progress.RSA);
+    }
+  }, [user]);
+
+  const handleUpdateProgress = (buttonIndex) => {
     if (buttonIndex === currentButton) {
       let newProgress = progress;
       // Increment progress by 33% for each button click
       newProgress = Math.min(progress + 33, 100);
       setProgress(newProgress);
       setCurrentButton(currentButton + 1);
+
+      // Update progress in Firestore
+      updateProgress("RSA", newProgress);
 
       if (buttonIndex === 2) {
         setProgress(100);
@@ -124,7 +136,7 @@ const StudyRSA = () => {
       </div>
       <div className="mt-4 space-y-4 flex justify-end space-x-4">
         <ProgressButton
-          onClick={() => updateProgress(0)}
+          onClick={() => handleUpdateProgress(0)}
           progress={progress}
           isCompleted={progress >= 33}
           disabled={currentButton !== 0}
@@ -162,19 +174,20 @@ const StudyRSA = () => {
       <div className="bg-green-800 p-6 mt-4 rounded-md">
         <h1 className="text-2xl font-bold mb-2">Example</h1>
         <ul className="list-disc pl-5">
-          <li>Plaintext: "HI" (convert to numeric: 72)</li>
-          <li>Public Key: (17, 3233)</li>
-          <li>Private Key: (2753, 3233)</li>
-        </ul>
-        <h1 className="text-xl font-bold mb-2 mt-2">Encryption:</h1>
-        <ul className="list-disc pl-5">
-          <li>m = 72</li>
-          <li>c = 72^17 mod 3233 = 3000</li>
-        </ul>
-        <h1 className="text-xl font-bold mb-2 mt-2">Decryption:</h1>
-        <ul className="list-disc pl-5">
-          <li>m = 3000^2753 mod 3233 = 72</li>
-          <li>Convert back to text: "HI"</li>
+          <li>Plaintext: "HI" converted to m = 72</li>
+          <li>
+            <strong>Encryption:</strong>
+          </li>
+          <ul className="list-disc pl-5">
+            <li>c = 72^17 mod 3233 = 3000</li>
+          </ul>
+          <li>
+            <strong>Decryption:</strong>
+          </li>
+          <ul className="list-disc pl-5">
+            <li>m = 3000^2753 mod 3233 = 72</li>
+            <li>Convert back to text: "HI"</li>
+          </ul>
         </ul>
         <h1 className="text-xl font-bold mb-2 mt-2">
           Interactive Section: Encryption/Decryption
@@ -193,7 +206,7 @@ const StudyRSA = () => {
       </div>
       <div className="mt-4 space-y-4 flex justify-end space-x-4">
         <ProgressButton
-          onClick={() => updateProgress(1)}
+          onClick={() => handleUpdateProgress(1)}
           progress={progress}
           isCompleted={progress >= 66}
           disabled={currentButton !== 1}
@@ -268,7 +281,7 @@ const StudyRSA = () => {
       </div>
       <div className="mt-4 space-y-4 flex justify-end space-x-4">
         <ProgressButton
-          onClick={() => updateProgress(2)}
+          onClick={() => handleUpdateProgress(2)}
           progress={progress}
           isCompleted={progress === 100}
           disabled={currentButton !== 2}
