@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import CopyableInput from "../components/ci2";
 import ProgressButton from "../components/ProgressButton";
-import { useAuth } from "../context/AuthContext"; // Import the useAuth hook
+import { useAuth } from "../context/AuthContext";
 
 const StudyDES = () => {
   const { user, updateProgress } = useAuth(); // Destructure updateProgress from useAuth
@@ -175,19 +175,72 @@ const StudyDES = () => {
           disabled={currentButton !== 1}
         />
       </div>
-      <h1 className="text-3xl font-bold mb-2 mt-2">Security and Limitations</h1>
+      <h2 className="text-3xl font-bold mb-2 mt-2">Related YouTube Videos</h2>
       <div className="bg-green-800 p-6 mt-4 rounded-md">
-        <h1 className="text-xl font-bold mb-2">Security</h1>
-        <ul className="list-disc pl-5">
-          <li>Strengths: Fast, secure (for its time), widely implemented.</li>
-        </ul>
-        <h1 className="text-xl font-bold mb-2 mt-2">Limitations</h1>
-        <ul className="list-disc pl-5">
-          <li>
-            Weaknesses: 56-bit key size (vulnerable to brute force attacks
-            today).
-          </li>
-        </ul>
+        <div className="mt-2">
+          <div className="flex justify-center">
+            <div className="grid grid-cols-3 gap-4">
+              <a
+                href={`https://www.youtube.com/watch?v=j53iXhTSi_s`}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ display: "block", textDecoration: "none" }}
+              >
+                <img
+                  src={`https://i.ytimg.com/vi/j53iXhTSi_s/hqdefault.jpg`}
+                  alt="Introduction to Data Encryption Standard (DES)"
+                  style={{
+                    width: "90%",
+                    height: "80%",
+                    borderRadius: "8px",
+                  }}
+                />
+                <p style={{ marginTop: "8px", fontSize: "14px" }}>
+                  Introduction to Data Encryption Standard (DES)
+                </p>
+              </a>
+              <a
+                href={`https://www.youtube.com/watch?v=jTyiIHC51_w`}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ display: "block", textDecoration: "none" }}
+              >
+                <img
+                  src={`https://i.ytimg.com/vi/jTyiIHC51_w/hqdefault.jpg`}
+                  alt="Data Encryption Standard ( DES ) Algorithm |CNS|"
+                  style={{
+                    width: "90%",
+                    height: "80%",
+                    borderRadius: "8px",
+                  }}
+                />
+                <p style={{ marginTop: "8px", fontSize: "14px" }}>
+                  Data Encryption Standard ( DES ) Algorithm |CNS|
+                </p>
+              </a>
+              <a
+                href={`https://www.youtube.com/watch?v=S918rR4VdqQ`}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ display: "block", textDecoration: "none" }}
+              >
+                <img
+                  src={`https://i.ytimg.com/vi/S918rR4VdqQ/hqdefault.jpg`}
+                  alt="DES - Data Encryption Standard | Data Encryption Standard In Cryptography |DES Algorithm|Simplilearn"
+                  style={{
+                    width: "90%",
+                    height: "80%",
+                    borderRadius: "8px",
+                  }}
+                />
+                <p style={{ marginTop: "8px", fontSize: "14px" }}>
+                  DES - Data Encryption Standard | Data Encryption Standard In
+                  Cryptography |DES Algorithm|Simplilearn
+                </p>
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
       <div className="mt-4 space-y-4 flex justify-end space-x-4">
         <ProgressButton
@@ -197,12 +250,6 @@ const StudyDES = () => {
           disabled={currentButton !== 2}
         />
       </div>
-      {progress === 100 && (
-        <div className="bg-green-800 p-6 mt-4 rounded-md">
-          <h1 className="text-xl font-bold mb-2">Congratulations!</h1>
-          <p>You have completed the DES study section.</p>
-        </div>
-      )}
     </div>
   );
 };
