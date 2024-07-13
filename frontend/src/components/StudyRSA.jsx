@@ -20,6 +20,9 @@ const StudyRSA = () => {
       let newProgress = progress;
       // Increment progress by 33% for each button click
       newProgress = Math.min(progress + 33, 100);
+      if (newProgress >= 99) {
+        newProgress = 100;
+      }
       setProgress(newProgress);
       setCurrentButton(currentButton + 1);
 
@@ -149,59 +152,44 @@ const StudyRSA = () => {
         <h1 className="text-xl font-bold mb-2">Encryption Process</h1>
         <ol className="list-decimal pl-5">
           <li>
-            <strong>Convert plaintext message to an integer 0≤m‹n.</strong>
+            <strong>Convert plaintext message to a number m.</strong>
           </li>
           <ul className="list-disc pl-5">
-            <li>Example: Plaintext "HI" converted to numeric m=72.</li>
+            <li>Example: HELLO → m.</li>
           </ul>
           <li>
-            <strong>Compute the ciphertext c using c=m^e modn.</strong>
+            <strong>
+              Compute ciphertext c using the public key (e,n): c = m^e mod n.
+            </strong>
           </li>
           <ul className="list-disc pl-5">
-            <li>Example: c=72^17 mod 3233=3000.</li>
+            <li>Example: c=123^17mod3233.</li>
           </ul>
         </ol>
-        <h1 className="text-xl font-bold mb-2 mt-2">Decryption Process</h1>
+        <h1 className="text-xl font-bold mt-2 mb-2">Decryption Process</h1>
         <ol className="list-decimal pl-5">
           <li>
-            <strong>Compute the original message m using m=c^d mod n.</strong>
+            <strong>
+              Compute plaintext message m using the private key (d,n): m = c^d
+              mod n.
+            </strong>
           </li>
           <ul className="list-disc pl-5">
-            <li>Example: m=3000^2753 mod 3233 = 72.</li>
+            <li>Example: m=855^2753mod3233.</li>
           </ul>
         </ol>
-      </div>
-      <div className="bg-green-800 p-6 mt-4 rounded-md">
-        <h1 className="text-2xl font-bold mb-2">Example</h1>
-        <ul className="list-disc pl-5">
-          <li>Plaintext: "HI" converted to m = 72</li>
-          <li>
-            <strong>Encryption:</strong>
-          </li>
-          <ul className="list-disc pl-5">
-            <li>c = 72^17 mod 3233 = 3000</li>
-          </ul>
-          <li>
-            <strong>Decryption:</strong>
-          </li>
-          <ul className="list-disc pl-5">
-            <li>m = 3000^2753 mod 3233 = 72</li>
-            <li>Convert back to text: "HI"</li>
-          </ul>
-        </ul>
-        <h1 className="text-xl font-bold mb-2 mt-2">
+        <h1 className="text-xl font-bold mt-2 mb-2">
           Interactive Section: Encryption/Decryption
         </h1>
         <ul className="list-disc pl-5">
-          <li>
-            Input: Plaintext and Public Key for encryption; Ciphertext and
-            Private Key for decryption.
-          </li>
-          <li>Output: Ciphertext for encryption; Plaintext for decryption.</li>
+          <li>Input: Plaintext message, Public Key (e,n).</li>
+          <li>Output: Ciphertext c.</li>
+          <li>Input: Ciphertext c, Private Key (d,n).</li>
+          <li>Output: Decrypted message m.</li>
           <li>Code Example (Python):</li>
         </ul>
         <CopyableInput
-          value={`def rsa_encrypt(plaintext, public_key):\n    e, n = public_key\n    plaintext_int = [ord(char) for char in plaintext]\n    ciphertext = [pow(m, e, n) for m in plaintext_int]\n    return ciphertext\n\ndef rsa_decrypt(ciphertext, private_key):\n    d, n = private_key\n    decrypted_int = [pow(c, d, n) for c in ciphertext]\n    decrypted_text = ''.join([chr(m) for m in decrypted_int])\n    return decrypted_text\n\npublic_key = (17, 3233)\nprivate_key = (2753, 3233)\nplaintext = "HI"\nciphertext = rsa_encrypt(plaintext, public_key)\nprint("Ciphertext:", ciphertext)\ndecrypted_text = rsa_decrypt(ciphertext, private_key)\nprint("Decrypted Text:", decrypted_text)`}
+          value={`def encrypt_rsa(m, e, n):\n    return pow(m, e, n)\n\ndef decrypt_rsa(c, d, n):\n    return pow(c, d, n)\n\nmessage = 123\npublic_key = (17, 3233)\nprivate_key = (2753, 3233)\n\nciphertext = encrypt_rsa(message, *public_key)\ndecrypted_message = decrypt_rsa(ciphertext, *private_key)\nprint("Ciphertext:", ciphertext)\nprint("Decrypted Message:", decrypted_message)`}
         />
       </div>
       <div className="mt-4 space-y-4 flex justify-end space-x-4">
@@ -212,72 +200,40 @@ const StudyRSA = () => {
           disabled={currentButton !== 1}
         />
       </div>
-      <h2 className="text-3xl font-bold mb-2 mt-2">Related YouTube Videos</h2>
+      <h1 className="text-3xl font-bold mb-2 mt-2">
+        Security and Applications
+      </h1>
       <div className="bg-green-800 p-6 mt-4 rounded-md">
-        <div className="mt-2">
-          <div className="flex justify-center">
-            <div className="grid grid-cols-3 gap-4">
-              <a
-                href={`https://www.youtube.com/watch?v=JFQAHDOHjfM`}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ display: "block", textDecoration: "none" }}
-              >
-                <img
-                  src={`https://i.ytimg.com/vi/JFQAHDOHjfM/hqdefault.jpg`}
-                  alt="RSA Algorithm - Asymmetric key cryptography |CNS|"
-                  style={{
-                    width: "90%",
-                    height: "80%",
-                    borderRadius: "8px",
-                  }}
-                />
-                <p style={{ marginTop: "8px", fontSize: "14px" }}>
-                  RSA Algorithm - Asymmetric key cryptography |CNS|
-                </p>
-              </a>
-              <a
-                href={`https://www.youtube.com/watch?v=vf1z7GlG6Qo`}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ display: "block", textDecoration: "none" }}
-              >
-                <img
-                  src={`https://i.ytimg.com/vi/vf1z7GlG6Qo/maxresdefault.jpg`}
-                  alt="RSA Encryption Algorithm | Rivest–Shamir–Adleman | RSA Algorithm Explained | Simplilearn"
-                  style={{
-                    width: "90%",
-                    height: "80%",
-                    borderRadius: "8px",
-                  }}
-                />
-                <p style={{ marginTop: "8px", fontSize: "14px" }}>
-                  RSA Encryption Algorithm | Rivest–Shamir–Adleman | RSA
-                  Algorithm Explained | Simplilearn
-                </p>
-              </a>
-              <a
-                href={`https://www.youtube.com/watch?v=qph77bTKJTM`}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ display: "block", textDecoration: "none" }}
-              >
-                <img
-                  src={`https://i.ytimg.com/vi/qph77bTKJTM/maxresdefault.jpg`}
-                  alt="How does RSA Cryptography work?"
-                  style={{
-                    width: "90%",
-                    height: "80%",
-                    borderRadius: "8px",
-                  }}
-                />
-                <p style={{ marginTop: "8px", fontSize: "14px" }}>
-                  How does RSA Cryptography work?
-                </p>
-              </a>
-            </div>
-          </div>
-        </div>
+        <h1 className="text-xl font-bold mb-2">Security Aspects</h1>
+        <ul className="list-disc pl-5">
+          <li className="text-l font-bold mt-2">Strengths of RSA Encryption</li>
+          <ul className="list-disc pl-5">
+            <li>Strong security due to mathematical complexity</li>
+            <li>Widely trusted and studied</li>
+          </ul>
+          <li className="text-l font-bold mt-2">Potential Vulnerabilities</li>
+          <ul className="list-disc pl-5">
+            <li>Susceptible to brute-force attacks if keys are too short</li>
+            <li>Implementation flaws can lead to security breaches</li>
+          </ul>
+        </ul>
+        <h1 className="text-xl font-bold mt-2 mb-2">Real-World Applications</h1>
+        <ul className="list-disc pl-5">
+          <li>Digital signatures for authenticity</li>
+          <li>Secure key exchange in SSL/TLS</li>
+          <li>Encryption of sensitive data</li>
+        </ul>
+        <h1 className="text-xl font-bold mt-2 mb-2">
+          Interactive Section: Security Analysis
+        </h1>
+        <ul className="list-disc pl-5">
+          <li>Input: Key size, Attack method.</li>
+          <li>Output: Time to break encryption.</li>
+          <li>Code Example (Python):</li>
+        </ul>
+        <CopyableInput
+          value={`import time\n\ndef security_analysis(key_size):\n    start_time = time.time()\n    # Simulated attack time based on key size\n    attack_time = 2 ** (key_size / 10)\n    end_time = time.time() + attack_time\n    return end_time - start_time\n\nkey_size = 2048\nattack_time = security_analysis(key_size)\nprint(f"Time to break {key_size}-bit RSA: {attack_time} seconds")`}
+        />
       </div>
       <div className="mt-4 space-y-4 flex justify-end space-x-4">
         <ProgressButton

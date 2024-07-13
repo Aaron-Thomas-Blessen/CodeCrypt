@@ -49,9 +49,10 @@ export const AuthProvider = ({ children }) => {
   const updateProgress = async (algorithm, progress) => {
     if (user) {
       const userRef = doc(db, "users", user.uid);
+      const finalProgress = progress === 99 ? 100 : progress;
       const newProgress = {
         ...user.progress,
-        [algorithm]: progress,
+        [algorithm]: finalProgress,
       };
       await setDoc(userRef, { progress: newProgress }, { merge: true });
       setUser({ ...user, progress: newProgress });
