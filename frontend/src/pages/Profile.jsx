@@ -4,6 +4,11 @@ import { doc, updateDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/nav";
 import { useAuth } from "../context/AuthContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCheckCircle,
+  faTimesCircle,
+} from "@fortawesome/free-solid-svg-icons";
 
 const ProfilePage = () => {
   const { user, setUser } = useAuth();
@@ -77,7 +82,7 @@ const ProfilePage = () => {
       <div className="flex items-center justify-center min-h-screen bg-gray-100">
         <div className="container bg-white shadow-md rounded-lg p-8 max-w-4xl w-full flex flex-row">
           <div className="profile-section w-1/2 pr-8">
-            <h1 className="font-bold text-3xl mb-6">Profile</h1>
+            <h1 className="font-bold text-3xl mb-6 ml-32">Profile</h1>
             <div className="flex flex-col items-center">
               {editMode ? (
                 <form onSubmit={handleUpdateProfile} className="w-full">
@@ -115,7 +120,7 @@ const ProfilePage = () => {
                 </form>
               ) : (
                 <div className="w-full text-center">
-                  <div className="mb-4">
+                  <div className="mb-4 ml-32">
                     <img
                       src={profilePictureUrl}
                       alt="Profile"
@@ -138,15 +143,20 @@ const ProfilePage = () => {
               )}
             </div>
           </div>
-
           <div className="completed-algorithms w-1/2 pl-8 border-l border-gray-300">
             <h2 className="font-bold text-2xl mb-6">Completed Algorithms</h2>
             <ul>
               {Object.keys(completedAlgorithms).length > 0 ? (
                 Object.entries(completedAlgorithms).map(
                   ([algorithm, completed]) => (
-                    <li key={algorithm} className="mb-2">
-                      {algorithm}: {completed ? "Completed" : "Not Completed"}
+                    <li key={algorithm} className="mb-2 flex items-center">
+                      <span className="mr-2">{algorithm}:</span>
+                      <FontAwesomeIcon
+                        icon={completed ? faCheckCircle : faTimesCircle}
+                        className={
+                          completed ? "text-green-500" : "text-red-500"
+                        }
+                      />
                     </li>
                   )
                 )
