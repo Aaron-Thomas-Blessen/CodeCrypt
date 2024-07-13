@@ -1,8 +1,7 @@
-// AuthContext.js
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth, db } from "../Firebase/Firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 const AuthContext = createContext();
 
@@ -31,8 +30,26 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
+  const updateCompletedAlgorithms = async (algorithm) => {
+    if (user) {
+      const userRef = doc(db, "users", user.uid);
+      const newCompletedAlgorithms = {
+        ...user.completedAlgorithms,
+        [algorithm]: true,
+      };
+      await setDoc(
+        userRef,
+        { completedAlgorithms: newCompletedAlgorithms },
+        { merge: true }
+      );
+      setUser({ ...user, completedAlgorithms: newCompletedAlgorithms });
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, setUser, logout }}>
+    <AuthContext.Provider
+      value={{ user, setUser, logout, updateCompletedAlgorithms }}
+    >
       {children}
     </AuthContext.Provider>
   );

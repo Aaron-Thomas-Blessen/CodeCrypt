@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../components/nav";
 import AlgorithmCard from "../components/ac2";
 import sharedClasses from "../styles/sharedClasses";
@@ -7,8 +7,10 @@ import StudyRSA from "../components/StudyRSA";
 import StudyAES from "../components/StudyAES";
 import StudyDES from "../components/StudyDES";
 import StudySHA from "../components/StudySHA";
+import { useAuth } from "../context/AuthContext";
 
 const Study = () => {
+  const { user, updateCompletedAlgorithms } = useAuth();
   const [selectedAlgorithm, setSelectedAlgorithm] = useState(null);
   const [completedAlgorithms, setCompletedAlgorithms] = useState([]);
 
@@ -24,10 +26,21 @@ const Study = () => {
   };
 
   const handleCompletion = (algorithm) => {
-    if (!completedAlgorithms.includes(algorithm)) {
+    if (user && !completedAlgorithms.includes(algorithm)) {
+      updateCompletedAlgorithms(algorithm);
       setCompletedAlgorithms([...completedAlgorithms, algorithm]);
     }
   };
+
+  useEffect(() => {
+    if (user && user.completedAlgorithms) {
+      setCompletedAlgorithms(
+        Object.keys(user.completedAlgorithms).filter(
+          (key) => user.completedAlgorithms[key]
+        )
+      );
+    }
+  }, [user]);
 
   return (
     <div className="flex flex-col min-h-screen bg-black text-white">
@@ -66,18 +79,18 @@ const Study = () => {
               {selectedAlgorithm === "AES" && <StudyAES />}
               {selectedAlgorithm === "DES" && <StudyDES />}
               {selectedAlgorithm === "SHA" && <StudySHA />}
-                <button
-                  onClick={() => handleCompletion(selectedAlgorithm)}
-                  className={`mt-4 px-4 py-2 rounded-md text-white ${
-                    completedAlgorithms.includes(selectedAlgorithm)
-                      ? "bg-green-500"
-                      : "bg-blue-500"
-                  } hover:bg-blue-700`}
-                >
-                  {completedAlgorithms.includes(selectedAlgorithm)
-                    ? "Completed"
-                    : "Mark as Completed"}
-                </button>
+              <button
+                onClick={() => handleCompletion(selectedAlgorithm)}
+                className={`mt-4 px-4 py-2 rounded-md text-white ${
+                  completedAlgorithms.includes(selectedAlgorithm)
+                    ? "bg-green-500"
+                    : "bg-blue-500"
+                } hover:bg-blue-700`}
+              >
+                {completedAlgorithms.includes(selectedAlgorithm)
+                  ? "Completed"
+                  : "Mark as Completed"}
+              </button>
             </div>
           )}
         </div>

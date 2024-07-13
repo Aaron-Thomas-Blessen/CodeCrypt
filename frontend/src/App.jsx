@@ -33,7 +33,6 @@ const App = () => {
 
           <Route path="/signin" element={<SignIn />}></Route>
           <Route path="/signup" element={<SignUp />}></Route>
-          
         </Routes>
       </AuthProvider>
     </BrowserRouter>
