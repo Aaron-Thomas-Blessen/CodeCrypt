@@ -46,9 +46,27 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const updateProgress = async (algorithm, progress) => {
+    if (user) {
+      const userRef = doc(db, "users", user.uid);
+      const newProgress = {
+        ...user.progress,
+        [algorithm]: progress,
+      };
+      await setDoc(userRef, { progress: newProgress }, { merge: true });
+      setUser({ ...user, progress: newProgress });
+    }
+  };
+
   return (
     <AuthContext.Provider
-      value={{ user, setUser, logout, updateCompletedAlgorithms }}
+      value={{
+        user,
+        setUser,
+        logout,
+        updateCompletedAlgorithms,
+        updateProgress,
+      }}
     >
       {children}
     </AuthContext.Provider>
