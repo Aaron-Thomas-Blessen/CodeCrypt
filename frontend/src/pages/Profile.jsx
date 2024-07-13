@@ -16,6 +16,7 @@ const ProfilePage = () => {
   const [bio, setBio] = useState("");
   const [profilePictureUrl, setProfilePictureUrl] = useState("");
   const [completedAlgorithms, setCompletedAlgorithms] = useState({});
+  const [algorithmProgress, setAlgorithmProgress] = useState({});
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [editMode, setEditMode] = useState(false);
@@ -28,6 +29,7 @@ const ProfilePage = () => {
       setBio(user.bio || "");
       setProfilePictureUrl(user.profilePictureUrl || "");
       setCompletedAlgorithms(user.completedAlgorithms || {});
+      setAlgorithmProgress(user.progress || {});
     }
   }, [user]);
 
@@ -144,7 +146,7 @@ const ProfilePage = () => {
             </div>
           </div>
           <div className="completed-algorithms w-1/2 pl-8 border-l border-gray-300">
-            <h2 className="font-bold text-2xl mb-6">Completed Algorithms</h2>
+            <h2 className="font-bold text-2xl mb-6">Algorithms Progress</h2>
             <ul>
               {Object.keys(completedAlgorithms).length > 0 ? (
                 Object.entries(completedAlgorithms).map(
@@ -157,6 +159,11 @@ const ProfilePage = () => {
                           completed ? "text-green-500" : "text-red-500"
                         }
                       />
+                      {algorithmProgress[algorithm] !== undefined && (
+                        <span className="ml-2">
+                          ({algorithmProgress[algorithm]}%)
+                        </span>
+                      )}
                     </li>
                   )
                 )
