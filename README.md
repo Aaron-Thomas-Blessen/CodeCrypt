@@ -5,7 +5,7 @@
 
 [Website](https://codecrypt-b591f.web.app/) 
 
-[Demo Video]()
+[Demo Video](https://youtu.be/T-Q9fzWl0Fg?si=fyER6HvYqaTSuO8f)
 
 Welcome to our Cryptography Simulation project! Our tool allows you to effortlessly explore and experiment with various cryptographic techniques and thoroughly study them. Whether you want to understand encryption and decryption or delve into different algorithms, CodeCrypt has you covered.
 
@@ -65,9 +65,9 @@ To start using Cryptic Canvas, simply follow these steps:
    
 4. **Explore**: You will be redirected to the [Study page](https://codecrypt-b591f.web.app/study) where you can select which algorithm you want to study like RSA, AES, DES, or SHA. It has in-depth information about Encryption, Decryption, and Key Generation of that particular algorithm along with YouTube videos.
    
-5. To Encrypt and Decrypt using Codecrypt click on the [Encrypt](https://codecrypt-b591f.web.app/encrypt) or [Decrypt](https://codecrypt-b591f.web.app/decrypt) button.
+5. **Encrypt/Decrypt**: To Encrypt and Decrypt using Codecrypt click on the [Encrypt](https://codecrypt-b591f.web.app/encrypt) or [Decrypt](https://codecrypt-b591f.web.app/decrypt) button.
     
-6. **Encrypt/Decrypt**: In Encryption and Decryption, you can choose from 5 different types of data encryption and decryption which are text, file, audio, image, and video.
+6. In Encryption and Decryption, you can choose from 5 different types of data encryption and decryption which are text, file, audio, image, and video.
     
 7. Then select what type of algorithm to use, AES, RSA, DES, or SHA.
     
@@ -94,7 +94,7 @@ To start using Cryptic Canvas, simply follow these steps:
 - Windows:
 1. Download from : [OpenSSL](https://www.openssl.org/source/)
 2. Extract the file
-3. Place the extracted OpenSSL file in C:\Program Files
+3. Place the extracted OpenSSL file in ```C:\Program Files```
 
 - Ubuntu/Linux:
 1. Open Terminal
@@ -220,13 +220,13 @@ To start experimenting with cryptography:
     
 11. **Sign Up**: Create an account and save your progress.
 
-## **Developers**
+## 🛠️**Developers**
 
 This was Developed by 
 - **[Aaron Thomas Blessen](https://www.linkedin.com/in/aaron-thomas-blessen-390200214/)**
 - **[Sreejith A](https://github.com/sree-234)**
 - **[Midhun Sreenivas](https://github.com/Midhun700)**
-
+  
   
 ## **💬 Feedback**
 
