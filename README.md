@@ -220,7 +220,14 @@ To start experimenting with cryptography:
     
 11. **Sign Up**: Create an account and save your progress.
 
+## **Developers**
 
+This was Developed by 
+- **[Aaron Thomas Blessen](https://www.linkedin.com/in/aaron-thomas-blessen-390200214/)**
+- **[Sreejith A](https://github.com/sree-234)**
+- **[Midhun Sreenivas](https://github.com/Midhun700)**
+
+  
 ## **💬 Feedback**
 
 We're constantly striving to improve CodeCrypt to provide the best possible experience for our users. If you have any feedback, or suggestions, or encounter any issues while using our platform, please don't hesitate to contact us. Your input is invaluable in helping us enhance our product and deliver exceptional results.
