@@ -77,7 +77,7 @@ To start using Cryptic Canvas, simply follow these steps:
 
 ## **💻 How to Set Up Locally**
 
-**Do not Skip any steps**
+
 
 ### **Requirements**
 - **Firebase**
@@ -147,6 +147,8 @@ To start using Cryptic Canvas, simply follow these steps:
 
 The next steps are the same for all OS:
 
+**Do not Skip any steps**
+
 ### Firebase
 - Tables
   - users
@@ -156,15 +158,15 @@ The next steps are the same for all OS:
     4. bio (String)
     5. profilePictureUrl (String)
     6. completedAlgorithms(map)
-       -AES(boolean)
-       -DES(boolean)
-       -RSA(boolean)
-       -SHA(boolean)
+       - AES(boolean)
+       - DES(boolean)
+       - RSA(boolean)
+       - SHA(boolean)
     7. progress(map)
-       -AES(number)
-       -DES(number)
-       -RSA(number)
-       -SHA(number)
+       - AES(number)
+       - DES(number)
+       - RSA(number)
+       - SHA(number)
 
 1. **Clone the Repo:**
    To get started with CodeCrypt, clone the repository to your local machine using the following command:
@@ -207,11 +209,16 @@ The next steps are the same for all OS:
 To start experimenting with cryptography:
 
 1. **Select an Algorithm:** Choose a cryptographic algorithm from the available options.
-2. **Input Data:** Enter the text or data you want to encrypt or decrypt.
-3. **Generate Keys:** Cryptographic keys are automatically generated if required by the chosen algorithm.
-4. **Encrypt/Decrypt:** Perform encryption or decryption and view the results.
-5. **Explore Concepts:** Access tutorials and educational content to learn more about cryptographic principles and techniques.
-6. **Sign Up**: Create an account and save your progress.
+   
+3. **Input Data:** Enter the text or data you want to encrypt or decrypt.
+   
+5. **Generate Keys:** Cryptographic keys are automatically generated if required by the chosen algorithm.
+   
+7. **Encrypt/Decrypt:** Perform encryption or decryption and view the results.
+   
+9. **Explore Concepts:** Access tutorials and educational content to learn more about cryptographic principles and techniques.
+    
+11. **Sign Up**: Create an account and save your progress.
 
 
 ## **💬 Feedback**
