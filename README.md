@@ -1,5 +1,5 @@
 
-# CODECRYPT - The Ultimate Cryptography Simulation Tool with OpenSSL
+# **CodeCrypt - The Ultimate Cryptography Simulation Tool with OpenSSL**
 
 ![Your Image Description](https://drive.google.com/uc?id=1AaUX_aB_QV9QRvU1AmK5MdY_JN6qU-ST)
 
@@ -9,11 +9,11 @@
 
 Welcome to our Cryptography Simulation project! Our tool allows you to effortlessly explore and experiment with various cryptographic techniques and thoroughly study them. Whether you want to understand encryption and decryption or delve into different algorithms, CodeCrypt has you covered.
 
-## Introduction
+## **🌟 Introduction**
 
 This README provides an overview of the features, usage instructions, and contact information for our project. Read on to learn how you can easily simulate and understand cryptographic concepts with our intuitive platform.
 
-## Features
+## **🚀 Features**
 
 CodeCrypt offers several convenient options for exploring cryptography:
 
@@ -34,13 +34,13 @@ CodeCrypt offers several convenient options for exploring cryptography:
 8. **Profile:** You can create profiles and update them.
 
 
-## Technologies Used
+## **🛠️ Technologies Used**
 
 - **Frontend:** Vite, React
 - **Backend:** C, OpenSSL, Firebase
 
 
-## Application
+## **📚 Application**
 
 CodeCrypt is designed to provide an interactive and educational platform for understanding and experimenting with cryptographic techniques. It is particularly valuable for:
 
@@ -53,21 +53,21 @@ CodeCrypt is designed to provide an interactive and educational platform for und
 4. **Personal Experimentation:** Allowing enthusiasts and hobbyists to explore cryptography and enhance their knowledge in a practical, interactive manner.
 
 
-## Getting Started
+## **🛠️ Getting Started**
 
 To start using Cryptic Canvas, simply follow these steps:
 
-1. Visit our [Website](https://codecrypt-b591f.web.app/) .
+1. **Visit our [Website](https://codecrypt-b591f.web.app/) .**
 
-2. To signin click on the [Signin](https://codecrypt-b591f.web.app/signin) button on the top right side.
+2. **Sign In**: To signin click on the [Signin](https://codecrypt-b591f.web.app/signin) button on the top right side.
    
-3. If you are new then click on the [Join here](https://codecrypt-b591f.web.app/signup) button to signup.
+3. **Sign Up**: If you are new then click on the [Join here](https://codecrypt-b591f.web.app/signup) button to signup.
    
-4. Now you will be redirected to the [Study page](https://codecrypt-b591f.web.app/study) where you can select which algorithm you want to study like RSA, AES, DES, or SHA. It has in-depth information about Encryption, Decryption, and Key Generation of that particular algorithm along with YouTube videos.
+4. **Explore**: You will be redirected to the [Study page](https://codecrypt-b591f.web.app/study) where you can select which algorithm you want to study like RSA, AES, DES, or SHA. It has in-depth information about Encryption, Decryption, and Key Generation of that particular algorithm along with YouTube videos.
    
 5. To Encrypt and Decrypt using Codecrypt click on the [Encrypt](https://codecrypt-b591f.web.app/encrypt) or [Decrypt](https://codecrypt-b591f.web.app/decrypt) button.
     
-6. In Encryption and Decryption, you can choose from 5 different types of data encryption and decryption which are text, file, audio, image, and video.
+6. **Encrypt/Decrypt**: In Encryption and Decryption, you can choose from 5 different types of data encryption and decryption which are text, file, audio, image, and video.
     
 7. Then select what type of algorithm to use, AES, RSA, DES, or SHA.
     
@@ -75,19 +75,21 @@ To start using Cryptic Canvas, simply follow these steps:
     
 9. Or use the parameters to find the Encrypted Data.
 
-## How to Do It Yourself
+## **💻 How to Set Up Locally**
 
 **Do not Skip any steps**
 
-### Requirements
-- Firebase
-- Node.js and npm
-- Windows/Linux
-- Vite
-- OpenSSL library
-- A C compiler (e.g., GCC)
+### **Requirements**
+- **Firebase**
+- **Node.js and npm**
+- **Windows/Linux**
+- **Vite**
+- **OpenSSL library**
+- **A C compiler (e.g., GCC)**
 
-#### OpenSSL
+### **Installation Steps**
+
+#### **Install OpenSSL**
 
 - Windows:
 1. Download from : [OpenSSL](https://www.openssl.org/source/)
@@ -113,7 +115,7 @@ To start using Cryptic Canvas, simply follow these steps:
    sudo apt install libssl-dev
    ```
 
-#### GCC
+#### **Install GCC**
 
 - Windows:
 1. Download MinGW from : [GCC](https://sourceforge.net/projects/gcc-win64/)
@@ -153,6 +155,16 @@ The next steps are the same for all OS:
     3. username (String)
     4. bio (String)
     5. profilePictureUrl (String)
+    6. completedAlgorithms(map)
+       -AES(boolean)
+       -DES(boolean)
+       -RSA(boolean)
+       -SHA(boolean)
+    7. progress(map)
+       -AES(number)
+       -DES(number)
+       -RSA(number)
+       -SHA(number)
 
 1. **Clone the Repo:**
    To get started with CodeCrypt, clone the repository to your local machine using the following command:
@@ -190,7 +202,7 @@ The next steps are the same for all OS:
 
    
 
-## Usage
+## **📋 Usage**
 
 To start experimenting with cryptography:
 
@@ -199,16 +211,18 @@ To start experimenting with cryptography:
 3. **Generate Keys:** Cryptographic keys are automatically generated if required by the chosen algorithm.
 4. **Encrypt/Decrypt:** Perform encryption or decryption and view the results.
 5. **Explore Concepts:** Access tutorials and educational content to learn more about cryptographic principles and techniques.
-6. Sign up to create an Account and save progress.
+6. **Sign Up**: Create an account and save your progress.
 
 
-## Feedback
+## **💬 Feedback**
 
 We're constantly striving to improve CodeCrypt to provide the best possible experience for our users. If you have any feedback, or suggestions, or encounter any issues while using our platform, please don't hesitate to contact us. Your input is invaluable in helping us enhance our product and deliver exceptional results.
 
-## Contact Us
+## **📧 Contact Us**
 
 If you have any questions, concerns, or inquiries regarding CodeCrypt, please contact us at [aaronthomas232200@gmail.com](mailto:aaronthomas232200@gmail.com) or connect with me on [LinkedIn](https://www.linkedin.com/in/aaron-thomas-blessen-390200214/) or [Twitter](https://twitter.com/aaron_blessen). We're here to assist you and ensure that your cryptographic experience is smooth and educational.
 
-Thank you for choosing CodeCrypt. We hope you enjoy exploring and learning about cryptography!
-Happy Hacking!
+Thank you for choosing CodeCrypt. We hope you enjoy exploring and learning about cryptography! 
+
+
+**Happy Hacking!**
