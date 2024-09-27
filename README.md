@@ -36,7 +36,7 @@ CodeCrypt offers several convenient options for exploring cryptography:
 
 ## **🛠️ Technologies Used**
 
-- **Frontend:** Vite, React
+- **Frontend:** Vite, React,Javascript
 - **Backend:** C, OpenSSL, Firebase
 
 
